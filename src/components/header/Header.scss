@@ -1,0 +1,27 @@
+.header-div {
+    padding-left: 10px !important;
+    padding-right: 100px !important;
+    height: 6.2rem;
+    overflow: hidden;
+    background-color: white;
+    border-radius: 6px;
+
+    .ant-menu-item-selected::after{
+      border-bottom-color: red !important;
+      border-bottom-width: 5px !important;
+    }
+    .ant-menu-item-selected{
+      color: red !important;
+      .menu-icon{
+        color: red !important;
+      }
+    }
+  }
+
+  // Css for small screen
+  @media (max-width:480px){
+  .header-div{
+      width: 100%;
+  }
+  
+}

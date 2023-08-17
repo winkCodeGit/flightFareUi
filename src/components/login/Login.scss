@@ -1,0 +1,93 @@
+
+.loginModal{
+.ant-modal {
+  background-color: white;
+  padding: 0 !important;
+  padding-bottom: 26px !important;
+}
+.ant-modal-content{
+  background-color: white;
+  padding: 0 !important;
+  padding-bottom: 26px !important;
+}
+.ant-modal-header{
+  height: 51px !important;
+  background-color: #201d1d;
+}
+.ant-modal-title{
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  color: white;
+  font-weight: 700;
+  line-height: 2.7 !important;
+}
+
+.ant-modal-close-x svg {
+  fill: white; /* change to the desired color */
+}
+
+ .ant-input{
+  font-size: 16px;
+  font-weight: 700;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: groove;
+  border-width: 1.4px;
+  border-color: blue;
+  border-radius: 0;
+  
+
+  
+}
+
+.ant-input-affix-wrapper {
+  font-size: 18px;
+  font-weight: 700;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: groove;
+  border-width: 1.4px;
+  border-color: blue;
+  border-radius: 0;
+ 
+}
+
+
+.login-form{
+    .ant-form{
+      display: block !important;
+      margin-left: 40px;
+    }
+}
+    .input-title{
+    font-size: 18px;
+    font-weight: 700;
+    }
+
+    .footer-text{
+      margin-left: 4rem;
+      font-weight: 700;
+      margin-right: -10px;
+    }
+
+    .button-container{
+      margin-top: 20px;
+    }
+    .login-btn{
+      border-radius: 5px;
+      background-color: #1f1f1f;
+      margin-left: 4rem;
+      width: 106px;
+      height: 35px;
+      font-weight: 700;
+    }
+  
+  .button-link{
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+}

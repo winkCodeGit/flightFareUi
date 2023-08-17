@@ -1,0 +1,110 @@
+
+.booking-details{
+    width: 89%;
+    margin-left: 5rem;
+    margin-top: 20px;
+    min-height: 450px;
+
+    .text-size{
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .ant-tabs .ant-tabs-tabpane{
+      height: 376px;
+      overflow: auto;
+    }
+   .ant-card-head .ant-card-head-title{
+      
+      font-size: 24px;
+      font-weight: 700;
+  }
+  .ant-tabs .ant-tabs-tab-btn {
+    font-size: 20px;
+    font-weight: 700;
+}
+    .card-item-container{
+      width: 90%;
+      border: 1px solid rgb(214, 205, 205);
+      margin-left: 48px;
+      margin-bottom: 20px;
+    }
+ 
+    .booking-item-container{
+      border-bottom: 1px solid rgb(214, 205, 205);
+      padding: 20px;
+
+    .ant-btn-default {
+        background-color: #9f55e3;
+    }
+    .ant-btn {
+      font-size: 18px;
+      height: 43px;
+      padding: 4px 15px;
+      border-radius: 21px;
+      color: white;
+      font-weight: 700;
+  }
+  .booking-item-header{
+    font-size: 17px;
+    font-weight: 700;
+  }
+}
+    .booking-item-body{
+      padding: 20px;
+    
+    .booking-body-details{
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+    
+}
+
+   .mytrip-info-container {
+    height: 8rem;
+    background-color: rgba(4, 4, 4, 0.45);
+    margin-top: 3rem;
+    color: white;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+
+   .info-items{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+   }
+
+  }
+
+  .vertical-divider {
+    position: relative;
+    height: 100px; /* Adjust the height as needed */
+    width: 2px; /* Adjust the width as needed */
+    background-color: #979494; /* Adjust the color as needed */
+  }
+  
+  .circle {
+    position: absolute;
+    top: 0;
+    width: 10px; /* Adjust the circle size as needed */
+    height: 10px; /* Adjust the circle size as needed */
+    border-radius: 50%;
+    border: 1px solid #f07612; /* Adjust the border color as needed */
+    background-color: transparent; /* Set background color as transparent */
+    transform: translate(-50%, -50%);
+  }
+  
+  .circle.top {
+    top: 0;
+    left: 0;
+  }
+  
+  .circle.bottom {
+    top: 100%;
+    left: 0;
+  }
+

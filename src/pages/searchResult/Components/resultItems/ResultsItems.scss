@@ -1,0 +1,90 @@
+
+.flight-filters{
+  .ant-select-single{
+    width: 7.5rem !important;
+  }
+  .ant-select-selection-placeholder {
+    font-size: 22px;
+    font-weight: 600;
+  }
+  .ant-select-selector{
+    height: 40px !important;
+  }
+}
+
+.result-card{
+    margin-bottom: 10px;
+    width: 95%;
+    margin-left: 2.6rem;
+  .ant-card{
+    box-shadow: 0 4px 6px -1px rgb(240, 233, 233), 0 2px 4px -1px lightgrey;
+    border-radius: 0px !important;
+    padding: 0px !important;
+    padding-top: 0px !important;
+    transition: transform 0.2s;
+  }
+  .ant-card:hover{
+    box-shadow: 0 4px 6px -1px #151414, 0 2px 4px -1px #151414;
+  }
+  .ant-collapse-header .ant-collapse-expand-icon {
+    height: 0px !important;
+  }
+  .ant-card-body{
+    padding: 0px !important;
+  }
+  .flight-details-body{
+    .airlines-detail{
+    .ant-image .ant-image-img{
+      width: 4.5rem;
+      padding-top: 5px;
+      margin-left: -3rem !important;
+    }
+    .book-btn{
+      font-size: 17px;
+      font-weight: 700;
+      color: white;
+      height: 39px;
+      margin-top: 5px;
+    }
+  }
+  .showPrice-details{
+    .book-btn{
+      width: 7rem !important;
+      font-weight: 700;
+      color: white;
+      height: 39px;
+      margin-top: 5px;
+      width: 30px;
+    }
+  }
+  .Showflight-details{
+
+    .layover-time{
+      display: grid;
+      align-items: center;
+      height: 24px;
+      margin-right: 3rem;
+      // border-color: #e6e6e6;
+      // border-bottom-style: solid;
+      // border-bottom-width: 1px;
+    }
+    .layover-text{
+      background-color: #f0e6e6;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      margin-top: 14px;
+      font-family: sans-serif;
+    }
+  }
+}
+}
+
+
+.flight-details-collapse{
+    border-top: 1px solid #cfcfcf !important;
+  
+}

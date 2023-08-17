@@ -1,0 +1,67 @@
+
+
+.header-container{
+  display: flex;
+  justify-content: space-between;
+}
+
+// .web-title {
+//     margin-top: 1rem;
+//     font-size: 30px;
+//     font-weight: 700;
+//     color: blue;
+// }
+.login-menu{
+    margin-top: 2rem;
+    font-size: 18px;
+    font-weight: 700;
+    color: blue;
+    cursor: pointer;
+}
+
+.navigation-container{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 2.2rem;
+}
+ .ant-menu-horizontal{
+    border-bottom: 0 !important;
+}
+.ant-menu{
+    font-size: 30px !important;
+    color: darkblue;
+}
+.menu-icon{
+    margin-right: 5px;
+    font-size: 31px !important;
+    color: darkblue;
+    margin-bottom: -4px;
+}
+.navigation-list {
+    font-weight: 600;
+}
+
+
+// Css for small screen
+
+@media (max-width:480px) {
+    .web-title{
+        font-size: 16px;
+    }
+    .navigation-container{
+        width: 100%;
+        margin-top: 0;
+    }
+    .ant-menu{
+        font-size: 14px !important;
+       
+    }
+    .menu-icon{
+        font-size: 16px !important;
+    }
+    .login-menu{
+        margin-top: 12px;
+        font-size: 16px;
+    }
+}

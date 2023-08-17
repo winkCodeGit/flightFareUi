@@ -1,0 +1,209 @@
+
+
+.search-form {
+       margin-left: 4rem;
+       min-height: 440px;
+       box-sizing: border-box;
+       box-shadow: #91919d;
+       width: 40%;
+       border: none;
+       color: aliceblue !important;
+       margin-top: 4.5rem;
+
+       .ant-select-selection-item{
+          font-weight: 700;
+       }
+   }
+
+   .search-header{
+    .ant-card .ant-card-head .ant-tabs-top {
+      // color: white !important;
+      font-weight: 700 !important;
+      margin-left: 18rem;
+      margin-top: -2.5rem;
+  
+     
+    }
+  
+    .ant-card-head-title {
+    
+     font-size: 25px;
+     font-weight: 700;
+     color:white
+  }
+  .ant-select-single .ant-select-selector{
+    border-radius: 0 !important;
+    color: white;
+    font-size: 16px;
+  }
+ 
+  .ant-select-selector {
+    background: none !important;
+    border: none !important;
+    border-bottom: 1px solid #ffff !important;
+  }
+  .no-outline:focus {
+    outline: none;
+  }
+  .ant-select-selection-placeholder{
+    color: white !important;
+    font-size: 15px !important;
+    font-weight: 600;
+  }
+  .ant-select .ant-select-arrow{
+    color: #ffff;
+  }
+
+  .ant-picker{
+    background: none !important;
+    border: none !important;
+    border-bottom: 1.5px solid white !important;
+    border-radius: 0 !important;
+    font-size: 18px;
+
+    .ant-picker-input >input{
+      color: white !important;
+      font-size: 15px;
+      font-weight: 600;
+      ::placeholder{
+        color: red !important;
+      }
+     
+    }
+    .ant-picker-placeholder{
+      color: white !important;
+    }
+    .ant-picker-suffix{
+      color: white;
+    }
+  }
+
+  .ant-form{
+    // color: white !important;
+    font-weight: 700 !important;
+    
+  }
+
+  .tab-list{
+    // background-color: rgb(19, 17, 17);
+    display: flex;
+    justify-content: flex-end;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    
+   }
+   }
+  
+
+  #departuretime{
+    ::placeholder{
+      color: white !important;
+    }
+  }
+ 
+  .exchangeSector{
+    color: white;
+    margin-left: -24px;
+    margin-top: 6px;
+    cursor: pointer;
+  }
+   .search-pane>div{
+      width: 42.5%;
+      border: 1px solid #bcc8d1;
+      margin-top: 6px;
+      
+  }
+   .minus {
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    height: 35px;
+    position: relative;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.count {
+  display: inline-block;
+  width: 33.3%;
+  text-align: center;
+  vertical-align: middle;
+  height: 35px;
+  color: white;
+}
+
+.plus {
+  text-align: center;
+  cursor: pointer;
+  color: white;
+  height: 35px;
+  position: relative;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+   
+  //  .ant-card .ant-card-head{
+  //   background: #14145e
+  //  }
+    
+   .search-btn {
+       
+       font-weight: 800;
+       border-radius: 5px;
+       width: 112px;
+       height: 36px;
+   }
+   .search-btn-col{
+      margin-left: 24rem;
+      margin-top: 2rem;
+  }
+
+.ant-col-12 {
+       padding: 8px !important;
+   }
+
+.ant-col-8 {
+       margin-top: 15px !important;
+       padding: 9px !important;
+   }
+
+ .banner-container{
+   
+    height: 7rem;
+    background-color: white;
+    margin-top: 3rem;
+    align-items: center;
+   }
+   .banner-items{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    font-size: 25px;
+    font-weight: 700;
+    color: #333333;
+   }
+  
+
+
+  // Css for small screen
+  @media(max-width:580px){
+    .search-form {
+      width: 86%;
+      margin-left: 2px;
+
+    } 
+    .ant-card .ant-card-head{
+      padding: 0;
+    }
+
+    .ant-card-head-title {
+      font-size: 20px;
+  }
+  .ant-select-selection-placeholder {
+    font-size: 12px !important;
+}
+.exchangeSector{
+  size:.3x !important;
+}
+
+  }

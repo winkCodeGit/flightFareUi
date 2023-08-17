@@ -1,0 +1,113 @@
+
+
+.upcoming-flight-container{
+     
+    .back-btn{
+      margin-right: 20px;
+      .ant-btn-default {
+       background-color: #9f55e3 !important;
+   }
+   // .ant-btn {
+   //   font-size: 18px !important;
+   //   height: 20px !important;
+   //   border-radius: 21px !important;
+   //   color: white !important;
+   //   font-weight: 700 !important;
+   // }
+    }
+   .checklist-card{  
+     margin-top: 10px;
+     .saftey-icon{
+       font-size: 18px;
+       color: blue;
+     }
+     .aarogya{
+       border: 1px solid #ebe6e69c;
+       padding: 4px;
+       margin-top: 9px;
+     }
+     .guideline{
+       border: 1px solid #ebe6e69c;
+       padding: 4px;
+       margin-top: 9px;
+     }
+     .important-info{
+       border: 1px solid #ebe6e69c;
+       padding: 4px;
+       margin-top: 9px;
+     }
+     .change-plans{
+       height: 200px;
+       border-radius: 8px 8px 0px 0px;
+     }
+   }
+
+   .flight-details{
+      margin-top: 20px;
+     .traveller-info{
+       background-color: #c0b6ca33;
+       margin-top: 20px;
+       padding: 10px;
+     }
+     .refund-request{
+       margin-top: -90px;
+       border-radius: 0px !important;
+     }
+   }
+
+   .cancellation-details{
+
+     .ant-btn-default {
+       background-color: #9f55e3;
+   }
+   .ant-btn {
+     font-size: 18px;
+     height: 43px;
+     padding: 4px 15px;
+     border-radius: 21px;
+     color: white;
+     font-weight: 700;
+   }
+
+   .flight-dest{
+     font-weight: 700;
+     font-size: 18px;
+     background: rgba(192, 182, 202, 0.2);
+     width: 72%;
+   }
+
+   }
+
+   .flightDate-change-container{
+
+     .ant-btn-default {
+       background-color: #9f55e3;
+   }
+   .ant-btn {
+     font-size: 18px;
+     height: 43px;
+     padding: 4px 15px;
+     border-radius: 21px;
+     color: white;
+     font-weight: 700;
+   }
+
+   .flight-dest{
+     font-weight: 700;
+     font-size: 18px;
+     background: rgba(192, 182, 202, 0.2);
+     width: 70%;
+   }
+
+   }
+
+   .baggage-details-container{
+
+     .flight-dest{
+       font-weight: 700;
+       font-size: 18px;
+       background: rgba(192, 182, 202, 0.2);
+       width: 70%;
+     }
+   }
+   }

@@ -1,0 +1,166 @@
+
+.bookTicket-container{
+
+.flight-details{
+    .ant-card{
+      border-radius: 0px !important;
+    }
+    .ant-card .ant-card-body{
+        padding: 8px !important;
+    }
+}
+.flight-details-body{
+    .ant-image .ant-image-img {
+        margin-left: 24px !important;
+        width: 4.5rem;
+    }
+    .flight-name-no{
+        font-size: 18px;
+        font-weight: 600;
+        margin-left: -24px;
+      }
+      .ant-card{
+        border-radius: 0px !important;
+        padding: 0px !important;
+        padding-top: 0px !important;
+      }
+}
+.baggage-details{
+    background-color: rgb(26, 144, 184);
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    height: 36px;
+}
+.baggage-details >div {
+    font-size: 20px;
+    color: white;
+    font-weight: 700;
+}
+
+.baggage{
+   margin-left: 20px;
+}
+.meals{
+    margin-right: 20px;
+}
+
+.contact-nfo-inner{
+    background: #b9d9e5;
+    padding: 20px;
+    border-radius: 32px;
+  }
+}
+   .fare-container{
+    .ant-card .ant-card-head{
+        background-color:  rgb(26, 144, 184);
+    }
+    .ant-card .ant-card-head-title{
+        font-size: 24px;
+        color: white;
+        font-weight: 800;
+
+    }
+   
+    .fare-div1{
+        font-size: 20px;
+        font-weight: 700;
+        color: #065AF3;
+        border: 1px solid skyblue;
+        border-left: none;
+        border-right: none;
+        background-color:  #fff;
+        padding: 20px;
+    }
+
+   }
+
+.card-style{
+    border-radius: 0px;
+    width: 80%;
+    margin-left: 49px;
+    min-height: 250px;
+}
+
+.promocode-container{
+    .ant-card .ant-card-head{
+        background-color:  rgb(26, 144, 184);
+    }
+    .ant-card .ant-card-head-title{
+        font-size: 24px;
+        color: white;
+        font-weight: 700;
+    }
+    .promo-text{
+        font-size: 17px;
+        font-weight: 600;
+        color: green;
+    }
+   
+}
+
+
+.payment-container{
+
+    .pay-card{
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25) !important;
+      background: #F5F5F5 !important;
+      margin: 10px;
+      border-radius: 10px !important;
+      .ant-card .ant-card-body{
+        padding: 20px !important;
+      }
+      .card-items{
+        font-size: 20px;
+        color: #065AF3;
+        font-weight: 600;
+      }
+      .ant-checkbox .ant-checkbox-inner{
+        width: 20px;
+        height: 22px;
+      }
+    }
+    .circle-checkbox .ant-checkbox-inner {
+        border-radius: 50%;
+      }
+      
+      .circle-checkbox .ant-checkbox-inner::after {
+        border-radius: 50%;
+      }
+     .payment-info-section{
+       padding-left: 30px;
+
+        .info-container{
+           margin-top: 30px;
+     }
+    
+    .ant-btn {
+        font-size: 26px;
+        height: 46px;
+        padding: 3px 23px;
+        border-radius: 6px;
+        font-weight: 600;
+        background-color: #f77728;
+        color: #fff;
+    }
+    p {
+        font-size: 15px;
+        font-weight: 600;
+    }
+   }
+}
+
+
+ .continue-btn{
+  font-size: 26px;
+  height: 46px;
+  padding: 3px 23px;
+  border-radius: 6px;
+  font-weight: 600;
+  background-color: #f77728;
+  color: #fff;
+  float: right;
+ }
+ .continue-btn:hover{
+  background-color: #f77728 !important;
+ }
