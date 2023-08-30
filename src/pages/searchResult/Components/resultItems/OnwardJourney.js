@@ -1,5 +1,5 @@
 import React, {useState, useEffect } from 'react'
-import { Card, Row, Col,Collapse,Image, Button, Select,Checkbox  } from 'antd'
+import { Card, Row, Col,Collapse,Image, Button, Select,Checkbox,Tooltip  } from 'antd'
 import './ResultsItems.scss'
 
 import airAsia from '../../../../assets/small/airasia.jpg'
@@ -40,9 +40,11 @@ const OnwardJourney = (props) => {
     const [cancellationFee, setCancellationFee] = useState("");
     const [dateChangeFee, setDateChangeFee] = useState("");
 
+    const text= <span>1 Bag per Passenger</span> 
+
 
     const handleBookTicket = (flight_key,triptype,cancellationPrice,dateChangePrice,price)=>{
-         debugger
+         
         const airlinesData = props?.resultData[triptype]?.filter((item)=>{
             
             return item.flight_key === flight_key
@@ -78,7 +80,7 @@ const OnwardJourney = (props) => {
     <>
 <div className='result-card' key={props?.indx}>
 <Card hoverable={true}>
-    <Row style={{paddingLeft:"80px"}}>
+    <Row style={{paddingLeft:"80px",background:"lightblue"}}>
         <Col span={4}>
             <div style={{fontSize:"20px",fontWeight:"600"}}>Airline</div> 
         </Col>
@@ -100,12 +102,12 @@ const OnwardJourney = (props) => {
 
 <Card className='flight-details-body' hoverable={true}>
 <Row style={{paddingLeft:"80px"}} className='airlines-detail'>
-    <Col span={4} style={{display:"flex"}}>
+    <Col span={4}>
         <div>{<Image src={airlineIcon[props?.item?.flight_details[0]?.airlines]} preview={false}/>}</div>
-        <div style={{marginLeft:"7px"}}>
-            <div style={{fontSize:"20px",fontWeight:"750",marginTop:"12px"}}>{props?.item?.flight_details[0]?.airlines}</div>
-            <div style={{fontSize:"14px",fontWeight:"600",color:"grey"}}>{props?.item?.flight_details[0]?.flightNo}</div>
-        </div>
+        {/* <div style={{marginLeft:"7px"}}> */}
+            <div style={{fontSize:"20px",fontWeight:"750",marginLeft:"-6px"}}>{props?.item?.flight_details[0]?.airlines}</div>
+            <div style={{fontSize:"14px",fontWeight:"600",color:"grey",marginLeft:"-2px",marginTop:"-8px"}}>{props?.item?.flight_details[0]?.flightNo}</div>
+        {/* </div> */}
         </Col>
     <Col span={4}>
         <div style={{fontSize:"25px",fontWeight:"800"}}>{props?.item?.flight_details[0]?.departureTime}</div>
@@ -156,7 +158,7 @@ const OnwardJourney = (props) => {
      {showViewPrice && <Row className='showPrice-details'>
        <Col span={24}>
                   
-         <Row style={{paddingLeft:"44px", background:"rgb(207 207 207 / 36%)"}}>
+         <Row style={{paddingLeft:"44px",marginTop:"10px", background:"rgb(207 207 207 / 36%)"}}>
             <Col span={3}>
                 <div style={{fontSize:"17px",fontWeight:"600"}}>Fares</div> 
             </Col>
@@ -184,26 +186,30 @@ const OnwardJourney = (props) => {
     return(
         <>
         
-    <Row style={{paddingLeft:"44px",marginTop:"20px"}}>
-            <Col span={4}>
-            <div>
-                <div style={{fontSize:"18px",fontWeight:"700"}}>{elem.fareType}</div>
-                <div style={{fontSize:"15px",fontWeight:"600"}}>Fare offered by airline</div>
-            </div> 
+    <Row className='price-details-card' style={{paddingLeft:"44px",marginTop:"20px"}}>
+      <Col span={4}>
+         <div style={{fontSize:"18px",fontWeight:"700"}}>{elem.fareType}</div>
+                
         </Col>
         <Col span={3}>
-            <div style={{fontSize:"16px",fontWeight:"600"}}>{props?.item?.flight_details[0]?.cabin_baggage}</div> 
+        <Tooltip placement="topLeft" title={text}>
+        <div style={{fontSize:"16px",fontWeight:"600"}}>{props?.item?.flight_details[0]?.cabin_baggage}</div> 
+       </Tooltip>
         </Col>
+
         <Col span={2}>
+           <Tooltip placement="topLeft" title={text}>
             <div style={{fontSize:"16px",fontWeight:"600"}}>{props?.item?.flight_details[0]?.checkin_baggage}</div> 
+            </Tooltip>
         </Col>
+        
         <Col span={3}>
-            <div style={{fontSize:"16px",fontWeight:"600"}}>
+            <div style={{fontSize:"16px",fontWeight:"600",marginLeft:"10px"}}>
                 {cancellationFee}
             </div> 
         </Col>
         <Col span={3}>
-            <div style={{fontSize:"16px",fontWeight:"600"}}>
+            <div style={{fontSize:"16px",fontWeight:"600",marginLeft:"10px"}}>
                {dateChangeFee}
                 </div> 
         </Col>
@@ -221,10 +227,9 @@ const OnwardJourney = (props) => {
             <div> <Button className='book-btn' htmlType="submit" type="primary"
                 onClick={()=>handleBookTicket(props?.item.flight_key,'onwardJourney',cancellationFee,dateChangeFee,Math.round(elem.fareAmount.totalFare))}>BOOK NOW</Button> </div>
             </Col>
-            
-           
 
             </Row>
+          
           </>
                     )
                  })}
@@ -235,7 +240,7 @@ const OnwardJourney = (props) => {
      {showFlightDetails && <Row className='Showflight-details'>
          <Col span={24}>
 
-         <Row style={{paddingLeft:"80px", background:"rgb(207 207 207 / 36%)"}}>
+         <Row style={{paddingLeft:"80px",marginTop:"10px", background:"rgb(207 207 207 / 36%)"}}>
             <Col span={24}>
                 <div style={{fontSize:"18px",fontWeight:"700",color:"grey",marginLeft:"31rem"}}>Flight Details</div>
             </Col>
@@ -260,13 +265,13 @@ const OnwardJourney = (props) => {
                 </Col>
                 
             <Col span={6}>
-                <div style={{fontSize:"15px",fontWeight:"600",marginLeft:"46px",color:"grey",marginTop:"30px"}}>
+                <div style={{fontSize:"15px",fontWeight:"600",marginLeft:"46px",color:"grey",marginTop:"41px"}}>
                     {`${Math.floor((elem.duration)/60)} HRS ${(elem.duration)%60} MINS`}</div>
 
              <div style={{marginTop:"31px"}}>
                  {elem.layover_time !== null ? (
                     <>
-                     <div className='layover-time' style={{ fontSize: "18px", color: "grey",fontWeight:"750" }}>
+                     <div className='layover-time' style={{ fontSize: "18px", color: "grey",fontWeight:"750",marginLeft:"-50px" }}>
                         <div></div>
                         <div className='layover-text'>
                            Lay Over {`${Math.floor(elem.layover_time / 60)} HRS ${elem.layover_time % 60} MINS`}

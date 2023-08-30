@@ -1,6 +1,6 @@
 import React, {useState, useEffect } from 'react'
-import { Card, Row, Col,Collapse,Image, Button, Select, Space, Form, Input, Checkbox  } from 'antd'
-import { MailOutlined, MobileOutlined, UserOutlined, CreditCardOutlined, BankOutlined } from '@ant-design/icons';
+import { Card, Row, Col,Collapse,Image, Button, Select, Space, Form, Input, Checkbox,Tag  } from 'antd'
+import { MailOutlined, MobileOutlined, UserOutlined, CreditCardOutlined, BankOutlined, CheckOutlined } from '@ant-design/icons';
 import qs from 'query-string';
 import './BookingConfirm.scss'
 import airAsia from '../../../assets/small/airasia.jpg'
@@ -13,7 +13,11 @@ import akasaAir from '../../../assets/small/akasaAir.jpg'
 import allianceAir from '../../../assets/small/allianceAir.jpg'
 import { FaWallet, FaGooglePay } from 'react-icons/fa';
 import { SiRazorpay } from 'react-icons/si';
+import { AiFillCheckCircle } from 'react-icons/ai';
+import { BsCheckCircleFill } from 'react-icons/bs';
+
 import moment from 'moment';
+import AddsOn from './AddsOn';
 
 const { Panel } = Collapse;
 const { Option } = Select;
@@ -33,13 +37,18 @@ const BookingConfirm = () => {
 
   const[flightDetails, setFlightDetails] = useState({});
   const[hidePassengerinfo, setHidePassengerinfo] = useState(false)
-  const [activePanels, setActivePanels] = useState(["1"]);
+  const [activePanels, setActivePanels] = useState();
+  const [showItineary, setShowItineary] = useState(true);
+  const [showTicketHeader, setShowTicketHeader] = useState(false)
+  const [mobNo, setMobNo] = useState();
+  const [email,setEmail] = useState();
 
  useEffect(() => {
   
   const parsed = qs.parse(location.search);
   setFlightDetails(parsed);
   console.log(parsed)
+  console.log(flightDetails)
  
  }, [])
 
@@ -48,8 +57,17 @@ const BookingConfirm = () => {
 };
 
 const handleContinue = () => {
-  setActivePanels([]); // Set an empty array to close all panels
+   // setActivePanels([]); // Set an empty array to close all panels
+   setShowItineary(false);
+   setShowTicketHeader(true);
 };
+
+const contactDetails = (value)=>{
+   
+   console.log(value)
+}
+
+const rowStyle = showItineary ? { marginTop: '-29rem' } : {};
 
 const contactInformation=()=>{
     return(
@@ -64,10 +82,10 @@ const contactInformation=()=>{
                     <Col className='contact-nfo-inner' span={24}>
                         <div>Your ticket and flight info will be sent here</div>
                         
-                            <Form colon={false} style={{width:"100%"}} name="contact_info" layout="inline" >
+                            <Form colon={false} style={{width:"100%"}} name="contact_info" layout="inline" onFinish={contactDetails} >
                               <Row>
                                 <Col span={3}>
-                                  <Form.Item label={<label style={{ color: "black" }}>Mobile Number</label>}>
+                                  <Form.Item label={<label style={{ color: "black" }} >Mobile Number</label>}>
                                       <Select defaultValue="+91"
                                       style={{
                                         width: 100,
@@ -95,7 +113,7 @@ const contactInformation=()=>{
                         <Form.Item
                         style={{width:"70%"}}
                         name="email_id"
-                        label={<label style={{ color: "black" }}>Email ID</label>}
+                        label={<label style={{ color: "black" }} onChange={(e)=>setEmail(e.target.value)}>Email ID</label>}
                         rules={[{ required: true, message: 'Please enter your email!' }]}
                       >
                         <Input
@@ -182,7 +200,7 @@ const travelerDetails=()=>{
   )
 }
 
-        const ticketPayment = ()=>{
+     const ticketPayment = ()=>{
 
          return(
           <>
@@ -256,27 +274,67 @@ const travelerDetails=()=>{
          )
        
       }
+
+
+
   function headerDesign(){
     return(
       <>
-        <div>Design Header</div>
+      <Col span={16}>
+       <Card className='header-card' style={{borderTop:"1px solid #cfcfcf"}}>
+        <Row>
+          <Col span={2}>
+          <div style={{marginTop:"10px"}}><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
+          </Col>
+          <Col span={6} style={{display:"flex"}}>
+             <div><Image style={{width:"3.5rem"}} src={airlineIcon[flightDetails.airlines]} preview={false}></Image> </div>
+             <div style={{marginLeft:"10px"}}>
+             <div style={{fontSize:"17px",fontWeight:"650",marginTop:"10px"}}>{flightDetails.airlines}</div>
+              <div style={{fontSize:"14px",fontWeight:"600",color:"grey"}}>{flightDetails.flightNo}</div>
+            
+              </div>
+            
+          </Col>
+
+           <Col span={6}>
+             <div style={{fontSize:"16px",fontWeight:"600"}}>{flightDetails.departureTime}</div>
+             <div style={{fontSize:"16px",fontWeight:"600"}}>{flightDetails.airprot_from}</div>
+             <div style={{fontSize:"16px",fontWeight:"600"}}>{moment(flightDetails.departureDate).format('Do MMMM, YYYY')}</div>
+           </Col>
+
+           <Col span={4}>
+            <div style={{fontSize:"16px",fontWeight:"600",marginTop:"15px"}}>{`${Math.floor((flightDetails.duration)/60)} HRS ${(flightDetails.duration)%60} MINS`}</div>
+           </Col>
+
+           <Col span={6}>
+             <div style={{fontSize:"16px",fontWeight:"600"}}>{flightDetails.arrivalTime}</div>
+             <div style={{fontSize:"16px",fontWeight:"600"}}>{flightDetails.airprot_to}</div>
+             <div style={{fontSize:"16px",fontWeight:"600"}}>{moment(flightDetails.arrivalDate).format('Do MMMM, YYYY')}</div>
+           </Col>
+         </Row>
+         </Card>
+
+      </Col>
       </>
     )
   }
-    
-     
+
   return (
      <>
      
-     <Space className='bookTicket-container' style={{width:"100%",paddingLeft:"20px"}} direction="vertical">
-      <Row style={{marginTop:"10px"}}>
-        <Col span={16}>
-       
-      <Collapse activeKey={activePanels} defaultActiveKey={['1']} onChange={onPanelCollapse}>
-      {/* <Collapse accordion activeKey={activePanels}> */}
-      <Panel showArrow={false}  header={activePanels.includes("1")?"Review Itinerary":headerDesign()} key="1">
+     <Space className='bookTicket-container' style={{width:"100%",paddingLeft:"20px",minHeight:"390px"}} direction="vertical">
+      <Row style={{marginTop:"35px"}}>
+ {showItineary && showItineary?
 
-      <Card className='flight-details'>
+      ( <Col span={16}>
+        
+      {/* <Collapse accordion activeKey={activePanels} defaultActiveKey={['1']} onChange={onPanelCollapse}> */}
+      
+      {/* <Panel showArrow={false}  header={activePanels.includes("1")?"Review Itinerary":headerDesign()} key="1"> */}
+      <Row>
+         <Col span={24}>
+          <div style={{fontSize:"25px",fontWeight:"700",cursor:"pointer"}}>Review Your Itinerary</div>
+         <Card className='flight-details'>
             <Row >
                 <Col span={6}>
                     <div style={{fontSize:"20px",fontWeight:"600"}}>Airline</div> 
@@ -308,7 +366,7 @@ const travelerDetails=()=>{
 
            <Col span={6}>
              <div style={{fontSize:"18px",fontWeight:"600"}}>{flightDetails.departureTime}</div>
-             <div style={{fontSize:"18px",fontWeight:"600"}}>{flightDetails.departureFrom}</div>
+             <div style={{fontSize:"18px",fontWeight:"600"}}>{flightDetails.airprot_from}</div>
              <div style={{fontSize:"18px",fontWeight:"600"}}>{moment(flightDetails.departureDate).format('Do MMMM, YYYY')}</div>
            </Col>
 
@@ -318,30 +376,31 @@ const travelerDetails=()=>{
 
            <Col span={6}>
              <div style={{fontSize:"18px",fontWeight:"600"}}>{flightDetails.arrivalTime}</div>
-             <div style={{fontSize:"18px",fontWeight:"600"}}>{flightDetails.arrival}</div>
+             <div style={{fontSize:"18px",fontWeight:"600"}}>{flightDetails.airprot_to}</div>
              <div style={{fontSize:"18px",fontWeight:"600"}}>{moment(flightDetails.arrivalDate).format('Do MMMM, YYYY')}</div>
            </Col>
-        </Row>
-      </Card>
+         </Row>
+         </Card>
 
+      </Col>
+     </Row>
+{/* 
       </Panel>
-    </Collapse>
 
-    {/* <Collapse defaultActiveKey={['1']} onChange={onPanelCollapse}>
-    <Panel showArrow={false}  header="Baggage Details" key="1"> */}
-      <Card style={{marginTop:"15px"}}>
-      <Row>
+    </Collapse> */}
+
+   <Card style={{marginTop:"20px"}}>
+    <Row style={{marginTop:"20px"}}>
           <Col className='baggage-details' span={24}>
               <div className='baggage'>Baggage:<span style={{marginLeft:"20px"}}> Hand Baggage: {flightDetails.cabin_baggage} </span>
                 <span style={{marginLeft:"20px"}}>Check-in: {flightDetails.checkin_baggage} </span></div>
               <div className='meals'>Meals: Free Meals</div>  
           </Col>
         </Row>
-      </Card>
-      {/* </Panel>
-     </Collapse> */}
-      
-    </Col>
+        </Card>
+
+      </Col>):headerDesign()
+      }
 
     <Col className='fare-container' span={8}>
       
@@ -360,20 +419,45 @@ const travelerDetails=()=>{
     </Col>
     </Row>
 
-   
-       <Row style={{marginTop:"10px"}}>
+     <Row style={{marginTop:"2rem"}}>
 
-     <Col span={16}>
-     <Collapse defaultActiveKey={['1']} onChange={onPanelCollapse}>
-      <Panel showArrow={false}  header="Cancellation Refund Policy" key="1">
-         <Card>
+      <Col span={16}>
 
-         </Card>
-      </Panel>
-    </Collapse>
-     </Col>
-  
-     <Col className='promocode-container' span={8}>
+      {showItineary &&  <Collapse defaultActiveKey={['2']}>
+      
+         <Panel showArrow={true} header="Date Change Policy" key="2">
+
+            <Row style={{marginTop:"20px"}}>
+            <Col span={16}>
+              <Row>
+                <Col span={16}>
+                  <div>Date Change Fess starts from 2700</div>
+                </Col>
+              </Row>
+            </Col>
+            </Row>
+
+            </Panel>
+
+            <Panel showArrow={true} header="Cancellation Policy" key="3">
+
+            <Row style={{marginTop:"20px"}}>
+            <Col span={16}>
+                      <Row>
+                <Col span={16}>
+                  <div>Cancellation Fess starts from 3200</div>
+                </Col>
+              </Row>
+            </Col>
+            </Row>
+
+            </Panel>
+
+         </Collapse>}
+
+         </Col> 
+
+         <Col style={{marginTop:"10px"}} className='promocode-container' span={8}>
      <Card className='card-style' title=" Have a Promocode">
            <Form>
       <Input style={{width:"76%"}} defaultValue="" />
@@ -387,24 +471,13 @@ const travelerDetails=()=>{
           </Card>
     </Col>
 
-    </Row>
+       </Row>
+
        
-    <Row style={{marginTop:"-6rem"}}>
-     <Col span={16}>
-     <Collapse defaultActiveKey={['1']} onChange={onPanelCollapse}>
-      <Panel showArrow={false}  header="Date Change Policy" key="1">
-         <Card>
-
-         </Card>
-      </Panel>
-    </Collapse>
-    </Col>
-    </Row>
-
-    <Row style={{marginTop:"2rem",marginBottom:"2rem"}}>
+     {showItineary && <Row style={{ marginTop: !showItineary ? '-20rem' : ''}}>
         <Col span={16}>
-      <Collapse defaultActiveKey={['1']} onChange={onPanelCollapse}>
-      <Panel showArrow={false} header="Contact Details" key="1">
+      <Collapse activeKey={activePanels} defaultActiveKey={['1']} onChange={onPanelCollapse}>
+      <Panel showArrow={true} header="Contact Details" key="1">
 
           {contactInformation()}
 
@@ -412,18 +485,19 @@ const travelerDetails=()=>{
     </Collapse>
   
     </Col> 
-    </Row>
+    </Row>}
+
     
-      <Row className='ticket-details'>
+      {showItineary && <Row style={{ marginTop: '10px'}} className='ticket-details'>
         <Col span={16}>
            <div>
            <Button className='continue-btn' htmlType="submit" type="primary"
-            float='right' onClick={()=>SaveTicketDetails()}>Continue</Button>
+            float='right' onClick={handleContinue}>Continue</Button>
            </div>
         </Col>
-      </Row>
+      </Row> }
 
-        <Row style={{marginTop:"1rem",marginBottom:"3rem"}}>
+        <Row style={{ marginTop: !showItineary ? '-27rem' : '1rem',marginBottom:"3rem"}}>
         <Col span={16}>
       <Collapse defaultActiveKey={['1']} onChange={onPanelCollapse}>
       <Panel showArrow={false} header="Travellers Details" key="1">
@@ -441,12 +515,28 @@ const travelerDetails=()=>{
   
     </Col> 
     </Row>
-    
-    <Row style={{marginBottom:"2rem"}}>
+
+    <Row>
         <Col span={16}>
            <div>
            <Button className='continue-btn' htmlType="submit" type="primary"
-            float='right' onClick={()=>SaveTicketDetails()}>Continue</Button>
+            float='right'>Continue</Button>
+           </div>
+        </Col>
+      </Row>
+
+    <Row className='adds-on'>
+      <Col span={16}>
+      <AddsOn />
+      </Col>
+    </Row>
+
+   
+    <Row>
+        <Col span={16}>
+           <div>
+           <Button className='continue-btn' htmlType="submit" type="primary"
+            float='right'>Continue</Button>
            </div>
         </Col>
       </Row>
