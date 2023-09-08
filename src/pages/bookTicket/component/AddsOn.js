@@ -12,6 +12,10 @@ const AddsOn = () => {
 const [clickedCol, setClickedCol] = useState(null);
 const [clickedColLuggage, setClickedColLuggage] = useState(null);
 const [open, setOpen] = useState(false);
+// const [isModalOpen, setIsModalOpen] = useState(false);
+const [isMealsModal, setIsMealsModal] = useState(false);
+const [isLugageModal, setIsLugageModal] = useState(false);
+
 
 // const hide = () => {
 //     setOpen(false);
@@ -41,6 +45,22 @@ const [open, setOpen] = useState(false);
     }
   };
 
+
+  const showMealModal = () => {
+    setIsMealsModal(true);
+  };
+  
+  const showLugageModal = () => {
+    setIsLugageModal(true);
+  };
+  const handleMealOk = () => {
+    setIsMealsModal(false);
+  };
+ 
+  const handleCancel = ()=>{
+    setIsMealsModal(false);
+    setIsLugageModal(false);
+  }
     const seatDetails = ()=>{
         return(
           <>
@@ -138,23 +158,9 @@ const [open, setOpen] = useState(false);
                 </Col>
 
             <Col style={{border:"1px solid grey",borderRadius:"5px",height:"64px",cursor:"pointer"}} span={2}
-               >
+              onClick={showMealModal} >
               +10 options
               </Col>
-
-                {/* <Popover
-                content={
-                <div><a onClick={hide}><AiOutlineClose /></a></div>
-                
-                }
-                title="Select Passengers"
-                trigger="click"
-                open={open}
-                onOpenChange={handleOpenChange}
-                > */}
-               
-                {/* </Popover> */}
-
              </Row> 
      
            </Card>
@@ -204,22 +210,9 @@ const [open, setOpen] = useState(false);
               </Col>
 
           <Col style={{border:"1px solid grey",borderRadius:"5px",height:"64px",cursor:"pointer"}} span={2}
-             >
+            onClick={showLugageModal} >
             +1 options
             </Col>
-
-              {/* <Popover
-              content={
-              <div><a onClick={hide}><AiOutlineClose /></a></div>
-              
-              }
-              title="Select Passengers"
-              trigger="click"
-              open={open}
-              onOpenChange={handleOpenChange}
-              > */}
-             
-              {/* </Popover> */}
 
            </Row> 
    
@@ -227,11 +220,178 @@ const [open, setOpen] = useState(false);
             </>
         )
     }
+
+    const mealsModal = ()=>{
+      return(
+        <>
+        <Card>
+           <Row>
+            <Col span={6}>
+              <div><span style={{marginLeft:"10px"}}> Onward</span></div>
+              <div style={{background:"#E2DFE8",borderRadius:"4px",width:"90%"}}> <span style={{marginLeft:"10px"}}>CCU -- DEL</span></div>
+            </Col>
+            
+            <Col span={18}>
+              <Row>
+                <Col className='meals-filter' span={4}>
+                  <div style={{fontSize:"18px",fontWeight:"600",marginLeft:"10px"}}>All</div>
+                </Col>
+                <Col className='meals-filter' style={{marginLeft:"15px"}} span={4}>
+                  <div style={{fontSize:"18px",fontWeight:"600",marginLeft:"10px"}}>Veg</div>
+                </Col>
+                <Col className='meals-filter' style={{marginLeft:"15px"}} span={5}>
+                  <div style={{fontSize:"18px",fontWeight:"600",marginLeft:"10px"}}>Non-veg</div>
+                </Col>
+              </Row>
+            <Row style={{marginBottom:"20px"}}>
+              <Col span={12}>
+              <div style={{fontSize:"16px",fontWeight:"600"}}>Chicken Junglee</div>
+              </Col>
+              
+              <Col span={6}>
+              <div style={{marginLeft:"10px",marginTop:"10px"}}> ₹400</div>
+              </Col>
+
+              <Col span={6}>
+                <div>
+              <Button shape="circle" icon={<MinusOutlined />} />
+              <span style={{ margin: '0 8px' }}>1</span>
+              <Button  shape="circle" icon={<PlusOutlined />} />
+              </div>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col span={12}>
+              <div style={{fontSize:"16px",fontWeight:"600"}}>Seasonal Fresh Fruit Plaiter</div>
+              </Col>
+              
+              <Col span={6}>
+              <div style={{marginLeft:"10px",marginTop:"10px"}}> ₹450</div>
+              </Col>
+
+              <Col span={6}>
+                <div>
+              <Button shape="circle" icon={<MinusOutlined />} />
+              <span style={{ margin: '0 8px' }}>0</span>
+              <Button  shape="circle" icon={<PlusOutlined />} />
+              </div>
+              </Col>
+            </Row>
+      
+            </Col>
+           </Row>
+           
+        </Card>
+         <Row>
+          <Col span={16}>
+             <div style={{color:"blue",marginTop:"20px"}}>Remove all meals</div>
+          </Col>
+         <Col span={8} style={{display:"flex",gap:"2.4rem",marginTop:"20px"}}>
+           <div style={{fontSize:"24px",fontWeight:"700"}}>₹ 450</div>
+           <div><Button style={{width:"93px"}} type='primary' htmlType='submit'>Done</Button> </div>
+         </Col>
+        </Row>
+        </>
+      )
+    }
+   const mealsTitle = ()=>{
+     return(
+     <>
+      <div style={{fontSize:"24px",fontWeight:"700",paddingLeft:"10px"}}>Add in-flight meals to your journey</div>
+      <div style={{fontSize:"17px",fontWeight:"600",paddingLeft:"10px",color:"grey"}}>
+        Meals are ususally cheaper when pre-booked</div>
+      </>
+     )
+   }
+
+   const luggageModal = ()=>{
+    return(
+      <>
+      <Card>
+         <Row>
+          <Col span={6}>
+            <div > <span style={{marginLeft:"10px"}}>Onward</span></div>
+            <div style={{background:"#E2DFE8",borderRadius:"4px",width:"90%"}}> <span style={{marginLeft:"10px"}}>CCU -- DEL</span> </div>
+          </Col>
+          
+          <Col span={18}>
+            
+          <Row style={{marginBottom:"20px"}}>
+            <Col span={12}>
+            <div style={{fontSize:"16px",fontWeight:"600"}}>Additional 3 KG</div>
+            </Col>
+            
+            <Col span={6}>
+            <div style={{marginLeft:"10px",marginTop:"10px"}}> ₹1350</div>
+            </Col>
+
+            <Col span={6}>
+              <div>
+            <Button shape="circle" icon={<MinusOutlined />} />
+            <span style={{ margin: '0 8px' }}>1</span>
+            <Button  shape="circle" icon={<PlusOutlined />} />
+            </div>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col span={12}>
+            <div style={{fontSize:"16px",fontWeight:"600"}}>Additional 5 KG</div>
+            </Col>
+            
+            <Col span={6}>
+            <div style={{marginLeft:"10px",marginTop:"10px"}}> ₹2250</div>
+            </Col>
+
+            <Col span={6}>
+              <div>
+            <Button shape="circle" icon={<MinusOutlined />} />
+            <span style={{ margin: '0 8px' }}>0</span>
+            <Button  shape="circle" icon={<PlusOutlined />} />
+            </div>
+            </Col>
+          </Row>
+    
+          </Col>
+         </Row>
+         
+      </Card>
+       <Row>
+        <Col span={16}>
+           <div style={{color:"blue",marginTop:"20px"}}>Remove all baggage</div>
+        </Col>
+       <Col span={8} style={{display:"flex",gap:"2.4rem",marginTop:"20px"}}>
+         <div style={{fontSize:"24px",fontWeight:"700"}}>₹ 1350</div>
+         <div><Button style={{width:"93px"}} type='primary' htmlType='submit'>Done</Button> </div>
+       </Col>
+      </Row>
+      </>
+    )
+  }
+ const luggageTitle = ()=>{
+   return(
+   <>
+    <div style={{fontSize:"24px",fontWeight:"700",paddingLeft:"10px"}}>Add in-flight baggage to your journey</div>
+    <div style={{fontSize:"17px",fontWeight:"600",paddingLeft:"10px",color:"grey"}}>
+      Baggage are ususally cheaper when pre-booked</div>
+    </>
+   )
+ }
+
   return (
     <>
     {seatDetails()}
     {mealsDetail()}
+    <Modal style={{zIndex:2,marginTop:"-50px"}} className="meals-modal" title={mealsTitle()}
+     width={800}  visible={isMealsModal} footer={null} onCancel={handleCancel}>
+        {mealsModal()}
+    </Modal>
     {extraLuggage()}
+    <Modal style={{zIndex:2,marginTop:"-50px"}} className="luggage-modal" title={luggageTitle()}
+     width={800}  visible={isLugageModal} footer={null} onCancel={handleCancel}>
+        {luggageModal()}
+    </Modal>
     </>
   )
 }

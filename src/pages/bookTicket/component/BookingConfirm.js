@@ -40,8 +40,12 @@ const BookingConfirm = () => {
   const [activePanels, setActivePanels] = useState();
   const [showItineary, setShowItineary] = useState(true);
   const [showTicketHeader, setShowTicketHeader] = useState(false)
-  const [mobNo, setMobNo] = useState();
-  const [email,setEmail] = useState();
+  const [contactInfo, setContactInfo] = useState({
+    mobile:"",
+    email:""
+  })
+  // const [mobNo, setMobNo] = useState();
+  // const [email,setEmail] = useState();
 
  useEffect(() => {
   
@@ -49,9 +53,11 @@ const BookingConfirm = () => {
   setFlightDetails(parsed);
   console.log(parsed)
   console.log(flightDetails)
+  
  
  }, [])
 
+ console.log(contactInfo)
  const onPanelCollapse = (key) => {
   setActivePanels(key);
 };
@@ -71,66 +77,46 @@ const rowStyle = showItineary ? { marginTop: '-29rem' } : {};
 
 const contactInformation=()=>{
     return(
-        <>
-          <Row className='contact-info'>
-              <Col span={24}>
+     <>
+      <Row className='contact-info'>
+          <Col span={24}>
+            <Row>
+                <div>
+                      <h1>Contact Information </h1>
+                </div>
+
+                <Col className='contact-nfo-inner' span={24}>
+              <div>Your ticket and flight info will be sent here</div>
+              
+                
                 <Row>
-                    <div>
-                          <h1>Contact Information </h1>
-                    </div>
-
-                    <Col className='contact-nfo-inner' span={24}>
-                        <div>Your ticket and flight info will be sent here</div>
-                        
-                            <Form colon={false} style={{width:"100%"}} name="contact_info" layout="inline" onFinish={contactDetails} >
-                              <Row>
-                                <Col span={3}>
-                                  <Form.Item label={<label style={{ color: "black" }} >Mobile Number</label>}>
-                                      <Select defaultValue="+91"
-                                      style={{
-                                        width: 100,
-                                      }}
-                                    >
-                                      <Option value="91">+91</Option>
-                                      <Option value="87">+87</Option>
-                                    </Select>
-                                  </Form.Item>
-                              </Col>
-                            <Col span={8}>
-                                <Form.Item
-                                  style={{width:"90%"}}
-                                  label={<label style={{ color: "#b9d9e5" }}>=============</label>}
-                                  rules={[{ required: true, message: 'Please input your mobile no!' }]}
-                                >
-                                  <Input prefix={<MobileOutlined className="site-form-item-icon" />} placeholder="Mobile Number" />
-                                </Form.Item>
-
-                              </Col>
-
+                <Col span={10}>
+                <Input 
+                  defaultValue="+91"
+                  style={{width:"20%"}}
+                 />
+                 <Input 
+                  prefix={<MobileOutlined className="site-form-item-icon" />} placeholder="Mobile Number"
+                  style={{width:"80%"}}
+                  onChange={(e)=>setContactInfo({...contactInfo, mobile:e.target.value})}
+                 />
+                 </Col>
                   
-                        <Col span={9}>
-                          
-                        <Form.Item
-                        style={{width:"70%"}}
-                        name="email_id"
-                        label={<label style={{ color: "black" }} onChange={(e)=>setEmail(e.target.value)}>Email ID</label>}
-                        rules={[{ required: true, message: 'Please enter your email!' }]}
-                      >
-                        <Input
-                          prefix={<MailOutlined className="site-form-item-icon" />}
-                          placeholder="Email Id"
-                        />
-                      </Form.Item>
-                            </Col>
-                        
-                        <div>
-                        <Form.Item name="update_me" valuePropName="checked" noStyle>
-                          <Checkbox>Update me on order status, news, and exclusive offers via sms, whatsapp and email</Checkbox>
-                        </Form.Item>
-                        </div>
-                        </Row>
-                        </Form>
-                    </Col> 
+                  <Col span={10} style={{marginLeft:"20px"}}>
+                  <Input
+                    prefix={<MailOutlined className="site-form-item-icon" />}
+                    placeholder="Email Id"
+                    onChange={(e)=>setContactInfo({...contactInfo, email:e.target.value})}
+                />
+                  </Col>
+                  <div>
+                
+                  <Checkbox>Update me on order status, news, and exclusive offers via sms, whatsapp and email</Checkbox>
+                
+                </div>
+              </Row>
+
+            </Col> 
               </Row>
           </Col>
         </Row>
@@ -145,7 +131,7 @@ const travelerDetails=()=>{
             <Col span={24}>
               <Row>
                   <div>
-                        <h2>Enter traveller details <span>(Name must be entered as shown on Passport/ Id Proof)</span></h2> 
+                  <h2>Enter traveller details <span>(Name must be entered as shown on Passport/ Id Proof)</span></h2> 
                   </div>
 
                   <Col className='contact-nfo-inner' span={24}>
@@ -170,6 +156,7 @@ const travelerDetails=()=>{
                           <Col span={10}>
                               <Form.Item
                                 style={{width:"80%"}}
+                                name="firstname"
                                 label={<label style={{ color: "black" }}>First Name</label>}
                                 rules={[{ required: true, message: 'Please enter your first name!' }]}
                               >
@@ -182,6 +169,7 @@ const travelerDetails=()=>{
                             <Col span={10}>
                               <Form.Item
                                 style={{width:"80%"}}
+                                name="lastname"
                                 label={<label style={{ color: "black" }}>Last Name</label>}
                                 rules={[{ required: true, message: 'Please enter your last name!' }]}
                               >
@@ -276,7 +264,6 @@ const travelerDetails=()=>{
       }
 
 
-
   function headerDesign(){
     return(
       <>
@@ -284,7 +271,8 @@ const travelerDetails=()=>{
        <Card className='header-card' style={{borderTop:"1px solid #cfcfcf"}}>
         <Row>
           <Col span={2}>
-          <div style={{marginTop:"10px"}}><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
+          <div style={{marginTop:"10px",cursor:"pointer"}} onClick={()=>{setShowTicketHeader(false),
+          setShowItineary(true)}}><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
           </Col>
           <Col span={6} style={{display:"flex"}}>
              <div><Image style={{width:"3.5rem"}} src={airlineIcon[flightDetails.airlines]} preview={false}></Image> </div>
@@ -312,9 +300,22 @@ const travelerDetails=()=>{
              <div style={{fontSize:"16px",fontWeight:"600"}}>{moment(flightDetails.arrivalDate).format('Do MMMM, YYYY')}</div>
            </Col>
          </Row>
-         </Card>
 
+         <Row style={{borderTop:"1px solid grey",marginTop:"10px"}}>
+        <Col span={2}>
+          <div style={{marginTop:"10px"}}><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
+          </Col>
+        <Col span={20}>
+          <div style={{fontSize:"20px",fontWeight:"700"}}><span> {contactInfo.email} ,</span>
+           <span>{contactInfo.mobile} </span> </div>
+          <div>E ticket will be sent here. Booking for someone else? <span>enter their phone number here</span> </div>
+        </Col>
+      </Row>
+         </Card>
+          
+        
       </Col>
+      
       </>
     )
   }
@@ -323,14 +324,12 @@ const travelerDetails=()=>{
      <>
      
      <Space className='bookTicket-container' style={{width:"100%",paddingLeft:"20px",minHeight:"390px"}} direction="vertical">
+     
       <Row style={{marginTop:"35px"}}>
- {showItineary && showItineary?
+      {showItineary && showItineary?
 
       ( <Col span={16}>
         
-      {/* <Collapse accordion activeKey={activePanels} defaultActiveKey={['1']} onChange={onPanelCollapse}> */}
-      
-      {/* <Panel showArrow={false}  header={activePanels.includes("1")?"Review Itinerary":headerDesign()} key="1"> */}
       <Row>
          <Col span={24}>
           <div style={{fontSize:"25px",fontWeight:"700",cursor:"pointer"}}>Review Your Itinerary</div>
@@ -542,7 +541,7 @@ const travelerDetails=()=>{
       </Row>
 
        {/* {ticketPayment()} */}
-
+       
     </Space>
      </>
   )

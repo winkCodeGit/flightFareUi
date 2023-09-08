@@ -1,5 +1,5 @@
 import React, {useState, useEffect } from 'react'
-import { Card, Row, Col,Collapse,Image, Button, Select,Checkbox  } from 'antd'
+import { Card, Row, Col,Collapse,Image, Button, Select,Checkbox, Spin  } from 'antd'
 import './ResultsItems.scss'
 import qs from 'query-string';
 import airAsia from '../../../../assets/small/airasia.jpg'
@@ -41,10 +41,11 @@ const ResultsItems = () => {
     const [returnDay, setReturnDay] = useState('')
     const [resultData, setResultData]= useState([]);
     const [trip, setTrip] = useState('');
-    
+    const [loading, setloading] = useState(false);
 
     const getAirlinesDetails = async()=>{
         try{
+            setloading(true)
             //  params = urls paser;
             let parsed = qs.parse(location.search);
             parsed.departureDate=parsed?.departureDate?.trim();
@@ -55,23 +56,29 @@ const ResultsItems = () => {
              const res = await getSerachData(parsed);
             // console.log(res)
             setResultData(res);
+            setloading(false);
             console.log(resultData)
         }catch(error){
             console.log(error);
+            
         }  
     }
 
     
       useEffect(() => {
         getAirlinesDetails()
-       
+    
       }, [])
 
    
   return (
         <>
-        <Row style={{padding:"10px",minHeight:"390px"}}>
-        <Col span={24}>
+<Row style={{padding:"10px",minHeight:"390px"}}>
+
+        {
+       loading && loading? (<Spin size='large' tip="Loading">
+        <div className="content" />
+      </Spin>) : (<Col span={24}>
 
         <Row className='flight-filters'>
             <Col style={{marginLeft:"43px"}} span={12}>
@@ -309,7 +316,8 @@ const ResultsItems = () => {
                     </Col>
                 </Row>
                 }
-            </Col>
+            </Col>)}
+
         </Row>
            
         </>
