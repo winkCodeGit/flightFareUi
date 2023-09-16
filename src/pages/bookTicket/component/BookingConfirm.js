@@ -18,6 +18,7 @@ import { BsCheckCircleFill } from 'react-icons/bs';
 
 import moment from 'moment';
 import AddsOn from './AddsOn';
+import { getMeals_Baggage } from '../../../Api/LandingPage';
 
 const { Panel } = Collapse;
 const { Option } = Select;
@@ -40,6 +41,12 @@ const BookingConfirm = () => {
   const [activePanels, setActivePanels] = useState();
   const [showItineary, setShowItineary] = useState(true);
   const [showTicketHeader, setShowTicketHeader] = useState(false)
+  const [additionalDetails, setAdditiuonalDetails] = useState({
+    meals:[],
+    baggage:[]
+  })
+  const [showContactForm, setShowContactForm] = useState(true)
+
   const [contactInfo, setContactInfo] = useState({
     mobile:"",
     email:""
@@ -47,11 +54,23 @@ const BookingConfirm = () => {
   // const [mobNo, setMobNo] = useState();
   // const [email,setEmail] = useState();
 
+  const addsOnData = async(key)=>{
+  
+    try {
+      const res = await getMeals_Baggage(key);
+      setAdditiuonalDetails(res);
+      console.log(res);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
  useEffect(() => {
   
   const parsed = qs.parse(location.search);
   setFlightDetails(parsed);
-  console.log(parsed)
+  addsOnData(parsed.fareRuleKey);
+  
   console.log(flightDetails)
   
  
@@ -66,6 +85,7 @@ const handleContinue = () => {
    // setActivePanels([]); // Set an empty array to close all panels
    setShowItineary(false);
    setShowTicketHeader(true);
+   setShowContactForm(false);
 };
 
 const contactDetails = (value)=>{
@@ -269,10 +289,10 @@ const travelerDetails=()=>{
       <>
       <Col span={16}>
        <Card className='header-card' style={{borderTop:"1px solid #cfcfcf"}}>
-        <Row>
+        <Row style={{cursor:"pointer"}} onClick={()=>{setShowTicketHeader(false),
+          setShowItineary(true),setShowContactForm(true)}}>
           <Col span={2}>
-          <div style={{marginTop:"10px",cursor:"pointer"}} onClick={()=>{setShowTicketHeader(false),
-          setShowItineary(true)}}><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
+          <div style={{marginTop:"10px",cursor:"pointer"}} ><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
           </Col>
           <Col span={6} style={{display:"flex"}}>
              <div><Image style={{width:"3.5rem"}} src={airlineIcon[flightDetails.airlines]} preview={false}></Image> </div>
@@ -301,16 +321,19 @@ const travelerDetails=()=>{
            </Col>
          </Row>
 
-         <Row style={{borderTop:"1px solid grey",marginTop:"10px"}}>
+
+    {!showContactForm && <Row style={{borderTop:"1px solid grey",marginTop:"10px",cursor:"pointer"}} onClick={()=>{setShowContactForm(true)}}>
         <Col span={2}>
           <div style={{marginTop:"10px"}}><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
           </Col>
         <Col span={20}>
           <div style={{fontSize:"20px",fontWeight:"700"}}><span> {contactInfo.email} ,</span>
            <span>{contactInfo.mobile} </span> </div>
-          <div>E ticket will be sent here. Booking for someone else? <span>enter their phone number here</span> </div>
+          <div>E ticket will be sent here. Booking for someone else?
+             <span style={{color:"blue",cursor:"pointer"}} >enter their phone number here</span> </div>
         </Col>
-      </Row>
+      </Row>}
+
          </Card>
           
         
@@ -473,7 +496,7 @@ const travelerDetails=()=>{
        </Row>
 
        
-     {showItineary && <Row style={{ marginTop: !showItineary ? '-20rem' : ''}}>
+     { showContactForm && <Row style={{ marginTop: !showContactForm ? '-20rem' : ''}}>
         <Col span={16}>
       <Collapse activeKey={activePanels} defaultActiveKey={['1']} onChange={onPanelCollapse}>
       <Panel showArrow={true} header="Contact Details" key="1">
@@ -526,7 +549,7 @@ const travelerDetails=()=>{
 
     <Row className='adds-on'>
       <Col span={16}>
-      <AddsOn />
+      {(additionalDetails?.meals?.length >0 || additionalDetails?.baggage?.length >0) && <AddsOn data={additionalDetails} />}
       </Col>
     </Row>
 

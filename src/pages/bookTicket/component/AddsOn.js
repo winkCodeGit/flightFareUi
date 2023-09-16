@@ -7,7 +7,7 @@ import { MdOutlineLuggage } from 'react-icons/md';
 import { GiForkKnifeSpoon  } from 'react-icons/gi';
 const {Option} = Select;
 
-const AddsOn = () => {
+const AddsOn = (props) => {
 
 const [clickedCol, setClickedCol] = useState(null);
 const [clickedColLuggage, setClickedColLuggage] = useState(null);
@@ -130,36 +130,28 @@ const [isLugageModal, setIsLugageModal] = useState(false);
            <Card>
             <Row className='filter-container'>
             <Col className='border-active' style={{border:`1px solid ${clickedCol === 0 ? "blue" : "grey"}`
-             ,background:`${clickedCol===0 ?"#d6e8fc":""}`,cursor:"pointer",borderRadius:"5px",height:"64px"}}
+             ,background:`${clickedCol===0 ?"#d6e8fc":""}`,cursor:"pointer",borderRadius:"5px",height:"70px"}}
              span={2} onClick={() => handleColClick(0)}>
             <div style={{fontSize:"16px",fontWeight:"600",paddingLeft:"10px"}}>No Meal ₹0</div>
              
          </Col>
       
-        <Col style={{border:`1px solid ${clickedCol === 1 ? "blue" : "grey"}`
-         ,background:`${clickedCol===1 ?"#d6e8fc":""}`,cursor:"pointer",borderRadius:"5px",height:"64px"}} span={5}
-         onClick={() => handleColClick(1)}>
-           <div style={{fontSize:"16px",fontWeight:"600",paddingLeft:"10px"}}>Chicken Junglee ₹400</div>
-              </Col>
+       {props.data.meal.map((item,indx)=>{
+           return(
+            <>
+            {indx<=2 && <Col style={{border:`1px solid ${clickedCol === indx+1 ? "blue" : "grey"}`
+            ,background:`${clickedCol===indx+1 ?"#d6e8fc":""}`,cursor:"pointer",borderRadius:"5px",height:"70px"}} span={5}
+            onClick={() => handleColClick(indx+1)}>
+              <div style={{fontSize:"16px",fontWeight:"600",paddingLeft:"10px"}}>{item.desc}</div>
+              <div style={{fontSize:"16px",fontWeight:"600",paddingLeft:"10px"}}>₹{item.amount}</div>
+                 </Col>}
+                 </>
+           )
+       }) }
 
-              <Col style={{border:`1px solid ${clickedCol === 2 ? "blue" : "grey"}`
-                ,background:`${clickedCol===2 ?"#d6e8fc":""}`,cursor:"pointer",borderRadius:"5px",height:"64px"}}
-               span={5} onClick={() => handleColClick(2)}>
-                <div style={{fontSize:"16px",fontWeight:"600",paddingLeft:"10px"}}>Herb Roast Veg ₹400</div>
-                
-             
-              </Col>
-
-              <Col style={{border:`1px solid ${clickedCol === 3 ? "blue" : "grey"}`
-                  ,background:`${clickedCol===3 ?"#d6e8fc":""}`,cursor:"pointer",borderRadius:"5px",height:"64px"}}
-               span={5} onClick={() => handleColClick(3)}>
-                <div style={{fontSize:"15px",fontWeight:"600",paddingLeft:"10px"}}>Seasonal Fresh Fruit Plaiter ₹450 </div>
-                
-                </Col>
-
-            <Col style={{border:"1px solid grey",borderRadius:"5px",height:"64px",cursor:"pointer"}} span={2}
+            <Col style={{border:"1px solid grey",borderRadius:"5px",height:"70px",cursor:"pointer"}} span={2}
               onClick={showMealModal} >
-              +10 options
+              +{props.data.meal.length-3} options
               </Col>
              </Row> 
      
@@ -182,36 +174,29 @@ const [isLugageModal, setIsLugageModal] = useState(false);
           <Card>
           <Row className='filter-container'>
           <Col className='border-active' style={{border:`1px solid ${clickedColLuggage === 0 ? "blue" : "grey"}`
-           ,background:`${clickedColLuggage===0 ?"#d6e8fc":""}`,cursor:"pointer",borderRadius:"5px",height:"64px"}}
+           ,background:`${clickedColLuggage===0 ?"#d6e8fc":""}`,cursor:"pointer",borderRadius:"5px",height:"70px"}}
            span={2} onClick={() => handleColClickLuggage(0)}>
           <div style={{fontSize:"16px",fontWeight:"600",paddingLeft:"10px"}}>Default ₹0</div>
            
        </Col>
     
-      <Col style={{border:`1px solid ${clickedColLuggage === 1 ? "blue" : "grey"}`
-       ,background:`${clickedColLuggage===1 ?"#d6e8fc":""}`,cursor:"pointer",borderRadius:"5px",height:"64px"}} span={5}
-       onClick={() => handleColClickLuggage(1)}>
-         <div style={{fontSize:"16px",fontWeight:"600",paddingLeft:"10px"}}>Additional 5kg ₹2250</div>
-            </Col>
+    {props.data.baggage.map((item,ind)=>{
+           return(
+            <>
+            {ind<=2 && <Col style={{border:`1px solid ${clickedCol === ind+1 ? "blue" : "grey"}`
+            ,background:`${clickedCol===ind+1 ?"#d6e8fc":""}`,cursor:"pointer",borderRadius:"5px",height:"70px"}} span={5}
+            onClick={() => handleColClick(ind+1)}>
+              <div style={{fontSize:"15px",fontWeight:"600",paddingLeft:"10px"}}>{item.desc}</div>
+              <div style={{fontSize:"16px",fontWeight:"600",paddingLeft:"10px"}}>₹{item.amount}</div>
+                 </Col>}
+                 </>
+           )
+       }) }
 
-            <Col style={{border:`1px solid ${clickedColLuggage === 2 ? "blue" : "grey"}`
-              ,background:`${clickedColLuggage===2 ?"#d6e8fc":""}`,cursor:"pointer",borderRadius:"5px",height:"64px"}}
-             span={5} onClick={() => handleColClickLuggage(2)}>
-              <div style={{fontSize:"16px",fontWeight:"600",paddingLeft:"10px"}}>Additional 10kg ₹4250</div>
-              
-           
-            </Col>
-
-            <Col style={{border:`1px solid ${clickedColLuggage === 3 ? "blue" : "grey"}`
-                ,background:`${clickedColLuggage===3 ?"#d6e8fc":""}`,cursor:"pointer",borderRadius:"5px",height:"64px"}}
-             span={5} onClick={() => handleColClickLuggage(3)}>
-              <div style={{fontSize:"15px",fontWeight:"600",paddingLeft:"10px"}}>Additional 15kg ₹7500 </div>
-              
-              </Col>
-
-          <Col style={{border:"1px solid grey",borderRadius:"5px",height:"64px",cursor:"pointer"}} span={2}
+          
+          <Col style={{border:"1px solid grey",borderRadius:"5px",height:"70px",cursor:"pointer"}} span={2}
             onClick={showLugageModal} >
-            +1 options
+            +{props.data.baggage.length-3} options
             </Col>
 
            </Row> 
@@ -232,7 +217,8 @@ const [isLugageModal, setIsLugageModal] = useState(false);
             </Col>
             
             <Col span={18}>
-              <Row>
+               
+              <Row style={{marginBottom:"20px"}}>
                 <Col className='meals-filter' span={4}>
                   <div style={{fontSize:"18px",fontWeight:"600",marginLeft:"10px"}}>All</div>
                 </Col>
@@ -243,42 +229,37 @@ const [isLugageModal, setIsLugageModal] = useState(false);
                   <div style={{fontSize:"18px",fontWeight:"600",marginLeft:"10px"}}>Non-veg</div>
                 </Col>
               </Row>
-            <Row style={{marginBottom:"20px"}}>
-              <Col span={12}>
-              <div style={{fontSize:"16px",fontWeight:"600"}}>Chicken Junglee</div>
-              </Col>
-              
-              <Col span={6}>
-              <div style={{marginLeft:"10px",marginTop:"10px"}}> ₹400</div>
-              </Col>
 
-              <Col span={6}>
-                <div>
-              <Button shape="circle" icon={<MinusOutlined />} />
-              <span style={{ margin: '0 8px' }}>1</span>
-              <Button  shape="circle" icon={<PlusOutlined />} />
-              </div>
-              </Col>
-            </Row>
 
-            <Row>
-              <Col span={12}>
-              <div style={{fontSize:"16px",fontWeight:"600"}}>Seasonal Fresh Fruit Plaiter</div>
-              </Col>
-              
-              <Col span={6}>
-              <div style={{marginLeft:"10px",marginTop:"10px"}}> ₹450</div>
-              </Col>
+              <Row style={{overflowY:"scroll",maxHeight:"250px"}}>
+                <Col span={24}>
+                {props.data.meal.map((item,indx)=>{
+           return(
+                <>
+                {indx>=3 && <Row style={{marginBottom:"10px"}}>
+            <Col span={12}>
+            <div style={{fontSize:"16px",fontWeight:"600"}}>{item.desc}</div>
+            </Col>
+            
+            <Col span={6}>
+            <div style={{marginLeft:"10px",marginTop:"10px"}}> ₹{item.amount}</div>
+            </Col>
 
-              <Col span={6}>
-                <div>
-              <Button shape="circle" icon={<MinusOutlined />} />
-              <span style={{ margin: '0 8px' }}>0</span>
-              <Button  shape="circle" icon={<PlusOutlined />} />
-              </div>
-              </Col>
-            </Row>
-      
+            <Col span={6}>
+              <div>
+            <Button shape="circle" icon={<MinusOutlined />} />
+            <span style={{ margin: '0 8px' }}>1</span>
+            <Button  shape="circle" icon={<PlusOutlined />} />
+            </div>
+            </Col>
+          </Row>}
+                </>
+           )
+         })
+            }
+                </Col>
+              </Row>
+       
             </Col>
            </Row>
            
@@ -288,7 +269,7 @@ const [isLugageModal, setIsLugageModal] = useState(false);
              <div style={{color:"blue",marginTop:"20px"}}>Remove all meals</div>
           </Col>
          <Col span={8} style={{display:"flex",gap:"2.4rem",marginTop:"20px"}}>
-           <div style={{fontSize:"24px",fontWeight:"700"}}>₹ 450</div>
+           <div style={{fontSize:"24px",fontWeight:"700"}}>₹ </div>
            <div><Button style={{width:"93px"}} type='primary' htmlType='submit'>Done</Button> </div>
          </Col>
         </Row>
@@ -317,13 +298,20 @@ const [isLugageModal, setIsLugageModal] = useState(false);
           
           <Col span={18}>
             
-          <Row style={{marginBottom:"20px"}}>
+        
+          <Row style={{overflowY:"scroll",maxHeight:"250px"}}>
+             <Col span={24}>
+
+            { props.data.baggage.map((elem,i)=>{
+           return(
+                <>
+            {i>=3 && <Row style={{marginBottom:"20px"}} key={i}>
             <Col span={12}>
-            <div style={{fontSize:"16px",fontWeight:"600"}}>Additional 3 KG</div>
+            <div style={{fontSize:"16px",fontWeight:"600"}}>{elem.desc}</div>
             </Col>
             
             <Col span={6}>
-            <div style={{marginLeft:"10px",marginTop:"10px"}}> ₹1350</div>
+            <div style={{marginLeft:"10px",marginTop:"10px"}}> ₹{elem.amount}</div>
             </Col>
 
             <Col span={6}>
@@ -333,27 +321,16 @@ const [isLugageModal, setIsLugageModal] = useState(false);
             <Button  shape="circle" icon={<PlusOutlined />} />
             </div>
             </Col>
-          </Row>
-
-          <Row>
-            <Col span={12}>
-            <div style={{fontSize:"16px",fontWeight:"600"}}>Additional 5 KG</div>
-            </Col>
-            
-            <Col span={6}>
-            <div style={{marginLeft:"10px",marginTop:"10px"}}> ₹2250</div>
-            </Col>
-
-            <Col span={6}>
-              <div>
-            <Button shape="circle" icon={<MinusOutlined />} />
-            <span style={{ margin: '0 8px' }}>0</span>
-            <Button  shape="circle" icon={<PlusOutlined />} />
-            </div>
-            </Col>
+          </Row>}
+                </>
+           )
+         })
+            }
+         </Col>
           </Row>
     
           </Col>
+
          </Row>
          
       </Card>
@@ -362,7 +339,7 @@ const [isLugageModal, setIsLugageModal] = useState(false);
            <div style={{color:"blue",marginTop:"20px"}}>Remove all baggage</div>
         </Col>
        <Col span={8} style={{display:"flex",gap:"2.4rem",marginTop:"20px"}}>
-         <div style={{fontSize:"24px",fontWeight:"700"}}>₹ 1350</div>
+         <div style={{fontSize:"24px",fontWeight:"700"}}>₹ </div>
          <div><Button style={{width:"93px"}} type='primary' htmlType='submit'>Done</Button> </div>
        </Col>
       </Row>

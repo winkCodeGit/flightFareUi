@@ -36,6 +36,23 @@ export const getFareRules = (fareKey)=>{
     )
 }
 
+export const getMeals_Baggage = (fareRuleKey)=>{
+    return AjaxService.post(
+        BASE_URL+"/additional_info?fare_rule_key="+fareRuleKey,
+        {},
+        {}
+    ).then(
+        (res)=>res.data,
+        (err)=>{
+            if(err.response){
+                throw err.response.data;
+            }else{
+                throw 'Service Failed'
+            }
+        }
+    )
+}
+
 export const getSerachData = (params)=>{
     var url = "";
     if(params.tripType=="oneWay"){

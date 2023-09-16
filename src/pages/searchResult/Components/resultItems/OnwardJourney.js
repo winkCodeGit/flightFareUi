@@ -44,16 +44,17 @@ const OnwardJourney = (props) => {
 
 
     const handleBookTicket = (flight_key,triptype,cancellationPrice,dateChangePrice,price)=>{
-         
+        
         const airlinesData = props?.resultData[triptype]?.filter((item)=>{
             
             return item.flight_key === flight_key
         });
-        
+       
+
         navigate(`/bookTicket?airlines=${airlinesData[0]?.flight_details[0]?.airlines}&flightNo=${airlinesData[0]?.flight_details[0]?.flightNo}&airprot_from=${airlinesData[0]?.flight_details[0]?.departureFrom}&departureDate=${airlinesData[0]?.flight_details[0]?.departureDate}
         &departureTime=${airlinesData[0]?.flight_details[0]?.departureTime}&airprot_to=${airlinesData[0]?.flight_details[0]?.arrival}&arrivalDate=${airlinesData[0]?.flight_details[0]?.arrivalDate}&arrivalTime=${airlinesData[0]?.flight_details[0]?.arrivalTime}
         &duration=${airlinesData[0]?.flight_details[0]?.duration}&price=${price}&cabin_baggage=${airlinesData[0]?.flight_details[0]?.cabin_baggage}&checkin_baggage=${airlinesData[0]?.flight_details[0]?.checkin_baggage}
-        &seats=${airlinesData[0]?.seats}&seatType=${airlinesData[0]?.seatType}&cancellationFee=${cancellationPrice}&dateChangeFee=${dateChangePrice}`);
+        &seats=${airlinesData[0]?.seats}&seatType=${airlinesData[0]?.seatType}&cancellationFee=${cancellationPrice}&dateChangeFee=${dateChangePrice}&fareRuleKey=${airlinesData[0]?.fare_rule_key}`);
     } 
 
     const fareRules = async(key)=>{
