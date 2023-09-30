@@ -108,6 +108,20 @@
    
 }
 
+.date_cancelPolicy{
+    .date_cancel-card{
+        border-radius: 0px !important;
+    }
+    .ant-collapse .ant-collapse-head{
+        background-color:  #8babcf !important;
+    }
+    .ant-collapse .ant-collapse-head-title {
+        font-size: 20px;
+        font-weight: 700;
+    }
+}
+
+
 
 .payment-container{
 

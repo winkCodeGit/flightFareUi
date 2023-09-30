@@ -142,7 +142,9 @@ const [isLugageModal, setIsLugageModal] = useState(false);
             {indx<=2 && <Col style={{border:`1px solid ${clickedCol === indx+1 ? "blue" : "grey"}`
             ,background:`${clickedCol===indx+1 ?"#d6e8fc":""}`,cursor:"pointer",borderRadius:"5px",height:"70px"}} span={5}
             onClick={() => handleColClick(indx+1)}>
-              <div style={{fontSize:"16px",fontWeight:"600",paddingLeft:"10px"}}>{item.desc}</div>
+              <Popover content ={item.desc} >
+              <div style={{fontSize:"16px",fontWeight:"600",paddingLeft:"10px"}}>{(item.desc).substring(0, 18)+'...'}</div>
+              </Popover>
               <div style={{fontSize:"16px",fontWeight:"600",paddingLeft:"10px"}}>₹{item.amount}</div>
                  </Col>}
                  </>
@@ -236,7 +238,7 @@ const [isLugageModal, setIsLugageModal] = useState(false);
                 {props.data.meal.map((item,indx)=>{
            return(
                 <>
-                {indx>=3 && <Row style={{marginBottom:"10px"}}>
+            {<Row style={{marginBottom:"10px"}}>
             <Col span={12}>
             <div style={{fontSize:"16px",fontWeight:"600"}}>{item.desc}</div>
             </Col>
@@ -305,7 +307,7 @@ const [isLugageModal, setIsLugageModal] = useState(false);
             { props.data.baggage.map((elem,i)=>{
            return(
                 <>
-            {i>=3 && <Row style={{marginBottom:"20px"}} key={i}>
+            {<Row style={{marginBottom:"20px"}} key={i}>
             <Col span={12}>
             <div style={{fontSize:"16px",fontWeight:"600"}}>{elem.desc}</div>
             </Col>

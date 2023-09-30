@@ -35,15 +35,15 @@ const OnwardJourney = (props) => {
 
     const navigate = useNavigate();
 
-    const [showViewPrice, setShowViewPrice] = useState(false);
+    // const [showViewPrice, setShowViewPrice] = useState(false);
     const [showFlightDetails, setShowFlightDetails] = useState(false);
-    const [cancellationFee, setCancellationFee] = useState("");
-    const [dateChangeFee, setDateChangeFee] = useState("");
+    // const [cancellationFee, setCancellationFee] = useState("");
+    // const [dateChangeFee, setDateChangeFee] = useState("");
 
     const text= <span>1 Bag per Passenger</span> 
 
 
-    const handleBookTicket = (flight_key,triptype,cancellationPrice,dateChangePrice,price)=>{
+    const handleBookTicket = (flight_key,triptype,price)=>{
         
         const airlinesData = props?.resultData[triptype]?.filter((item)=>{
             
@@ -54,28 +54,30 @@ const OnwardJourney = (props) => {
         navigate(`/bookTicket?airlines=${airlinesData[0]?.flight_details[0]?.airlines}&flightNo=${airlinesData[0]?.flight_details[0]?.flightNo}&airprot_from=${airlinesData[0]?.flight_details[0]?.departureFrom}&departureDate=${airlinesData[0]?.flight_details[0]?.departureDate}
         &departureTime=${airlinesData[0]?.flight_details[0]?.departureTime}&airprot_to=${airlinesData[0]?.flight_details[0]?.arrival}&arrivalDate=${airlinesData[0]?.flight_details[0]?.arrivalDate}&arrivalTime=${airlinesData[0]?.flight_details[0]?.arrivalTime}
         &duration=${airlinesData[0]?.flight_details[0]?.duration}&price=${price}&cabin_baggage=${airlinesData[0]?.flight_details[0]?.cabin_baggage}&checkin_baggage=${airlinesData[0]?.flight_details[0]?.checkin_baggage}
-        &seats=${airlinesData[0]?.seats}&seatType=${airlinesData[0]?.seatType}&cancellationFee=${cancellationPrice}&dateChangeFee=${dateChangePrice}&fareRuleKey=${airlinesData[0]?.fare_rule_key}`);
+        &seats=${airlinesData[0]?.seats}&seatType=${airlinesData[0]?.seatType}&fareRuleKey=${airlinesData[0]?.fare_rule_key}`);
     } 
 
-    const fareRules = async(key)=>{
-        try {
-            const res = await getFareRules(key);
-            if(res?.fareRules[0]?.fareRule?.dateChangeFee?.isChangePermitted){
-                setDateChangeFee("Rs "+res?.fareRules[0]?.fareRule.dateChangeFee?.dateChangeRange[0].Value.toString());
-            }else{
-                setDateChangeFee("Not Allowed");
-            }
+    // const fareRules = async(key)=>{
+       
+    //     try {
+    //         const res = await getFareRules(key);
+           
+    //         if(res?.fareRules[0]?.fareRule?.dateChangeFee?.isChangePermitted){
+    //             setDateChangeFee("Rs "+res?.fareRules[0]?.fareRule.dateChangeFee?.dateChangeRange[0].Value.toString());
+    //         }else{
+    //             setDateChangeFee("Not Allowed");
+    //         }
 
-            if(res?.fareRules[0]?.fareRule?.cancellationFee?.isRefundable){
-                setCancellationFee("Rs "+res?.fareRules[0]?.fareRule.cancellationFee?.cancellationRange[0].Value.toString());
-            }else{
-                setCancellationFee("Full Amount");
-            }
+    //         if(res?.fareRules[0]?.fareRule?.cancellationFee?.isRefundable){
+    //             setCancellationFee("Rs "+res?.fareRules[0]?.fareRule.cancellationFee?.cancellationRange[0].Value.toString());
+    //         }else{
+    //             setCancellationFee("Full Amount");
+    //         }
 
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
    
   return (
     <>
@@ -137,17 +139,18 @@ const OnwardJourney = (props) => {
         </Col>
         <Col span={3}>
             <div> <Button className='book-btn' type='primary' onClick={()=>{
-                setShowViewPrice(!showViewPrice)
+                handleBookTicket(props?.item.flight_key,'onwardJourney',
+                Math.round(props?.item.flightFares[0].fareAmount.totalFare))
+                
                 setShowFlightDetails(false)
-                if(!showViewPrice){
-                 fareRules(props?.item.fare_rule_key);
-                }
-                 
-                }}>View Prices <span ><DownOutlined style={{width:"10px",marginLeft:"5px"}}/></span></Button></div>
+                }}>BOOK NOW </Button></div>
+
+
             <div style={{marginTop:"10px",marginLeft:"-10px",color:"#e03c3c"}}><span> <IoIosAirplane />
             </span> <span style={{fontSize:"16px",fontWeight:"600",cursor:"pointer"}} onClick={()=>{
+                
                 setShowFlightDetails(!showFlightDetails )
-                setShowViewPrice(false)
+              
                 }}>Flight Details</span></div>
         </Col>
         
@@ -156,7 +159,7 @@ const OnwardJourney = (props) => {
         </Col> */}
    </Row>
 
-     {showViewPrice && <Row className='showPrice-details'>
+     {/* {showViewPrice && <Row className='showPrice-details'>
        <Col span={24}>
                   
          <Row style={{paddingLeft:"44px",marginTop:"10px", background:"rgb(207 207 207 / 36%)"}}>
@@ -236,7 +239,7 @@ const OnwardJourney = (props) => {
                  })}
                 
           </Col>
-     </Row>}
+     </Row>} */}
 
      {showFlightDetails && <Row className='Showflight-details'>
          <Col span={24}>

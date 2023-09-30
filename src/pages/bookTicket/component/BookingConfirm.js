@@ -14,12 +14,12 @@ import allianceAir from '../../../assets/small/allianceAir.jpg'
 import { FaWallet, FaGooglePay } from 'react-icons/fa';
 import { SiRazorpay } from 'react-icons/si';
 import { AiFillCheckCircle } from 'react-icons/ai';
-import { BsCheckCircleFill } from 'react-icons/bs';
+import { BsArrowRight } from 'react-icons/bs';
 
 import moment from 'moment';
 import AddsOn from './AddsOn';
 import { getMeals_Baggage } from '../../../Api/LandingPage';
-
+import { getFareRules } from '../../../Api/LandingPage';
 const { Panel } = Collapse;
 const { Option } = Select;
 
@@ -41,12 +41,16 @@ const BookingConfirm = () => {
   const [activePanels, setActivePanels] = useState();
   const [showItineary, setShowItineary] = useState(true);
   const [showTicketHeader, setShowTicketHeader] = useState(false)
-  const [additionalDetails, setAdditiuonalDetails] = useState({
+  const [additionalDetails, setAdditionalDetails] = useState({
     meals:[],
     baggage:[]
   })
+  const [earlyCancellation, setEarlyCancellation] = useState("");
+  const [lateCancellation, setLateCancellation] = useState("");
+  const [earlyDateChangeFee, setEarlyDateChangeFee] = useState("");
+  const [secondDateChangeFee, setSecondDateChangeFee] = useState("");
   const [showContactForm, setShowContactForm] = useState(true)
-
+  const [dateChange, setDateChange] = useState(null);
   const [contactInfo, setContactInfo] = useState({
     mobile:"",
     email:""
@@ -58,24 +62,55 @@ const BookingConfirm = () => {
   
     try {
       const res = await getMeals_Baggage(key);
-      setAdditiuonalDetails(res);
-      console.log(res);
+      setAdditionalDetails(res);
+      
     } catch (error) {
       console.log(error)
     }
   }
 
  useEffect(() => {
-  
+
   const parsed = qs.parse(location.search);
   setFlightDetails(parsed);
   addsOnData(parsed.fareRuleKey);
   
   console.log(flightDetails)
-  
+  fareRules(parsed.fareRuleKey);
  
  }, [])
 
+ const fareRules = async(key)=>{
+       
+  try {
+      const res = await getFareRules(key);
+     
+      console.log(res);
+    
+      if(res?.fareRules[0]?.fareRule?.dateChangeFee?.isChangePermitted){
+        setDateChange(res?.fareRules[0]?.fareRule.dateChangeFee?.dateChangeRange[0]?.range?.end)
+        setEarlyDateChangeFee(res?.fareRules[0]?.fareRule.dateChangeFee?.dateChangeRange[1].Value.toString());
+        setSecondDateChangeFee (res?.fareRules[0]?.fareRule.dateChangeFee?.dateChangeRange[0].Value.toString());
+          
+      }else{
+        setEarlyDateChangeFee("Not Allowed");
+        setSecondDateChangeFee("Not Allowed");
+      }
+
+      if(res?.fareRules[0]?.fareRule?.cancellationFee?.isRefundable){
+        setEarlyCancellation(res?.fareRules[0]?.fareRule.cancellationFee?.cancellationRange[1].Value.toString());
+        setLateCancellation(res?.fareRules[0]?.fareRule.cancellationFee?.cancellationRange[0].Value.toString());
+      }else{
+        setEarlyCancellation("Full Amount");
+        setLateCancellation("Full Amount");
+      }
+
+  } catch (error) {
+      console.log(error)
+  }
+}
+
+console.log(dateChange)
  console.log(contactInfo)
  const onPanelCollapse = (key) => {
   setActivePanels(key);
@@ -85,15 +120,20 @@ const handleContinue = () => {
    // setActivePanels([]); // Set an empty array to close all panels
    setShowItineary(false);
    setShowTicketHeader(true);
-   setShowContactForm(false);
+   
 };
 
-const contactDetails = (value)=>{
-   
-   console.log(value)
+const handleContact = ()=>{
+  setShowContactForm(false)
+
 }
+// const contactDetails = (value)=>{
+   
+//    console.log(value)
+// }
 
 const rowStyle = showItineary ? { marginTop: '-29rem' } : {};
+// const rowStyle = showItineary ? { marginTop: '-29rem' } : {};
 
 const contactInformation=()=>{
     return(
@@ -290,7 +330,7 @@ const travelerDetails=()=>{
       <Col span={16}>
        <Card className='header-card' style={{borderTop:"1px solid #cfcfcf"}}>
         <Row style={{cursor:"pointer"}} onClick={()=>{setShowTicketHeader(false),
-          setShowItineary(true),setShowContactForm(true)}}>
+          setShowItineary(true)}}>
           <Col span={2}>
           <div style={{marginTop:"10px",cursor:"pointer"}} ><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
           </Col>
@@ -322,7 +362,7 @@ const travelerDetails=()=>{
          </Row>
 
 
-    {!showContactForm && <Row style={{borderTop:"1px solid grey",marginTop:"10px",cursor:"pointer"}} onClick={()=>{setShowContactForm(true)}}>
+    {/* {!showContactForm && <Row style={{borderTop:"1px solid grey",marginTop:"10px",cursor:"pointer"}} onClick={()=>{setShowContactForm(true)}}>
         <Col span={2}>
           <div style={{marginTop:"10px"}}><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
           </Col>
@@ -332,7 +372,7 @@ const travelerDetails=()=>{
           <div>E ticket will be sent here. Booking for someone else?
              <span style={{color:"blue",cursor:"pointer"}} >enter their phone number here</span> </div>
         </Col>
-      </Row>}
+      </Row>} */}
 
          </Card>
           
@@ -343,6 +383,25 @@ const travelerDetails=()=>{
     )
   }
 
+  const contactInfoClose = ()=>{
+    return(
+      <Card className='header-card' style={{borderTop:"1px solid #cfcfcf",marginTop:"10px",cursor:"pointer"}}
+       onClick={()=>{setShowContactForm(true)}}>
+      <Row>
+        <Col span={2}>
+          <div style={{marginTop:"10px"}}><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
+          </Col>
+        <Col span={20}>
+          <div style={{fontSize:"20px",fontWeight:"700"}}><span> {contactInfo.email} ,</span>
+           <span>{contactInfo.mobile} </span> </div>
+          <div>E ticket will be sent here. Booking for someone else?
+             <span style={{color:"blue",cursor:"pointer"}} >enter their phone number here</span> </div>
+        </Col>
+      </Row> 
+      </Card>
+    )
+  }
+  
   return (
      <>
      
@@ -441,37 +500,84 @@ const travelerDetails=()=>{
     </Col>
     </Row>
 
-     <Row style={{marginTop:"2rem"}}>
+     <Row className='date_cancelPolicy' style={{marginTop:"2rem"}}>
 
       <Col span={16}>
 
-      {showItineary &&  <Collapse defaultActiveKey={['2']}>
+      {showItineary &&  <Collapse bordered={false}  defaultActiveKey={['2']}>
       
+        <Card className='date_cancel-card' title={`${flightDetails.airprot_from} - ${flightDetails.airprot_to}`}>
+          <Row>
+            <Col span={16}>
+              
+              <div>Date Change allowed from ₹{earlyDateChangeFee}</div>
+              <div>Cancellation fee starts from ₹{lateCancellation}</div>
+            </Col>
+          </Row>
+          </Card>
          <Panel showArrow={true} header="Date Change Policy" key="2">
 
-            <Row style={{marginTop:"20px"}}>
-            <Col span={16}>
-              <Row>
-                <Col span={16}>
-                  <div>Date Change Fess starts from 2700</div>
+           {(earlyDateChangeFee || secondDateChangeFee) ?( <Row style={{marginTop:"20px",gap:"20px"}}>
+                <Col span={5}>
+                  <div>Change between</div>
+                  <div style={{marginTop:"10px"}}>Date change charges</div>
                 </Col>
-              </Row>
-            </Col>
-            </Row>
 
+                <Col span={4}>
+                  <div>Now</div>
+                  <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(88, 166, 92)"}}></div>
+                  <div>₹ {earlyDateChangeFee}</div>
+                </Col>
+
+                <Col span={4}>
+                <div>{moment(flightDetails.departureDate).subtract(dateChange,'days').format('Do MMMM')}</div>
+                <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(242, 191, 66)"}}></div>
+                <div>₹ {secondDateChangeFee}</div>
+                </Col>
+            
+                <Col span={4}>
+                <div>{moment(flightDetails.departureDate).format('Do MMMM')}</div>
+                <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(216, 80, 64)"}}></div>
+                 <div style={{color:"red"}}>Not Allowed</div>
+                </Col>
+
+            </Row>
+         ):
+         (
+          <div style={{color:"red"}}> Date Change Not Allowed</div>
+        )}
             </Panel>
+
 
             <Panel showArrow={true} header="Cancellation Policy" key="3">
 
-            <Row style={{marginTop:"20px"}}>
-            <Col span={16}>
-                      <Row>
-                <Col span={16}>
-                  <div>Cancellation Fess starts from 3200</div>
+           {(earlyCancellation || lateCancellation) ? (<Row style={{marginTop:"20px",gap:"20px"}}>
+                <Col span={5}>
+                  <div>Cancel between</div>
+                  <div style={{marginTop:"10px"}}>cancellation Charges</div>
                 </Col>
-              </Row>
-            </Col>
-            </Row>
+                <Col span={4}>
+                  <div>Now</div>
+                  <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(88, 166, 92)"}}></div>
+                  <div>₹{earlyCancellation}</div>
+                </Col>
+
+                <Col span={4}>
+                <div>{moment(flightDetails.departureDate).subtract(dateChange,'days').format('Do MMMM')}</div>
+                <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(242, 191, 66)"}}></div>
+                <div>{lateCancellation} </div>
+                </Col>
+            
+                <Col span={4}>
+                <div>{moment(flightDetails.departureDate).format('Do MMMM')}</div>
+                <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(216, 80, 64)"}}></div>
+                <div style={{color:"red"}}>Full Amount</div>
+                </Col>
+            </Row>):
+               (
+                <div style={{color:"red"}}>Full Amount</div>
+               )
+            }
 
             </Panel>
 
@@ -494,32 +600,41 @@ const travelerDetails=()=>{
     </Col>
 
        </Row>
-
-       
-     { showContactForm && <Row style={{ marginTop: !showContactForm ? '-20rem' : ''}}>
-        <Col span={16}>
-      <Collapse activeKey={activePanels} defaultActiveKey={['1']} onChange={onPanelCollapse}>
-      <Panel showArrow={true} header="Contact Details" key="1">
-
-          {contactInformation()}
-
-      </Panel>
-    </Collapse>
-  
-    </Col> 
-    </Row>}
-
-    
-      {showItineary && <Row style={{ marginTop: '10px'}} className='ticket-details'>
+ 
+       {showItineary && <Row style={{ marginTop: '10px'}} className='ticket-details'>
         <Col span={16}>
            <div>
            <Button className='continue-btn' htmlType="submit" type="primary"
             float='right' onClick={handleContinue}>Continue</Button>
            </div>
         </Col>
+      </Row> }      
+       
+     <Row style={{marginTop: !showItineary ? '-27rem' : ''}}>
+        <Col span={16}>
+        { showContactForm && showContactForm ? (
+      <Collapse activeKey={activePanels} defaultActiveKey={['1']} onChange={onPanelCollapse}>
+      <Panel showArrow={true} header="Contact Details" key="1">
+
+          {contactInformation()}
+
+      </Panel>
+    </Collapse>):contactInfoClose()}
+  
+    </Col> 
+    </Row>
+
+    
+      {showContactForm && <Row style={{ marginTop: !showItineary ? '-9rem' : '1rem'}} className='ticket-details'>
+        <Col span={16}>
+           <div>
+           <Button className='continue-btn' htmlType="submit" type="primary"
+            float='right' onClick={handleContact}>Continue</Button>
+           </div>
+        </Col>
       </Row> }
 
-        <Row style={{ marginTop: !showItineary ? '-27rem' : '1rem',marginBottom:"3rem"}}>
+        <Row style={{ marginTop: !showItineary ? '-6rem' : '1rem'}}>
         <Col span={16}>
       <Collapse defaultActiveKey={['1']} onChange={onPanelCollapse}>
       <Panel showArrow={false} header="Travellers Details" key="1">
