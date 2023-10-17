@@ -8,7 +8,8 @@ import { GiForkKnifeSpoon  } from 'react-icons/gi';
 const {Option} = Select;
 
 const AddsOn = (props) => {
-
+debugger
+  console.log(props);
 const [clickedCol, setClickedCol] = useState(null);
 const [clickedColLuggage, setClickedColLuggage] = useState(null);
 const [open, setOpen] = useState(false);
@@ -25,23 +26,23 @@ const [isLugageModal, setIsLugageModal] = useState(false);
 //     setOpen(newOpen);
 //   };
 
-  const handleColClick = (index) => {
-    if (clickedCol === index) {
+  const handleColClick = (indx) => {
+    if (clickedCol === indx) {
       // Col is already clicked, reset clickedCol to null
       setClickedCol(null);
     } else {
       // Col is not clicked yet, set clickedCol to the clicked index
-      setClickedCol(index);
+      setClickedCol(indx);
     }
   };
 
-  const handleColClickLuggage = (index) => {
-    if (clickedColLuggage === index) {
+  const handleColClickLuggage = (ind) => {
+    if (clickedColLuggage === ind) {
       // Col is already clicked, reset clickedCol to null
       setClickedColLuggage(null);
     } else {
       // Col is not clicked yet, set clickedCol to the clicked index
-      setClickedColLuggage(index);
+      setClickedColLuggage(ind);
     }
   };
 
@@ -360,7 +361,11 @@ const [isLugageModal, setIsLugageModal] = useState(false);
 
   return (
     <>
-    {seatDetails()}
+    
+    <Row>
+      <Col span={24}>
+       <div style={{fontSize:"22px",fontWeight:"700"}}> Choose add-ons</div>
+     {/* {seatDetails()} */}
     {mealsDetail()}
     <Modal style={{zIndex:2,marginTop:"-50px"}} className="meals-modal" title={mealsTitle()}
      width={800}  visible={isMealsModal} footer={null} onCancel={handleCancel}>
@@ -371,6 +376,8 @@ const [isLugageModal, setIsLugageModal] = useState(false);
      width={800}  visible={isLugageModal} footer={null} onCancel={handleCancel}>
         {luggageModal()}
     </Modal>
+    </Col>
+    </Row>
     </>
   )
 }

@@ -191,7 +191,7 @@ const SearchFilter = () => {
               >
                  
                 <Select className='.no-outline' showSearch placeholder={<span><MdFlightTakeoff /> {" "}Destination From</span>}>
-                  {airportName.map((airport)=>(
+                  {airportName && airportName.map((airport)=>(
                       <Option  value={airport.code}>{airport.code}{" "} - {" "}{airport.name} </Option>
                   ))}
                    

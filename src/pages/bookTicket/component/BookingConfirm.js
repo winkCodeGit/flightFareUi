@@ -45,11 +45,14 @@ const BookingConfirm = () => {
     meals:[],
     baggage:[]
   })
+  const [isAddsOn, setIsAddsOn] = useState(false);
   const [earlyCancellation, setEarlyCancellation] = useState("");
   const [lateCancellation, setLateCancellation] = useState("");
   const [earlyDateChangeFee, setEarlyDateChangeFee] = useState("");
   const [secondDateChangeFee, setSecondDateChangeFee] = useState("");
-  const [showContactForm, setShowContactForm] = useState(true)
+  const [showContactForm, setShowContactForm] = useState(false)
+  const [showTravellerInfo, setShowTravellerInfo] = useState(false)
+  const [showAddsonInfo, setShowAddsonInfo] = useState(false)
   const [dateChange, setDateChange] = useState(null);
   const [contactInfo, setContactInfo] = useState({
     mobile:"",
@@ -57,18 +60,42 @@ const BookingConfirm = () => {
   })
   // const [mobNo, setMobNo] = useState();
   // const [email,setEmail] = useState();
+  if (flightDetails.departureTime && /^\d{2}:\d{2}$/.test(flightDetails.departureTime)) {
+    const newDepartureTime = flightDetails.departureTime;
+    const [hours, minutes] = newDepartureTime.split(':').map(Number);
+  
+
+// Subtract 4 hours
+const newHours = hours - 4;
+
+// Ensure the new hours are within the valid range (0 to 23)
+if (newHours < 0) {
+  newHours += 24; // Add 24 hours to wrap around to the previous day
+}
+
+// Format the result as "HH:mm"
+var resultTime = `${String(newHours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+
+console.log("New time:", resultTime);
+  }else{
+    console.log("invalid time");
+  }
 
   const addsOnData = async(key)=>{
   
     try {
       const res = await getMeals_Baggage(key);
       setAdditionalDetails(res);
+      if( res?.meals?.length >0 || res?.baggage?.length >0){
+        setIsAddsOn(true);
+      }
       
     } catch (error) {
       console.log(error)
     }
   }
-
+  console.log(additionalDetails);
+  
  useEffect(() => {
 
   const parsed = qs.parse(location.search);
@@ -93,16 +120,16 @@ const BookingConfirm = () => {
         setSecondDateChangeFee (res?.fareRules[0]?.fareRule.dateChangeFee?.dateChangeRange[0].Value.toString());
           
       }else{
-        setEarlyDateChangeFee("Not Allowed");
-        setSecondDateChangeFee("Not Allowed");
+        setEarlyDateChangeFee("");
+        setSecondDateChangeFee("");
       }
 
       if(res?.fareRules[0]?.fareRule?.cancellationFee?.isRefundable){
-        setEarlyCancellation(res?.fareRules[0]?.fareRule.cancellationFee?.cancellationRange[1].Value.toString());
-        setLateCancellation(res?.fareRules[0]?.fareRule.cancellationFee?.cancellationRange[0].Value.toString());
+        setEarlyCancellation(res?.fareRules[0]?.fareRule.cancellationFee?.cancellationRange[1]?.Value.toString());
+        setLateCancellation(res?.fareRules[0]?.fareRule.cancellationFee?.cancellationRange[0]?.Value.toString());
       }else{
-        setEarlyCancellation("Full Amount");
-        setLateCancellation("Full Amount");
+        setEarlyCancellation("");
+        setLateCancellation("");
       }
 
   } catch (error) {
@@ -125,6 +152,14 @@ const handleContinue = () => {
 
 const handleContact = ()=>{
   setShowContactForm(false)
+  setShowTravellerInfo(true);
+
+}
+
+const handleTravellerInfo = ()=>{
+  
+  setShowAddsonInfo(true)
+  setShowTravellerInfo(false);
 
 }
 // const contactDetails = (value)=>{
@@ -135,48 +170,85 @@ const handleContact = ()=>{
 const rowStyle = showItineary ? { marginTop: '-29rem' } : {};
 // const rowStyle = showItineary ? { marginTop: '-29rem' } : {};
 
+const validateMessages = {
+  required: '${label} is required!',
+  types: {
+    email: '${label} is not a valid email!',
+    
+  },
+  number: {
+    range: '${label} must be between ${min} and ${max}',
+  },
+};
+
+const onFinish = (values) => {
+  console.log(values);
+};
+
+
 const contactInformation=()=>{
     return(
      <>
       <Row className='contact-info'>
-          <Col span={24}>
-            <Row>
                 <div>
                       <h1>Contact Information </h1>
                 </div>
 
-                <Col className='contact-nfo-inner' span={24}>
+           <Col className='contact-nfo-inner' span={24}>
               <div>Your ticket and flight info will be sent here</div>
-              
-                
-                <Row>
-                <Col span={10}>
+         <Row>
+          <Form 
+           name="nest-messages"
+           onFinish={onFinish}
+           layout="inline"
+           validateMessages={validateMessages}
+          >
+       
                 <Input 
                   defaultValue="+91"
-                  style={{width:"20%"}}
+                  style={{width:"10%"}}
                  />
+                
+                 <Form.Item
+                  name={'Mob'}
+                  style={{width:"39%"}}
+                  rules={[
+                    {
+                      type: 'number',
+                      min: 10,
+                      
+                    },
+                  ]}
+                  >
                  <Input 
                   prefix={<MobileOutlined className="site-form-item-icon" />} placeholder="Mobile Number"
-                  style={{width:"80%"}}
+                  style={{width:"100%"}}
                   onChange={(e)=>setContactInfo({...contactInfo, mobile:e.target.value})}
                  />
-                 </Col>
-                  
-                  <Col span={10} style={{marginLeft:"20px"}}>
+                </Form.Item>
+               
+                  <Form.Item
+                      name={'email'}
+                      style={{width:"39%"}}
+                      rules={[
+                        {
+                          type: 'email',
+                        },
+                      ]}
+                      >
                   <Input
+                    style={{width:"100%"}}
                     prefix={<MailOutlined className="site-form-item-icon" />}
                     placeholder="Email Id"
                     onChange={(e)=>setContactInfo({...contactInfo, email:e.target.value})}
                 />
-                  </Col>
-                  <div>
-                
+                  </Form.Item>
+                 
+                 
+              </Form>
+              <div>
                   <Checkbox>Update me on order status, news, and exclusive offers via sms, whatsapp and email</Checkbox>
-                
                 </div>
-              </Row>
-
-            </Col> 
               </Row>
           </Col>
         </Row>
@@ -507,13 +579,7 @@ const travelerDetails=()=>{
       {showItineary &&  <Collapse bordered={false}  defaultActiveKey={['2']}>
       
         <Card className='date_cancel-card' title={`${flightDetails.airprot_from} - ${flightDetails.airprot_to}`}>
-          <Row>
-            <Col span={16}>
-              
-              <div>Date Change allowed from ₹{earlyDateChangeFee}</div>
-              <div>Cancellation fee starts from ₹{lateCancellation}</div>
-            </Col>
-          </Row>
+         
           </Card>
          <Panel showArrow={true} header="Date Change Policy" key="2">
 
@@ -530,13 +596,13 @@ const travelerDetails=()=>{
                 </Col>
 
                 <Col span={4}>
-                <div>{moment(flightDetails.departureDate).subtract(dateChange,'days').format('Do MMMM')}</div>
+                <div>{moment(flightDetails.departureDate).subtract(dateChange,'days').format('Do MMMM')}, {flightDetails.departureTime}</div>
                 <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(242, 191, 66)"}}></div>
                 <div>₹ {secondDateChangeFee}</div>
                 </Col>
             
                 <Col span={4}>
-                <div>{moment(flightDetails.departureDate).format('Do MMMM')}</div>
+                <div>{moment(flightDetails.departureDate).format('Do MMMM')}, {resultTime}</div>
                 <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(216, 80, 64)"}}></div>
                  <div style={{color:"red"}}>Not Allowed</div>
                 </Col>
@@ -556,30 +622,40 @@ const travelerDetails=()=>{
                   <div>Cancel between</div>
                   <div style={{marginTop:"10px"}}>cancellation Charges</div>
                 </Col>
-                <Col span={4}>
+               { earlyCancellation ?( <Col span={4}>
                   <div>Now</div>
                   <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(88, 166, 92)"}}></div>
-                  <div>₹{earlyCancellation}</div>
-                </Col>
+                  <div>₹ {earlyCancellation}</div>
+                </Col>):
 
-                <Col span={4}>
-                <div>{moment(flightDetails.departureDate).subtract(dateChange,'days').format('Do MMMM')}</div>
+                   ( <Col span={4}>
+                    <div>Now</div>
+                    <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(88, 166, 92)"}}></div>
+                    <div>₹ {lateCancellation}</div>
+                  </Col>)
+                 
+                }
+
+               { earlyCancellation && <Col span={4}>
+               
+                <div>{moment(flightDetails.departureDate).subtract(dateChange,'days').format('Do MMMM')}, {flightDetails.departureTime}</div>
                 <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(242, 191, 66)"}}></div>
-                <div>{lateCancellation} </div>
-                </Col>
+                <div>₹ {lateCancellation} </div>
+                </Col>}
             
                 <Col span={4}>
-                <div>{moment(flightDetails.departureDate).format('Do MMMM')}</div>
+                <div>{moment(flightDetails.departureDate).format('Do MMMM')}, {resultTime}</div>
                 <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(216, 80, 64)"}}></div>
                 <div style={{color:"red"}}>Full Amount</div>
                 </Col>
             </Row>):
                (
-                <div style={{color:"red"}}>Full Amount</div>
+                <div style={{color:"red"}}>Full Amount will be charged for cancellation</div>
                )
             }
 
             </Panel>
+            
 
          </Collapse>}
 
@@ -612,11 +688,15 @@ const travelerDetails=()=>{
        
      <Row style={{marginTop: !showItineary ? '-27rem' : ''}}>
         <Col span={16}>
-        { showContactForm && showContactForm ? (
+
+        {
+         showContactForm && showContactForm ? (
       <Collapse activeKey={activePanels} defaultActiveKey={['1']} onChange={onPanelCollapse}>
       <Panel showArrow={true} header="Contact Details" key="1">
 
           {contactInformation()}
+
+          
 
       </Panel>
     </Collapse>):contactInfoClose()}
@@ -624,17 +704,21 @@ const travelerDetails=()=>{
     </Col> 
     </Row>
 
-    
-      {showContactForm && <Row style={{ marginTop: !showItineary ? '-9rem' : '1rem'}} className='ticket-details'>
+    { showContactForm &&
+    <Row style={{ marginTop: !showItineary ? '-9rem' : '1rem'}} className='ticket-details'>
         <Col span={16}>
            <div>
            <Button className='continue-btn' htmlType="submit" type="primary"
             float='right' onClick={handleContact}>Continue</Button>
            </div>
         </Col>
-      </Row> }
+      </Row>}
 
-        <Row style={{ marginTop: !showItineary ? '-6rem' : '1rem'}}>
+       
+
+      {showTravellerInfo &&
+      <>
+      <Row style={{ marginTop: !showItineary ? '-6rem' : '1rem'}}>
         <Col span={16}>
       <Collapse defaultActiveKey={['1']} onChange={onPanelCollapse}>
       <Panel showArrow={false} header="Travellers Details" key="1">
@@ -656,28 +740,33 @@ const travelerDetails=()=>{
     <Row>
         <Col span={16}>
            <div>
-           <Button className='continue-btn' htmlType="submit" type="primary"
-            float='right'>Continue</Button>
+           <Button className='continue-btn' type="primary"
+            float='right' onClick={handleTravellerInfo}>Continue</Button>
            </div>
         </Col>
       </Row>
+      </>  
+}
 
-    <Row className='adds-on'>
+   { isAddsOn && showAddsonInfo &&
+   <>
+   <Row className='adds-on'>
       <Col span={16}>
-      {(additionalDetails?.meals?.length >0 || additionalDetails?.baggage?.length >0) && <AddsOn data={additionalDetails} />}
+      <AddsOn data={additionalDetails} />
       </Col>
     </Row>
 
-   
     <Row>
         <Col span={16}>
            <div>
            <Button className='continue-btn' htmlType="submit" type="primary"
-            float='right'>Continue</Button>
+            float='right'>Continue to Payment</Button>
            </div>
         </Col>
-      </Row>
-
+      </Row> 
+        </>
+      }
+        
        {/* {ticketPayment()} */}
        
     </Space>
