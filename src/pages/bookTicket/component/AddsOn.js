@@ -7,8 +7,10 @@ import { MdOutlineLuggage } from 'react-icons/md';
 import { GiForkKnifeSpoon  } from 'react-icons/gi';
 const {Option} = Select;
 
+
+
 const AddsOn = (props) => {
-debugger
+
   console.log(props);
 const [clickedCol, setClickedCol] = useState(null);
 const [clickedColLuggage, setClickedColLuggage] = useState(null);
@@ -177,7 +179,7 @@ const [isLugageModal, setIsLugageModal] = useState(false);
           <Card>
           <Row className='filter-container'>
           <Col className='border-active' style={{border:`1px solid ${clickedColLuggage === 0 ? "blue" : "grey"}`
-           ,background:`${clickedColLuggage===0 ?"#d6e8fc":""}`,cursor:"pointer",borderRadius:"5px",height:"70px"}}
+           ,background:`${clickedColLuggage === 0 ? "#d6e8fc":""}`,cursor:"pointer",borderRadius:"5px",height:"70px"}}
            span={2} onClick={() => handleColClickLuggage(0)}>
           <div style={{fontSize:"16px",fontWeight:"600",paddingLeft:"10px"}}>Default ₹0</div>
            
@@ -186,9 +188,9 @@ const [isLugageModal, setIsLugageModal] = useState(false);
     {props.data.baggage.map((item,ind)=>{
            return(
             <>
-            {ind<=2 && <Col style={{border:`1px solid ${clickedCol === ind+1 ? "blue" : "grey"}`
-            ,background:`${clickedCol===ind+1 ?"#d6e8fc":""}`,cursor:"pointer",borderRadius:"5px",height:"70px"}} span={5}
-            onClick={() => handleColClick(ind+1)}>
+            {ind<=2 && <Col style={{border:`1px solid ${clickedColLuggage === ind+1 ? "blue" : "grey"}`
+            ,background:`${clickedColLuggage===ind+1 ?"#d6e8fc":""}`,cursor:"pointer",borderRadius:"5px",height:"70px"}} span={5}
+            onClick={() => handleColClickLuggage(ind+1)}>
               <div style={{fontSize:"15px",fontWeight:"600",paddingLeft:"10px"}}>{item.desc}</div>
               <div style={{fontSize:"16px",fontWeight:"600",paddingLeft:"10px"}}>₹{item.amount}</div>
                  </Col>}

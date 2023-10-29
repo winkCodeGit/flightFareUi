@@ -22,7 +22,7 @@ import { getFareRules } from '../../../../Api/LandingPage'
 const { Panel } = Collapse;
 const airlineIcon = {
     "IndiGo":indigo,
-    "AirAsia India":airAsia,
+    "Air India Express":airAsia,
     "Vistara":vistara,
     "SpiceJet":spicejet,
     "AirIndia":airIndia,
@@ -49,8 +49,8 @@ const OnwardJourney = (props) => {
             
             return item.flight_key === flight_key
         });
-       
-
+       localStorage.setItem('airlinesData',JSON.stringify(airlinesData));
+   
         navigate(`/bookTicket?airlines=${airlinesData[0]?.flight_details[0]?.airlines}&flightNo=${airlinesData[0]?.flight_details[0]?.flightNo}&airprot_from=${airlinesData[0]?.flight_details[0]?.departureFrom}&departureDate=${airlinesData[0]?.flight_details[0]?.departureDate}
         &departureTime=${airlinesData[0]?.flight_details[0]?.departureTime}&airprot_to=${airlinesData[0]?.flight_details[0]?.arrival}&arrivalDate=${airlinesData[0]?.flight_details[0]?.arrivalDate}&arrivalTime=${airlinesData[0]?.flight_details[0]?.arrivalTime}
         &duration=${airlinesData[0]?.flight_details[0]?.duration}&price=${price}&cabin_baggage=${airlinesData[0]?.flight_details[0]?.cabin_baggage}&checkin_baggage=${airlinesData[0]?.flight_details[0]?.checkin_baggage}
@@ -249,11 +249,12 @@ const OnwardJourney = (props) => {
                 <div style={{fontSize:"18px",fontWeight:"700",color:"grey",marginLeft:"31rem"}}>Flight Details</div>
             </Col>
         </Row>
+
              {props?.item['flight_details'] && props?.item['flight_details'].length>0 && props?.item['flight_details']?.map((elem,indx)=>{
               
             return(
             <>
-                <Row style={{paddingLeft:"80px", border:"1px solid #e6e6e6",borderBottom:"none"}}>
+                <Row key={indx} style={{paddingLeft:"80px", border:"1px solid #e6e6e6",borderBottom:"none"}}>
                 <Col span={4}>
                 <div>{<Image style={{width:"20%",marginTop:"10px"}} src={airlineIcon[elem.airlines]} preview={false}/>}</div>
                     <div style={{fontSize:"16px",fontWeight:"650",marginTop:"12px"}}>{elem.airlines}</div>
@@ -309,6 +310,7 @@ const OnwardJourney = (props) => {
             </>
                     )
                 })}
+                
             </Col>
             </Row>}
      

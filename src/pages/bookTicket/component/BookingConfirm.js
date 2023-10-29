@@ -25,7 +25,7 @@ const { Option } = Select;
 
 const airlineIcon = {
   "IndiGo":indigo,
-  "AirAsia India":airAsia,
+  "Air India Express":airAsia,
   "Vistara":vistara,
   "SpiceJet":spicejet,
   "AirIndia":airIndia,
@@ -50,10 +50,13 @@ const BookingConfirm = () => {
   const [lateCancellation, setLateCancellation] = useState("");
   const [earlyDateChangeFee, setEarlyDateChangeFee] = useState("");
   const [secondDateChangeFee, setSecondDateChangeFee] = useState("");
-  const [showContactForm, setShowContactForm] = useState(false)
-  const [showTravellerInfo, setShowTravellerInfo] = useState(false)
-  const [showAddsonInfo, setShowAddsonInfo] = useState(false)
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [showContactClose, setShowContactClose] = useState(false);
+  const [showTravellerInfo, setShowTravellerInfo] = useState(false);
+  const [showTrvallerClose, setShowTravellerClose] = useState(false);
+  const [showAddsonInfo, setShowAddsonInfo] = useState(false);
   const [dateChange, setDateChange] = useState(null);
+  const[airlinesData, setAirlinesData] = useState(JSON.parse(localStorage.getItem('airlinesData')));
   const [contactInfo, setContactInfo] = useState({
     mobile:"",
     email:""
@@ -97,7 +100,8 @@ console.log("New time:", resultTime);
   console.log(additionalDetails);
   
  useEffect(() => {
-
+ debugger
+ console.log(airlinesData)
   const parsed = qs.parse(location.search);
   setFlightDetails(parsed);
   addsOnData(parsed.fareRuleKey);
@@ -147,12 +151,17 @@ const handleContinue = () => {
    // setActivePanels([]); // Set an empty array to close all panels
    setShowItineary(false);
    setShowTicketHeader(true);
+   setShowContactForm(true)
+   setShowContactClose(false)
+   
    
 };
 
 const handleContact = ()=>{
   setShowContactForm(false)
   setShowTravellerInfo(true);
+  setShowContactClose(true)
+  setShowTravellerClose(false)
 
 }
 
@@ -160,6 +169,7 @@ const handleTravellerInfo = ()=>{
   
   setShowAddsonInfo(true)
   setShowTravellerInfo(false);
+  setShowTravellerClose(true)
 
 }
 // const contactDetails = (value)=>{
@@ -170,16 +180,16 @@ const handleTravellerInfo = ()=>{
 const rowStyle = showItineary ? { marginTop: '-29rem' } : {};
 // const rowStyle = showItineary ? { marginTop: '-29rem' } : {};
 
-const validateMessages = {
-  required: '${label} is required!',
-  types: {
-    email: '${label} is not a valid email!',
-    
-  },
-  number: {
-    range: '${label} must be between ${min} and ${max}',
-  },
+const emailValidator = {
+  type: 'email',
+  message: 'Invalid email address',
 };
+
+const phoneValidator = {
+  pattern: /^[0-9]*$/,
+  message: 'Invalid phone number',
+};
+
 
 const onFinish = (values) => {
   console.log(values);
@@ -198,28 +208,27 @@ const contactInformation=()=>{
               <div>Your ticket and flight info will be sent here</div>
          <Row>
           <Form 
-           name="nest-messages"
+           name="travellerForm"
            onFinish={onFinish}
            layout="inline"
-           validateMessages={validateMessages}
+           
           >
        
                 <Input 
                   defaultValue="+91"
-                  style={{width:"10%"}}
+                  style={{width:"8%",height:"34px",marginRight:"4px"}}
                  />
                 
                  <Form.Item
-                  name={'Mob'}
-                  style={{width:"39%"}}
-                  rules={[
-                    {
-                      type: 'number',
-                      min: 10,
-                      
-                    },
-                  ]}
-                  >
+                 
+                 name="mobile"
+                 rules={[
+                   { required: true, message: 'Please enter your mobile number!' },
+                   phoneValidator,
+                   { min: 10, message: 'Mobile number must be at least 10 digits.' },
+                   { max: 10, message: 'Mobile number cannot exceed 10 digits.' },
+                 ]}
+               >
                  <Input 
                   prefix={<MobileOutlined className="site-form-item-icon" />} placeholder="Mobile Number"
                   style={{width:"100%"}}
@@ -228,14 +237,13 @@ const contactInformation=()=>{
                 </Form.Item>
                
                   <Form.Item
-                      name={'email'}
-                      style={{width:"39%"}}
-                      rules={[
-                        {
-                          type: 'email',
-                        },
-                      ]}
-                      >
+                      
+                       name="email"
+                       rules={[
+                         { required: true, message: 'Please enter your email!' },
+                         emailValidator,
+                       ]}
+                     >
                   <Input
                     style={{width:"100%"}}
                     prefix={<MailOutlined className="site-form-item-icon" />}
@@ -395,17 +403,84 @@ const travelerDetails=()=>{
        
       }
 
+function ticketData(){
+   return(
+    <>
+    <Row className='airlines-detail'>
+    {airlinesData[0]['flight_details'] && airlinesData[0]['flight_details'].length>0 && airlinesData[0]['flight_details']?.map((elem,indx)=>{
+              
+              return(
+              <>
+                  <Row key={indx} style={{paddingLeft:"80px", border:"1px solid #e6e6e6",borderBottom:"none"}}>
+                  <Col span={4}>
+                  <div>{<Image style={{width:"20%",marginTop:"10px"}} src={airlineIcon[elem.airlines]} preview={false}/>}</div>
+                      <div style={{fontSize:"16px",fontWeight:"650",marginTop:"12px"}}>{elem.airlines}</div>
+                      <div style={{fontSize:"14px",fontWeight:"600",color:"grey"}}>{elem.flightNo}</div>
+                  
+                  </Col>
+  
+                  <Col span={4}>
+                  <div style={{fontSize:"16px",fontWeight:"600",marginTop:"10px"}}>{elem.departureTime}</div>
+                  <div style={{fontSize:"14px",color:"grey"}}>{elem.departureFrom}</div>
+                  <div style={{fontSize:"14px",color:"grey"}}>
+                  {moment(elem.departureDate).format('Do MMMM, YYYY')}</div>
+                  </Col>
+                  
+              <Col span={6}>
+                  <div style={{fontSize:"15px",fontWeight:"600",marginLeft:"46px",color:"grey",marginTop:"41px"}}>
+                      {`${Math.floor((elem.duration)/60)} HRS ${(elem.duration)%60} MINS`}</div>
+  
+               <div style={{marginTop:"31px"}}>
+                   {elem.layover_time !== null ? (
+                      <>
+                       <div className='layover-time' style={{ fontSize: "18px", color: "grey",fontWeight:"750",marginLeft:"-50px" }}>
+                          <div></div>
+                          <div className='layover-text'>
+                             Lay Over {`${Math.floor(elem.layover_time / 60)} HRS ${elem.layover_time % 60} MINS`}
+                          </div>
+                         <div></div>
+                      </div>
+                      </>
+                      
+                      
+                  ) : null}
+                   </div>
+                  
+              </Col>
+  
+              <Col span={4}>
+                  <div style={{fontSize:"16px",fontWeight:"600",marginTop:"10px",marginLeft:"3rem"}}>{elem.arrivalTime}</div>
+                  <div style={{fontSize:"14px",color:"grey",marginLeft:"3rem"}}>{elem.arrival}</div>
+                  <div style={{fontSize:"14px",color:"grey",marginLeft:"3rem"}}>
+                  {moment(elem.arrivalDate).format('Do MMMM, YYYY')}</div>
+                  </Col>
+  
+              
+               
+                  </Row>
+  
+              </>
+                      )
+                  })}
+
+        
+   </Row>
+   </>
+   )
+}
 
   function headerDesign(){
+    debugger
     return(
       <>
       <Col span={16}>
        <Card className='header-card' style={{borderTop:"1px solid #cfcfcf"}}>
         <Row style={{cursor:"pointer"}} onClick={()=>{setShowTicketHeader(false),
-          setShowItineary(true)}}>
+          setShowItineary(true),setShowTravellerInfo(false),setShowAddsonInfo(false)}}>
           <Col span={2}>
           <div style={{marginTop:"10px",cursor:"pointer"}} ><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
           </Col>
+
           <Col span={6} style={{display:"flex"}}>
              <div><Image style={{width:"3.5rem"}} src={airlineIcon[flightDetails.airlines]} preview={false}></Image> </div>
              <div style={{marginLeft:"10px"}}>
@@ -431,6 +506,8 @@ const travelerDetails=()=>{
              <div style={{fontSize:"16px",fontWeight:"600"}}>{flightDetails.airprot_to}</div>
              <div style={{fontSize:"16px",fontWeight:"600"}}>{moment(flightDetails.arrivalDate).format('Do MMMM, YYYY')}</div>
            </Col>
+          
+
          </Row>
 
 
@@ -458,7 +535,8 @@ const travelerDetails=()=>{
   const contactInfoClose = ()=>{
     return(
       <Card className='header-card' style={{borderTop:"1px solid #cfcfcf",marginTop:"10px",cursor:"pointer"}}
-       onClick={()=>{setShowContactForm(true)}}>
+       onClick={()=>{setShowContactForm(true),setShowContactClose(false),
+       setShowTravellerInfo(false),setShowAddsonInfo(false)}}>
       <Row>
         <Col span={2}>
           <div style={{marginTop:"10px"}}><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
@@ -474,6 +552,49 @@ const travelerDetails=()=>{
     )
   }
   
+  const travellerInfoClose = ()=>{
+    return(
+      
+
+      <Card className='header-card' style={{borderTop:"1px solid #cfcfcf",cursor:"pointer"}}
+       onClick={()=>{setShowTravellerInfo(true),setShowTravellerClose(false),setShowAddsonInfo(false)}}>
+      <Row>
+        <Col span={2}>
+          <div style={{marginTop:"10px"}}><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
+          </Col>
+        <Col span={20}>
+          <div style={{fontSize:"20px",fontWeight:"700",color:"blue"}}>
+                 Traveller's details saved
+           </div>
+        </Col>
+      </Row> 
+      </Card>
+      
+    )
+  }
+
+  // const addsOnInfoClose = ()=>{
+  //   return(
+      
+  //     <Card className='header-card' style={{borderTop:"1px solid #cfcfcf",cursor:"pointer"}}
+  //      onClick={()=>{}}>
+  //     <Row>
+  //       <Col span={2}>
+  //         <div style={{marginTop:"10px"}}><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
+  //         </Col>
+  //       <Col span={20}>
+  //         <div style={{fontSize:"18px",fontWeight:"700",color:"blue"}}>
+  //                meals,check-in baggages selected
+  //          </div>
+  //       </Col>
+  //     </Row> 
+  //     </Card>
+      
+  //   )
+  // }
+
+
+
   return (
      <>
      
@@ -506,7 +627,8 @@ const travelerDetails=()=>{
         </Card>
 
       <Card className='flight-details-body' style={{borderTop:"1px solid #cfcfcf"}}>
-        <Row>
+
+        {/* <Row>
           <Col span={6} style={{display:"flex"}}>
              <div style={{marginLeft:"-40px"}}><Image src={airlineIcon[flightDetails.airlines]} preview={false}></Image> </div>
              <div style={{marginLeft:"10px"}}>
@@ -532,7 +654,8 @@ const travelerDetails=()=>{
              <div style={{fontSize:"18px",fontWeight:"600"}}>{flightDetails.airprot_to}</div>
              <div style={{fontSize:"18px",fontWeight:"600"}}>{moment(flightDetails.arrivalDate).format('Do MMMM, YYYY')}</div>
            </Col>
-         </Row>
+         </Row> */}
+            {ticketData()}
          </Card>
 
       </Col>
@@ -558,7 +681,7 @@ const travelerDetails=()=>{
     <Col className='fare-container' span={8}>
       
          <Card className='card-style' title="Fare Summary" >
-           <div className='fare-div1'> <span>Base fare</span> <span style={{float:"right"}}>₹ 6050</span>
+           <div className='fare-div1'> <span>Base fare</span> <span style={{float:"right"}}>₹ {flightDetails.price}</span>
 
            </div>
            <div className='fare-div1'><span>Taxes and fare</span> <span style={{float:"right"}}>₹ 600</span>
@@ -686,26 +809,25 @@ const travelerDetails=()=>{
         </Col>
       </Row> }      
        
-     <Row style={{marginTop: !showItineary ? '-27rem' : ''}}>
+     
+       <Row style={{marginTop: !showItineary ? '-27rem' : ''}}>
         <Col span={16}>
 
-        {
-         showContactForm && showContactForm ? (
+        {  showContactForm && 
       <Collapse activeKey={activePanels} defaultActiveKey={['1']} onChange={onPanelCollapse}>
       <Panel showArrow={true} header="Contact Details" key="1">
 
           {contactInformation()}
 
-          
-
       </Panel>
-    </Collapse>):contactInfoClose()}
-  
+    </Collapse>
+    }
+        { showContactClose && contactInfoClose()} 
     </Col> 
-    </Row>
+    </Row> 
 
     { showContactForm &&
-    <Row style={{ marginTop: !showItineary ? '-9rem' : '1rem'}} className='ticket-details'>
+    <Row style={{ marginTop: !showItineary ? '-11rem' : '5px'}} className='ticket-details'>
         <Col span={16}>
            <div>
            <Button className='continue-btn' htmlType="submit" type="primary"
@@ -717,27 +839,25 @@ const travelerDetails=()=>{
        
 
       {showTravellerInfo &&
-      <>
-      <Row style={{ marginTop: !showItineary ? '-6rem' : '1rem'}}>
+      
+      <Row style={{ marginTop: showContactForm ? '-6rem' : '-18rem'}}>
         <Col span={16}>
+
       <Collapse defaultActiveKey={['1']} onChange={onPanelCollapse}>
       <Panel showArrow={false} header="Travellers Details" key="1">
-
-         
 
           {[1,2].map((i)=>{
 
             return travelerDetails()
               
           })}
-
       </Panel>
     </Collapse>
   
     </Col> 
-    </Row>
+    </Row> }
 
-    <Row>
+    {showTravellerInfo && <Row>
         <Col span={16}>
            <div>
            <Button className='continue-btn' type="primary"
@@ -745,27 +865,34 @@ const travelerDetails=()=>{
            </div>
         </Col>
       </Row>
-      </>  
-}
+        
+      }
+
+       {showTrvallerClose && <Row style={{marginTop: showContactForm ? '-6rem' : (showItineary ? '0' : '-18rem') }}>
+        <Col span={16}>
+         {travellerInfoClose()} 
+      </Col>
+      </Row>}
 
    { isAddsOn && showAddsonInfo &&
-   <>
-   <Row className='adds-on'>
+   
+   <Row className='adds-on' style={{ marginTop: showTravellerInfo ? '-6rem' : "-5rem"}}>
       <Col span={16}>
       <AddsOn data={additionalDetails} />
       </Col>
     </Row>
+    }
 
-    <Row>
+   {showTrvallerClose && <Row style={{marginBottom:"20px "}}>
         <Col span={16}>
            <div>
            <Button className='continue-btn' htmlType="submit" type="primary"
             float='right'>Continue to Payment</Button>
            </div>
         </Col>
-      </Row> 
-        </>
-      }
+      </Row>} 
+        
+      
         
        {/* {ticketPayment()} */}
        
