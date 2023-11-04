@@ -464,7 +464,7 @@ function ticketData(){
 }
 
   function headerDesign(){
-    debugger
+    // debugger
     return(
       <>
       <Col span={16}>
@@ -503,19 +503,6 @@ function ticketData(){
           
 
          </Row>
-
-
-    {/* {!showContactForm && <Row style={{borderTop:"1px solid grey",marginTop:"10px",cursor:"pointer"}} onClick={()=>{setShowContactForm(true)}}>
-        <Col span={2}>
-          <div style={{marginTop:"10px"}}><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
-          </Col>
-        <Col span={20}>
-          <div style={{fontSize:"20px",fontWeight:"700"}}><span> {contactInfo.email} ,</span>
-           <span>{contactInfo.mobile} </span> </div>
-          <div>E ticket will be sent here. Booking for someone else?
-             <span style={{color:"blue",cursor:"pointer"}} >enter their phone number here</span> </div>
-        </Col>
-      </Row>} */}
 
          </Card>
           
@@ -649,13 +636,13 @@ function ticketData(){
     <Col className='fare-container' span={8}>
       
          <Card className='card-style' title="Fare Summary" >
-           <div className='fare-div1'> <span>Base fare</span> <span style={{float:"right"}}>₹ {flightDetails.price}</span>
+           <div className='fare-div1'> <span>Base fare</span> <span style={{float:"right"}}>₹ {airlinesData[0]['flightFares'][0]?.fareAmount?.baseFare}</span>
 
            </div>
-           <div className='fare-div1'><span>Taxes and fare</span> <span style={{float:"right"}}>₹ 600</span>
+           <div className='fare-div1'><span>Taxes and fare</span> <span style={{float:"right"}}>₹ {Math.round(airlinesData[0]['flightFares'][0]?.fareAmount?.tax)}</span>
 
            </div>
-           <div style={{background:"rgb(221, 221, 221)"}} className='fare-div1'><span>Total Fare </span> <span style={{float:"right"}}>₹ 6650</span>
+           <div style={{background:"rgb(221, 221, 221)"}} className='fare-div1'><span>Total Fare </span> <span style={{float:"right"}}>₹ {Math.round(airlinesData[0]['flightFares'][0]?.fareAmount?.totalFare)}</span>
 
            </div>
           </Card> 

@@ -156,7 +156,8 @@ const [isLugageModal, setIsLugageModal] = useState(false);
 
             <Col style={{border:"1px solid grey",borderRadius:"5px",height:"70px",cursor:"pointer"}} span={2}
               onClick={showMealModal} >
-              +{props.data.meal.length-3} options
+                <div style={{marginTop:"5px",fontSize:"15px",fontWeight:"600"}}> +{props.data.meal.length-3} options</div>
+              
               </Col>
              </Row> 
      
@@ -201,7 +202,8 @@ const [isLugageModal, setIsLugageModal] = useState(false);
           
           <Col style={{border:"1px solid grey",borderRadius:"5px",height:"70px",cursor:"pointer"}} span={2}
             onClick={showLugageModal} >
-            +{props.data.baggage.length-3} options
+              <div style={{marginTop:"5px",fontSize:"15px",fontWeight:"600"}}> +{props.data.baggage.length-3} options</div>
+
             </Col>
 
            </Row> 
