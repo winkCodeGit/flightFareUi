@@ -100,7 +100,7 @@ console.log("New time:", resultTime);
   console.log(additionalDetails);
   
  useEffect(() => {
- debugger
+
  console.log(airlinesData)
   const parsed = qs.parse(location.search);
   setFlightDetails(parsed);
@@ -406,21 +406,21 @@ const travelerDetails=()=>{
 function ticketData(){
    return(
     <>
-    <Row className='airlines-detail'>
+    
     {airlinesData[0]['flight_details'] && airlinesData[0]['flight_details'].length>0 && airlinesData[0]['flight_details']?.map((elem,indx)=>{
               
               return(
               <>
-                  <Row key={indx} style={{paddingLeft:"80px", border:"1px solid #e6e6e6",borderBottom:"none"}}>
+                  <Row key={indx}>
                   <Col span={4}>
                   <div>{<Image style={{width:"20%",marginTop:"10px"}} src={airlineIcon[elem.airlines]} preview={false}/>}</div>
-                      <div style={{fontSize:"16px",fontWeight:"650",marginTop:"12px"}}>{elem.airlines}</div>
-                      <div style={{fontSize:"14px",fontWeight:"600",color:"grey"}}>{elem.flightNo}</div>
+                      <div style={{fontSize:"16px",fontWeight:"650",marginLeft:"17px"}}>{elem.airlines}</div>
+                      <div style={{fontSize:"14px",fontWeight:"600",color:"grey",marginLeft:"17px"}}>{elem.flightNo}</div>
                   
                   </Col>
   
                   <Col span={4}>
-                  <div style={{fontSize:"16px",fontWeight:"600",marginTop:"10px"}}>{elem.departureTime}</div>
+                  <div style={{fontSize:"16px",fontWeight:"600",marginTop:"13px"}}>{elem.departureTime}</div>
                   <div style={{fontSize:"14px",color:"grey"}}>{elem.departureFrom}</div>
                   <div style={{fontSize:"14px",color:"grey"}}>
                   {moment(elem.departureDate).format('Do MMMM, YYYY')}</div>
@@ -448,24 +448,18 @@ function ticketData(){
                   
               </Col>
   
-              <Col span={4}>
-                  <div style={{fontSize:"16px",fontWeight:"600",marginTop:"10px",marginLeft:"3rem"}}>{elem.arrivalTime}</div>
-                  <div style={{fontSize:"14px",color:"grey",marginLeft:"3rem"}}>{elem.arrival}</div>
-                  <div style={{fontSize:"14px",color:"grey",marginLeft:"3rem"}}>
+              <Col span={6}>
+                  <div style={{fontSize:"16px",fontWeight:"600",marginTop:"13px",marginLeft:"6rem"}}>{elem.arrivalTime}</div>
+                  <div style={{fontSize:"14px",color:"grey",marginLeft:"6rem"}}>{elem.arrival}</div>
+                  <div style={{fontSize:"14px",color:"grey",marginLeft:"6rem"}}>
                   {moment(elem.arrivalDate).format('Do MMMM, YYYY')}</div>
                   </Col>
-  
-              
-               
                   </Row>
   
               </>
                       )
                   })}
-
-        
-   </Row>
-   </>
+           </>
    )
 }
 
@@ -607,8 +601,9 @@ function ticketData(){
         
       <Row>
          <Col span={24}>
-          <div style={{fontSize:"25px",fontWeight:"700",cursor:"pointer"}}>Review Your Itinerary</div>
-         <Card className='flight-details'>
+          <div style={{fontSize:"25px",fontWeight:"700",marginBottom:"10px",cursor:"pointer"}}>Review Your Itinerary</div>
+
+         {/* <Card className='flight-details'>
             <Row >
                 <Col span={6}>
                     <div style={{fontSize:"20px",fontWeight:"600"}}>Airline</div> 
@@ -624,37 +619,10 @@ function ticketData(){
                 </Col>
                 
             </Row>
-        </Card>
+        </Card> */}
 
       <Card className='flight-details-body' style={{borderTop:"1px solid #cfcfcf"}}>
 
-        {/* <Row>
-          <Col span={6} style={{display:"flex"}}>
-             <div style={{marginLeft:"-40px"}}><Image src={airlineIcon[flightDetails.airlines]} preview={false}></Image> </div>
-             <div style={{marginLeft:"10px"}}>
-             <div style={{fontSize:"20px",fontWeight:"750",marginTop:"12px"}}>{flightDetails.airlines}</div>
-              <div style={{fontSize:"14px",fontWeight:"600",color:"grey"}}>{flightDetails.flightNo}</div>
-            
-              </div>
-            
-          </Col>
-
-           <Col span={6}>
-             <div style={{fontSize:"18px",fontWeight:"600"}}>{flightDetails.departureTime}</div>
-             <div style={{fontSize:"18px",fontWeight:"600"}}>{flightDetails.airprot_from}</div>
-             <div style={{fontSize:"18px",fontWeight:"600"}}>{moment(flightDetails.departureDate).format('Do MMMM, YYYY')}</div>
-           </Col>
-
-           <Col span={6}>
-            <div style={{fontSize:"18px",fontWeight:"600",marginTop:"16px"}}>{`${Math.floor((flightDetails.duration)/60)} HRS ${(flightDetails.duration)%60} MINS`}</div>
-           </Col>
-
-           <Col span={6}>
-             <div style={{fontSize:"18px",fontWeight:"600"}}>{flightDetails.arrivalTime}</div>
-             <div style={{fontSize:"18px",fontWeight:"600"}}>{flightDetails.airprot_to}</div>
-             <div style={{fontSize:"18px",fontWeight:"600"}}>{moment(flightDetails.arrivalDate).format('Do MMMM, YYYY')}</div>
-           </Col>
-         </Row> */}
             {ticketData()}
          </Card>
 
@@ -701,7 +669,7 @@ function ticketData(){
 
       {showItineary &&  <Collapse bordered={false}  defaultActiveKey={['2']}>
       
-        <Card className='date_cancel-card' title={`${flightDetails.airprot_from} - ${flightDetails.airprot_to}`}>
+        <Card className='date_cancel-card' title={`${flightDetails.airprot_from} - ${airlinesData[0]['flight_details']?.slice(-1)[0]?.arrival}`}>
          
           </Card>
          <Panel showArrow={true} header="Date Change Policy" key="2">

@@ -57,7 +57,7 @@ const ResultsItems = () => {
             // console.log(res)
             setResultData(res);
             setloading(false);
-            console.log(resultData)
+            
         }catch(error){
             console.log(error);
             
@@ -66,6 +66,7 @@ const ResultsItems = () => {
 
     
       useEffect(() => {
+        console.log(resultData)
         getAirlinesDetails()
     
       }, [])
@@ -84,7 +85,7 @@ const ResultsItems = () => {
             <Col style={{marginLeft:"43px"}} span={12}>
                 <div style={{fontSize:"24px",fontWeight:"600"}}><span><MdFlightTakeoff/> </span> Departing Flight</div>
                 {resultData["onwardJourney"] && resultData["onwardJourney"].length > 0 &&  <div style={{fontSize:"22px",fontWeight:"600",marginTop:"10px",marginBottom:"17px"}}>
-               <span>{`${resultData["onwardJourney"][0]?.flight_details[0]?.departureFrom} to ${resultData["onwardJourney"][0]?.flight_details[0]?.arrival} `}</span>
+               <span>{`${resultData["onwardJourney"][0]?.flight_details[0]?.departureFrom} to ${resultData["onwardJourney"][0]?.flight_details.slice(-1)[0]?.arrival} `}</span>
                <span>{moment(resultData["onwardJourney"][0].departureDate).format('Do MMMM, YYYY')}</span>
                   </div>}
             </Col>
