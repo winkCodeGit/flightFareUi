@@ -57,27 +57,6 @@ const OnwardJourney = (props) => {
         &seats=${airlinesData[0]?.seats}&seatType=${airlinesData[0]?.seatType}&fareRuleKey=${airlinesData[0]?.fare_rule_key}`);
     } 
 
-    // const fareRules = async(key)=>{
-       
-    //     try {
-    //         const res = await getFareRules(key);
-           
-    //         if(res?.fareRules[0]?.fareRule?.dateChangeFee?.isChangePermitted){
-    //             setDateChangeFee("Rs "+res?.fareRules[0]?.fareRule.dateChangeFee?.dateChangeRange[0].Value.toString());
-    //         }else{
-    //             setDateChangeFee("Not Allowed");
-    //         }
-
-    //         if(res?.fareRules[0]?.fareRule?.cancellationFee?.isRefundable){
-    //             setCancellationFee("Rs "+res?.fareRules[0]?.fareRule.cancellationFee?.cancellationRange[0].Value.toString());
-    //         }else{
-    //             setCancellationFee("Full Amount");
-    //         }
-
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
    
   return (
     <>
@@ -154,92 +133,9 @@ const OnwardJourney = (props) => {
                 }}>Flight Details</span></div>
         </Col>
         
-        {/* <Col span={2}>
-        <div><Button className='book-btn' htmlType="submit" type="primary" onClick={()=>handleBookTicket(props?.item.refrence_id,'onwardJourney')}>BOOK</Button> </div>
-        </Col> */}
    </Row>
 
-     {/* {showViewPrice && <Row className='showPrice-details'>
-       <Col span={24}>
-                  
-         <Row style={{paddingLeft:"44px",marginTop:"10px", background:"rgb(207 207 207 / 36%)"}}>
-            <Col span={3}>
-                <div style={{fontSize:"17px",fontWeight:"600"}}>Fares</div> 
-            </Col>
-            <Col span={3}>
-                <div style={{fontSize:"17px",fontWeight:"600"}}>Cabin Baggage</div> 
-            </Col>
-            <Col span={4}>
-                <div style={{fontSize:"17px",fontWeight:"600"}}>Check-in Baggage</div> 
-            </Col>
-            <Col span={3} style={{marginLeft:"-3rem"}}>
-                <div style={{fontSize:"17px",fontWeight:"600"}}>Cancellation</div> 
-            </Col>
-            <Col span={3}>
-                <div style={{fontSize:"17px",fontWeight:"600"}}>Date Change</div> 
-            </Col>
-            <Col span={2}>
-                <div style={{fontSize:"17px",fontWeight:"600"}}>Seat</div> 
-            </Col>
-            <Col span={2}>
-                <div style={{fontSize:"17px",fontWeight:"600"}}>Meal</div> 
-            </Col>
-                </Row>
-
-    { props?.item["flightFares"] && props?.item["flightFares"].length>0 && props?.item["flightFares"]?.map((elem,indx)=>{
-    return(
-        <>
-        
-    <Row className='price-details-card' style={{paddingLeft:"44px",marginTop:"20px"}}>
-      <Col span={4}>
-         <div style={{fontSize:"18px",fontWeight:"700"}}>{elem.fareType}</div>
-                
-        </Col>
-        <Col span={3}>
-        <Tooltip placement="topLeft" title={text}>
-        <div style={{fontSize:"16px",fontWeight:"600"}}>{props?.item?.flight_details[0]?.cabin_baggage}</div> 
-       </Tooltip>
-        </Col>
-
-        <Col span={2}>
-           <Tooltip placement="topLeft" title={text}>
-            <div style={{fontSize:"16px",fontWeight:"600"}}>{props?.item?.flight_details[0]?.checkin_baggage}</div> 
-            </Tooltip>
-        </Col>
-        
-        <Col span={3}>
-            <div style={{fontSize:"16px",fontWeight:"600",marginLeft:"10px"}}>
-                {cancellationFee}
-            </div> 
-        </Col>
-        <Col span={3}>
-            <div style={{fontSize:"16px",fontWeight:"600",marginLeft:"10px"}}>
-               {dateChangeFee}
-                </div> 
-        </Col>
-        <Col span={2}>
-            <div style={{fontSize:"16px",fontWeight:"600"}}>Chargeable</div> 
-        </Col>
-        <Col span={2}>
-            <div style={{fontSize:"16px",fontWeight:"600"}}>{(elem.meal)?"Get Complimentary meals":"Chargeable"}</div> 
-        </Col>
-            <Col span={2}>
-            <div style={{fontSize:"22px",fontWeight:"600",marginBottom:"10px",marginLeft:"20px"}}>{Math.round(elem.fareAmount.totalFare)}</div>
-         </Col>
-
-         <Col span={2}>
-            <div> <Button className='book-btn' htmlType="submit" type="primary"
-                onClick={()=>handleBookTicket(props?.item.flight_key,'onwardJourney',cancellationFee,dateChangeFee,Math.round(elem.fareAmount.totalFare))}>BOOK NOW</Button> </div>
-            </Col>
-
-            </Row>
-          
-          </>
-                    )
-                 })}
-                
-          </Col>
-     </Row>} */}
+   
 
      {showFlightDetails && <Row className='Showflight-details'>
          <Col span={24}>
@@ -298,19 +194,12 @@ const OnwardJourney = (props) => {
                 {moment(elem.arrivalDate).format('Do MMMM, YYYY')}</div>
                 </Col>
 
-                {/* <Col span={4}>
-                <div style={{fontSize:"16px",color:"grey"}}><span> Cabin Baggage </span> <span style={{marginLeft:"20px"}}>{elem?.cabin_baggage}</span>  </div>
-                <div style={{fontSize:"14px",color:"grey"}}><span>Check-in Baggage </span> <span style={{marginLeft:"20px"}}>{elem?.checkin_baggage}</span></div>
-                
-                </Col> */}
-                 
-             
                 </Row>
 
             </>
                     )
                 })}
-                
+
             </Col>
             </Row>}
      

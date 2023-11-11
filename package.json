@@ -47,7 +47,8 @@
     ]
   },
   "devDependencies": {
-    "parcel-bundler": "^1.12.5",
+    "parcel": "^2.0.0",
+    "postcss-flexbugs-fixes": "^5.0.2",
     "sass": "^1.63.6"
   }
 }

@@ -411,23 +411,24 @@ function ticketData(){
               
               return(
               <>
-                  <Row key={indx}>
-                  <Col span={4}>
-                  <div>{<Image style={{width:"20%",marginTop:"10px"}} src={airlineIcon[elem.airlines]} preview={false}/>}</div>
-                      <div style={{fontSize:"16px",fontWeight:"650",marginLeft:"17px"}}>{elem.airlines}</div>
-                      <div style={{fontSize:"14px",fontWeight:"600",color:"grey",marginLeft:"17px"}}>{elem.flightNo}</div>
+                  <Row key={indx} style={{borderBottom:"1px solid #e6e6e6"}}>
+                  <Col span={5}>
+                  <div>{<Image style={{width:"35%",marginTop:"10px"}} src={airlineIcon[elem.airlines]} preview={false}/>}</div>
+                      <div style={{fontSize:"18px",fontWeight:"750",marginLeft:"24px"}}>{elem.airlines}</div>
+                      <div style={{fontSize:"16px",fontWeight:"700",color:"grey",marginLeft:"24px",marginBottom:"9px"}}>
+                        {elem.flightNo}</div>
                   
                   </Col>
   
-                  <Col span={4}>
-                  <div style={{fontSize:"16px",fontWeight:"600",marginTop:"13px"}}>{elem.departureTime}</div>
-                  <div style={{fontSize:"14px",color:"grey"}}>{elem.departureFrom}</div>
-                  <div style={{fontSize:"14px",color:"grey"}}>
+                  <Col span={5}>
+                  <div style={{fontSize:"24px",fontWeight:"800",marginTop:"13px"}}>{elem.departureTime}</div>
+                  <div style={{fontSize:"16px",color:"grey",fontWeight:"700"}}>{elem.departureFrom}</div>
+                  <div style={{fontSize:"16px",color:"grey",fontWeight:"800"}}>
                   {moment(elem.departureDate).format('Do MMMM, YYYY')}</div>
                   </Col>
                   
               <Col span={6}>
-                  <div style={{fontSize:"15px",fontWeight:"600",marginLeft:"46px",color:"grey",marginTop:"41px"}}>
+                  <div style={{fontSize:"18px",fontWeight:"800",marginLeft:"46px",color:"grey",marginTop:"41px"}}>
                       {`${Math.floor((elem.duration)/60)} HRS ${(elem.duration)%60} MINS`}</div>
   
                <div style={{marginTop:"31px"}}>
@@ -448,10 +449,10 @@ function ticketData(){
                   
               </Col>
   
-              <Col span={6}>
-                  <div style={{fontSize:"16px",fontWeight:"600",marginTop:"13px",marginLeft:"6rem"}}>{elem.arrivalTime}</div>
-                  <div style={{fontSize:"14px",color:"grey",marginLeft:"6rem"}}>{elem.arrival}</div>
-                  <div style={{fontSize:"14px",color:"grey",marginLeft:"6rem"}}>
+              <Col span={8}>
+                  <div style={{fontSize:"24px",fontWeight:"800",marginTop:"13px",marginLeft:"6rem"}}>{elem.arrivalTime}</div>
+                  <div style={{fontSize:"16px",color:"grey",fontWeight:"700",marginLeft:"6rem"}}>{elem.arrival}</div>
+                  <div style={{fontSize:"16px",color:"grey",fontWeight:"700",marginLeft:"6rem"}}>
                   {moment(elem.arrivalDate).format('Do MMMM, YYYY')}</div>
                   </Col>
                   </Row>
@@ -590,27 +591,11 @@ function ticketData(){
          <Col span={24}>
           <div style={{fontSize:"25px",fontWeight:"700",marginBottom:"10px",cursor:"pointer"}}>Review Your Itinerary</div>
 
-         {/* <Card className='flight-details'>
-            <Row >
-                <Col span={6}>
-                    <div style={{fontSize:"20px",fontWeight:"600"}}>Airline</div> 
-                </Col>
-                <Col span={6}>
-                    <div style={{fontSize:"20px",fontWeight:"600"}}>Depart</div> 
-                </Col>
-                <Col span={6}>
-                    <div style={{fontSize:"20px",fontWeight:"600"}}>Duration</div> 
-                </Col>
-                <Col span={6}>
-                    <div style={{fontSize:"20px",fontWeight:"600"}}>Arrive</div> 
-                </Col>
-                
-            </Row>
-        </Card> */}
-
+       
       <Card className='flight-details-body' style={{borderTop:"1px solid #cfcfcf"}}>
-
-            {ticketData()}
+        
+        {ticketData()}
+      
          </Card>
 
       </Col>
@@ -620,15 +605,15 @@ function ticketData(){
 
     </Collapse> */}
 
-   <Card style={{marginTop:"20px"}}>
-    <Row style={{marginTop:"20px"}}>
-          <Col className='baggage-details' span={24}>
-              <div className='baggage'>Baggage:<span style={{marginLeft:"20px"}}> Hand Baggage: {flightDetails.cabin_baggage} </span>
+
+    <Row style={{marginTop:"20px",marginLeft:"10rem"}}>
+          <Col className='baggage-details' span={14}>
+              <div className='baggage'><span style={{marginLeft:"20px"}}> Hand Baggage: {flightDetails.cabin_baggage} </span>
                 <span style={{marginLeft:"20px"}}>Check-in: {flightDetails.checkin_baggage} </span></div>
-              <div className='meals'>Meals: Free Meals</div>  
+              
           </Col>
         </Row>
-        </Card>
+      
 
       </Col>):headerDesign()
       }
