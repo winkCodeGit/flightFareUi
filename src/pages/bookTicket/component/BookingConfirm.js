@@ -11,7 +11,10 @@ import airIndia from '../../../assets/small/airIndia.jpg'
 import starAir from '../../../assets/small/starAir.jpg'
 import akasaAir from '../../../assets/small/akasaAir.jpg'
 import allianceAir from '../../../assets/small/allianceAir.jpg'
-import { FaWallet, FaGooglePay } from 'react-icons/fa';
+import { FaWallet, FaGooglePay,FaPlaneDeparture ,FaPlaneArrival   } from 'react-icons/fa';
+import { FaCircleCheck } from "react-icons/fa6";
+import { IoIosAirplane,IoMdCheckmarkCircle  } from "react-icons/io";
+import { PiNumberCircleOneLight,PiNumberCircleFourLight,PiNumberCircleThreeLight,PiNumberCircleTwoLight } from "react-icons/pi";
 import { SiRazorpay } from 'react-icons/si';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import { BsArrowRight } from 'react-icons/bs';
@@ -199,67 +202,58 @@ const onFinish = (values) => {
 const contactInformation=()=>{
     return(
      <>
-      <Row className='contact-info'>
-                <div>
-                      <h1>Contact Information </h1>
-                </div>
-
+       <Card>
+        <Row className='contact-info'> 
            <Col className='contact-nfo-inner' span={24}>
-              <div>Your ticket and flight info will be sent here</div>
-         <Row>
+              <div style={{fontSize:"18px",fontWeight:"600",paddingBottom:"10px"}}>Your ticket and flight info will be sent here</div>
           <Form 
            name="travellerForm"
            onFinish={onFinish}
            layout="inline"
-           
           >
-       
-                <Input 
-                  defaultValue="+91"
-                  style={{width:"8%",height:"34px",marginRight:"4px"}}
-                 />
-                
-                 <Form.Item
-                 
-                 name="mobile"
-                 rules={[
-                   { required: true, message: 'Please enter your mobile number!' },
-                   phoneValidator,
-                   { min: 10, message: 'Mobile number must be at least 10 digits.' },
-                   { max: 10, message: 'Mobile number cannot exceed 10 digits.' },
-                 ]}
-               >
-                 <Input 
-                  prefix={<MobileOutlined className="site-form-item-icon" />} placeholder="Mobile Number"
-                  style={{width:"100%"}}
-                  onChange={(e)=>setContactInfo({...contactInfo, mobile:e.target.value})}
-                 />
-                </Form.Item>
-               
-                  <Form.Item
-                      
-                       name="email"
-                       rules={[
-                         { required: true, message: 'Please enter your email!' },
-                         emailValidator,
-                       ]}
-                     >
-                  <Input
-                    style={{width:"100%"}}
-                    prefix={<MailOutlined className="site-form-item-icon" />}
-                    placeholder="Email Id"
-                    onChange={(e)=>setContactInfo({...contactInfo, email:e.target.value})}
-                />
-                  </Form.Item>
-                 
-                 
+          <Input 
+            defaultValue="+91"
+            style={{width:"8%",height:"34px",marginRight:"4px"}}
+            />
+          
+            <Form.Item
+            
+            name="mobile"
+            rules={[
+              { required: true, message: 'Please enter your mobile number!' },
+              phoneValidator,
+              { min: 10, message: 'Mobile number must be at least 10 digits.' },
+              { max: 10, message: 'Mobile number cannot exceed 10 digits.' },
+            ]}
+          >
+            <Input 
+            prefix={<MobileOutlined className="site-form-item-icon" />} placeholder="Mobile Number"
+            style={{width:"100%"}}
+            onChange={(e)=>setContactInfo({...contactInfo, mobile:e.target.value})}
+            />
+          </Form.Item>
+          
+            <Form.Item
+              name="email"
+              rules={[
+                { required: true, message: 'Please enter your email!' },
+                emailValidator,
+              ]}
+            >
+            <Input
+              style={{width:"100%"}}
+              prefix={<MailOutlined className="site-form-item-icon" />}
+              placeholder="Email Id"
+              onChange={(e)=>setContactInfo({...contactInfo, email:e.target.value})}
+          />
+           </Form.Item>
               </Form>
               <div>
-                  <Checkbox>Update me on order status, news, and exclusive offers via sms, whatsapp and email</Checkbox>
-                </div>
-              </Row>
+           <Checkbox>Update me on order status, news, and exclusive offers via sms, whatsapp and email</Checkbox>
+          </div> 
           </Col>
         </Row>
+    </Card>
         </>
     )
 }
@@ -280,7 +274,7 @@ const travelerDetails=()=>{
                           <Form colon={false} style={{width:"100%"}} name="contact_info" layout="inline" >
                             <Row>
                               <Col span={4}>
-                                <Form.Item label={<label style={{ color: "black" }}>Title</label>}>
+                                <Form.Item label={<label style={{ color: "black",paddingRight:"7px" }}>Title</label>}>
                                     <Select defaultValue="Select"
                                     style={{
                                       width: 90,
@@ -403,6 +397,40 @@ const travelerDetails=()=>{
        
       }
 
+   const contactText = ()=>{
+     return(
+      <>
+          <div style={{display:"flex",marginTop:"10px"}}>
+           <div style={{marginRight:"10px"}}><PiNumberCircleTwoLight style={{fontSize:"42px",color:"#999"}}/> </div>
+            <div style={{fontSize:"25px",fontWeight:"400",color:"#999",marginTop:"5px"}}>
+            Add Contact details</div>
+         </div>
+         </>
+     )
+   } 
+   const travellerText = ()=>{
+     return(
+      <>
+          <div style={{display:"flex",marginTop:"10px"}}>
+           <div style={{marginRight:"10px"}}><PiNumberCircleThreeLight style={{fontSize:"42px",color:"#999"}}/> </div>
+            <div style={{fontSize:"25px",fontWeight:"400",color:"#999",marginTop:"5px"}}>
+            Add Traveller details</div>
+         </div>
+         </>
+     )
+   } 
+   const addOnText = ()=>{
+     return(
+      <>
+          <div style={{display:"flex",marginTop:"10px"}}>
+           <div style={{marginRight:"10px"}}><PiNumberCircleFourLight style={{fontSize:"42px",color:"#999"}}/> </div>
+            <div style={{fontSize:"25px",fontWeight:"400",color:"#999",marginTop:"5px"}}>
+              Choose add-ons</div>
+         </div>
+         </>
+     )
+   } 
+
 function ticketData(){
    return(
     <>
@@ -430,8 +458,16 @@ function ticketData(){
               <Col span={6}>
                   <div style={{fontSize:"18px",fontWeight:"800",marginLeft:"46px",color:"grey",marginTop:"41px"}}>
                       {`${Math.floor((elem.duration)/60)} HRS ${(elem.duration)%60} MINS`}</div>
+
+                   <div className='flight-icon-container'>
+                       <div><FaPlaneDeparture style={{fontSize:"26px"}}/></div>
+                       <div><IoIosAirplane style={{fontSize:"28px"}}/></div>
+                       <div><IoIosAirplane style={{fontSize:"28px"}}/></div>
+                       <div><IoIosAirplane style={{fontSize:"28px"}}/></div>
+                       <div><FaPlaneArrival style={{fontSize:"26px"}}/></div>
+                    </div>   
   
-               <div style={{marginTop:"31px"}}>
+               <div style={{marginTop:"11px"}}>
                    {elem.layover_time !== null ? (
                       <>
                        <div className='layover-time' style={{ fontSize: "18px", color: "grey",fontWeight:"750",marginLeft:"-50px" }}>
@@ -469,15 +505,14 @@ function ticketData(){
     return(
       <>
       <Col span={16}>
-       <Card className='header-card' style={{borderTop:"1px solid #cfcfcf"}}>
-        <Row style={{cursor:"pointer"}} onClick={()=>{setShowTicketHeader(false),
+       {/* <Card className='header-card' style={{borderTop:"1px solid #cfcfcf"}}> */}
+        <Row style={{cursor:"pointer",borderBottom:"1px solid #D09B9B",paddingBottom:"10px"}} onClick={()=>{setShowTicketHeader(false),
           setShowItineary(true),setShowTravellerInfo(false),setShowAddsonInfo(false)}}>
-          <Col span={2}>
-          <div style={{marginTop:"10px",cursor:"pointer"}} ><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
-          </Col>
+          
 
           <Col span={6} style={{display:"flex"}}>
-             <div><Image style={{width:"3.5rem"}} src={airlineIcon[flightDetails.airlines]} preview={false}></Image> </div>
+           <div style={{marginTop:"10px",cursor:"pointer"}} ><IoMdCheckmarkCircle style={{ color:"green",fontSize:"40px"}}/></div> 
+             <div><Image style={{width:"2.7rem",marginTop:"10px",marginLeft:"10px"}} src={airlineIcon[flightDetails.airlines]} preview={false}></Image> </div>
              <div style={{marginLeft:"10px"}}>
              <div style={{fontSize:"17px",fontWeight:"650",marginTop:"10px"}}>{flightDetails.airlines}</div>
               <div style={{fontSize:"14px",fontWeight:"600",color:"grey"}}>{flightDetails.flightNo}</div>
@@ -505,7 +540,7 @@ function ticketData(){
 
          </Row>
 
-         </Card>
+         {/* </Card> */}
           
         
       </Col>
@@ -516,41 +551,47 @@ function ticketData(){
 
   const contactInfoClose = ()=>{
     return(
-      <Card className='header-card' style={{borderTop:"1px solid #cfcfcf",marginTop:"10px",cursor:"pointer"}}
-       onClick={()=>{setShowContactForm(true),setShowContactClose(false),
-       setShowTravellerInfo(false),setShowAddsonInfo(false)}}>
-      <Row>
-        <Col span={2}>
-          <div style={{marginTop:"10px"}}><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
+      // <Card className='header-card' style={{borderTop:"1px solid #cfcfcf",marginTop:"10px",cursor:"pointer"}}
+      //  onClick={()=>{setShowContactForm(true),setShowContactClose(false),
+      //  setShowTravellerInfo(false),setShowAddsonInfo(false)}}>
+
+      <Row style={{cursor:"pointer",borderBottom:"1px solid #D09B9B",paddingBottom:"10px"}} 
+      onClick={()=>{setShowContactForm(true),setShowContactClose(false),
+        setShowTravellerInfo(false),setShowAddsonInfo(false)}}>
+        <Col span={1}>
+        <div ><IoMdCheckmarkCircle style={{ color:"green",fontSize:"40px"}}/></div>
           </Col>
-        <Col span={20}>
+        <Col span={20} style={{marginLeft:"17px"}}>
+         
           <div style={{fontSize:"20px",fontWeight:"700"}}><span> {contactInfo.email} ,</span>
            <span>{contactInfo.mobile} </span> </div>
-          <div>E ticket will be sent here. Booking for someone else?
+          <div style={{marginTop:"5px"}}>E ticket will be sent here. Booking for someone else?
              <span style={{color:"blue",cursor:"pointer"}} >enter their phone number here</span> </div>
         </Col>
       </Row> 
-      </Card>
+      // </Card>
     )
   }
   
   const travellerInfoClose = ()=>{
     return(
       
+      // <Card className='header-card' style={{borderTop:"1px solid #cfcfcf",cursor:"pointer"}}
+      //  onClick={()=>{setShowTravellerInfo(true),setShowTravellerClose(false),setShowAddsonInfo(false)}}>
 
-      <Card className='header-card' style={{borderTop:"1px solid #cfcfcf",cursor:"pointer"}}
+      <Row style={{cursor:"pointer",borderBottom:"1px solid #D09B9B",paddingBottom:"10px"}}
        onClick={()=>{setShowTravellerInfo(true),setShowTravellerClose(false),setShowAddsonInfo(false)}}>
-      <Row>
-        <Col span={2}>
-          <div style={{marginTop:"10px"}}><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
+        <Col span={1}>
+          <div ><IoMdCheckmarkCircle style={{ color:"green",fontSize:"40px"}}/></div> 
           </Col>
-        <Col span={20}>
-          <div style={{fontSize:"20px",fontWeight:"700",color:"blue"}}>
+          
+        <Col span={20} style={{marginLeft:"17px"}}>
+          <div style={{fontSize:"20px",fontWeight:"700",color:"blue",marginTop:"5px"}}>
                  Traveller's details saved
            </div>
         </Col>
       </Row> 
-      </Card>
+      // </Card>
       
     )
   }
@@ -576,11 +617,10 @@ function ticketData(){
   // }
 
 
-
   return (
      <>
      
-     <Space className='bookTicket-container' style={{width:"100%",paddingLeft:"20px",minHeight:"390px"}} direction="vertical">
+     <Space className='bookTicket-container' style={{width:"100%",paddingLeft:"20px",minHeight:"390px",paddingBottom:"30px"}} direction="vertical">
      
       <Row style={{marginTop:"35px"}}>
       {showItineary && showItineary?
@@ -589,9 +629,12 @@ function ticketData(){
         
       <Row>
          <Col span={24}>
-          <div style={{fontSize:"25px",fontWeight:"700",marginBottom:"10px",cursor:"pointer"}}>Review Your Itinerary</div>
-
-       
+          <div style={{display:"flex"}}>
+            <div style={{marginBottom:"10px",marginRight:"10px"}}><PiNumberCircleOneLight style={{fontSize:"42px"}}/> </div>
+            <div style={{fontSize:"25px",fontWeight:"700",marginBottom:"10px",cursor:"pointer",marginTop:"5px"}}
+            >Review Your Itinerary</div>
+          </div>
+         
       <Card className='flight-details-body' style={{borderTop:"1px solid #cfcfcf"}}>
         
         {ticketData()}
@@ -600,13 +643,9 @@ function ticketData(){
 
       </Col>
      </Row>
-{/* 
-      </Panel>
-
-    </Collapse> */}
 
 
-    <Row style={{marginTop:"20px",marginLeft:"10rem"}}>
+    <Row style={{marginLeft:"16rem"}}>
           <Col className='baggage-details' span={14}>
               <div className='baggage'><span style={{marginLeft:"20px"}}> Hand Baggage: {flightDetails.cabin_baggage} </span>
                 <span style={{marginLeft:"20px"}}>Check-in: {flightDetails.checkin_baggage} </span></div>
@@ -741,33 +780,58 @@ function ticketData(){
        </Row>
  
        {showItineary && <Row style={{ marginTop: '10px'}} className='ticket-details'>
-        <Col span={16}>
+        <Col span={16} style={{borderBottom:"1px solid #D09B9B",paddingBottom:"3rem"}}>
            <div>
            <Button className='continue-btn' htmlType="submit" type="primary"
             float='right' onClick={handleContinue}>Continue</Button>
            </div>
         </Col>
-      </Row> }      
-       
+      </Row> } 
+
+ 
+        {/* Booking page phase no.  */}
+
+       {/* <Row>
+        <Col span={16} style={{borderBottom:"1px solid #D09B9B",paddingBottom:"10px"}}>
+          {contactText()}
+        </Col>
+       </Row>
+
+       <Row>
+        <Col span={16} style={{borderBottom:"1px solid #D09B9B",paddingBottom:"10px"}}>
+          {travellerText()}
+        </Col>
+       </Row>
+
+       <Row>
+        <Col span={16} style={{borderBottom:"1px solid #D09B9B",paddingBottom:"10px"}}>
+          {addOnText()}
+        </Col>
+       </Row>  */}
+
      
-       <Row style={{marginTop: !showItineary ? '-27rem' : ''}}>
+       <Row style={{marginTop: !showItineary ? '-33rem' : ''}}>
         <Col span={16}>
-
+          
         {  showContactForm && 
-      <Collapse activeKey={activePanels} defaultActiveKey={['1']} onChange={onPanelCollapse}>
-      <Panel showArrow={true} header="Contact Details" key="1">
-
+        <Row>
+          <Col span={20}>
+          <div style={{display:"flex"}}>
+            <div style={{marginBottom:"10px",marginRight:"10px"}}><PiNumberCircleTwoLight style={{fontSize:"42px"}}/> </div>
+            <div style={{fontSize:"22px",fontWeight:"600",marginBottom:"10px",cursor:"pointer",marginTop:"5px"}}
+            >Add Contact Details</div>
+          </div>
           {contactInformation()}
-
-      </Panel>
-    </Collapse>
+          </Col>
+        </Row>
+    
     }
         { showContactClose && contactInfoClose()} 
     </Col> 
     </Row> 
 
     { showContactForm &&
-    <Row style={{ marginTop: !showItineary ? '-11rem' : '5px'}} className='ticket-details'>
+    <Row style={{ marginTop: !showItineary ? '-14rem' : '5px'}} className='ticket-details'>
         <Col span={16}>
            <div>
            <Button className='continue-btn' htmlType="submit" type="primary"
@@ -776,23 +840,25 @@ function ticketData(){
         </Col>
       </Row>}
 
-       
-
+    
       {showTravellerInfo &&
       
-      <Row style={{ marginTop: showContactForm ? '-6rem' : '-18rem'}}>
+      <Row style={{ marginTop: showContactForm ? '-6rem' : '-22rem'}}>
         <Col span={16}>
 
-      <Collapse defaultActiveKey={['1']} onChange={onPanelCollapse}>
-      <Panel showArrow={false} header="Travellers Details" key="1">
+    
+       <div style={{display:"flex"}}>
+            <div style={{marginBottom:"10px",marginRight:"10px"}}><PiNumberCircleTwoLight style={{fontSize:"42px"}}/> </div>
+            <div style={{fontSize:"22px",fontWeight:"600",marginBottom:"10px",cursor:"pointer",marginTop:"5px"}}
+            >Add Traveller Details</div>
+          </div>
 
           {[1,2].map((i)=>{
 
             return travelerDetails()
               
           })}
-      </Panel>
-    </Collapse>
+    
   
     </Col> 
     </Row> }
@@ -808,7 +874,7 @@ function ticketData(){
         
       }
 
-       {showTrvallerClose && <Row style={{marginTop: showContactForm ? '-6rem' : (showItineary ? '0' : '-18rem') }}>
+       {showTrvallerClose && <Row style={{marginTop: showContactForm ? '-6rem' : (showItineary ? '0' : '-27rem') }}>
         <Col span={16}>
          {travellerInfoClose()} 
       </Col>
@@ -816,7 +882,7 @@ function ticketData(){
 
    { isAddsOn && showAddsonInfo &&
    
-   <Row className='adds-on' style={{ marginTop: showTravellerInfo ? '-6rem' : "-5rem"}}>
+   <Row className='adds-on' style={{ marginTop: showTravellerInfo ? '-6rem' : "-20rem"}}>
       <Col span={16}>
       <AddsOn data={additionalDetails} />
       </Col>

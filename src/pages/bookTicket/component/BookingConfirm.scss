@@ -39,6 +39,14 @@
         margin-top: 24px;
         font-family: sans-serif;
       }
+
+      .flight-icon-container{
+        display: flex;
+        flex-direction: row;
+        gap: 21px;
+        margin-top: 4px;
+        
+      }
    
 }
 .baggage-details{

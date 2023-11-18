@@ -73,8 +73,9 @@ const ResultsItems = () => {
 
    
   return (
+
         <>
-<Row style={{padding:"10px",minHeight:"390px"}}>
+      <Row style={{padding:"10px",minHeight:"390px"}}>
 
         {
        loading && loading? (<Spin size='large' tip="Loading">
