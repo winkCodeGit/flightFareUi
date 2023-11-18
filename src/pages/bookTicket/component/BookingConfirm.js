@@ -501,7 +501,6 @@ function ticketData(){
 }
 
   function headerDesign(){
-    // debugger
     return(
       <>
       <Col span={16}>

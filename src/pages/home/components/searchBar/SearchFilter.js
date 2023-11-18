@@ -58,12 +58,11 @@ const SearchFilter = () => {
     return current && current < moment().startOf('day');
   }
   const onSearchFlight = (value)=>{
-    
     if(activeTabKey=="oneWay"){
-      navigate(`/searchResult?tripType=${activeTabKey}&airport_from=${value.from}&airport_to=${value.to}&departureDate=${value.departureDate.format("YYYY-MM-DD")}
+      navigate(`/searchResult?tripType=${activeTabKey}&airport_from=${value.from.split(" - ")[0]}&airport_to=${value.to.split(" - ")[0]}&departureDate=${value.departureDate.format("YYYY-MM-DD")}
       &adult=${adultSeat}&child=${childSeat}&infant=${infantSeat}`);
     }else{
-      navigate(`/searchResult?tripType=${activeTabKey}&airport_from=${value.from}&airport_to=${value.to}&departureDate=${value.departureDate.format("YYYY-MM-DD")}
+      navigate(`/searchResult?tripType=${activeTabKey}&airport_from=${value.from.split(" - ")[0]}&airport_to=${value.to.split(" - ")[0]}&departureDate=${value.departureDate.format("YYYY-MM-DD")}
             &returnDate=${value.returnDate.format("YYYY-MM-DD")}&adult=${adultSeat}&child=${childSeat}&infant=${infantSeat}`);
     }
     
@@ -192,7 +191,7 @@ const SearchFilter = () => {
                  
                 <Select className='.no-outline' showSearch placeholder={<span><MdFlightTakeoff /> {" "}Destination From</span>}>
                   {airportName && airportName.map((airport)=>(
-                      <Option  value={airport.code}>{airport.code}{" "} - {" "}{airport.name} </Option>
+                      <Option  value={airport.code +" - "+airport.name}>{airport.code}{" "} - {" "}{airport.name} </Option>
                   ))}
                    
                 </Select>
@@ -220,7 +219,7 @@ const SearchFilter = () => {
               >
                 <Select className='inline' showSearch placeholder={<span><MdFlightLand />{" "}Destination TO</span>}>
                 {airportName.map((airport)=>(
-                      <Option  value={airport.code}> {airport.code}{" "} - {" "}{airport.name} </Option>
+                      <Option  value={airport.code +" - "+airport.name}> {airport.code}{" "} - {" "}{airport.name} </Option>
                   ))}
                   
                 </Select>

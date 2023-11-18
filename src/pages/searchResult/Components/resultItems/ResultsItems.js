@@ -52,9 +52,7 @@ const ResultsItems = () => {
             parsed.airport_from=parsed?.airport_from?.trim();
             parsed.airport_to=parsed?.airport_to?.trim();
             parsed.returnDate=parsed?.returnDate?.trim();
-            // debugger
              const res = await getSerachData(parsed);
-            // console.log(res)
             setResultData(res);
             setloading(false);
             
