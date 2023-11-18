@@ -258,7 +258,7 @@ const SearchFilter = () => {
                   },
                 ]}
               >
-                 <DatePicker disabledDate={disabledDate} value={moment().add(1,'days').format('YYYY-MM-DD')} format={'DD-MM-YYYY'} style={{width:"76%", height:"38px"}} className="input_data inline" placeholder="Return Time"
+                 <DatePicker  disabledDate={disabledDate} value={moment().add(1,'days').format('YYYY-MM-DD')} format={'DD-MM-YYYY'} style={{width:"76%", height:"38px"}} className="input_data inline" placeholder="Return Time"
                   id="returnDate" 
                   />     
                 </Form.Item>

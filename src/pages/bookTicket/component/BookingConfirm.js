@@ -103,13 +103,9 @@ console.log("New time:", resultTime);
   console.log(additionalDetails);
   
  useEffect(() => {
-
- console.log(airlinesData)
   const parsed = qs.parse(location.search);
   setFlightDetails(parsed);
   addsOnData(parsed.fareRuleKey);
-  
-  console.log(flightDetails)
   fareRules(parsed.fareRuleKey);
  
  }, [])
@@ -144,8 +140,6 @@ console.log("New time:", resultTime);
   }
 }
 
-console.log(dateChange)
- console.log(contactInfo)
  const onPanelCollapse = (key) => {
   setActivePanels(key);
 };
@@ -322,7 +316,7 @@ const travelerDetails=()=>{
   )
 }
 
-     const ticketPayment = ()=>{
+const ticketPayment = ()=>{
 
          return(
           <>
@@ -397,7 +391,7 @@ const travelerDetails=()=>{
        
       }
 
-   const contactText = ()=>{
+const contactText = ()=>{
      return(
       <>
           <div style={{display:"flex",marginTop:"10px"}}>
@@ -408,7 +402,7 @@ const travelerDetails=()=>{
          </>
      )
    } 
-   const travellerText = ()=>{
+const travellerText = ()=>{
      return(
       <>
           <div style={{display:"flex",marginTop:"10px"}}>
@@ -419,7 +413,7 @@ const travelerDetails=()=>{
          </>
      )
    } 
-   const addOnText = ()=>{
+const addOnText = ()=>{
      return(
       <>
           <div style={{display:"flex",marginTop:"10px"}}>
@@ -677,7 +671,7 @@ function ticketData(){
 
       <Col span={16}>
 
-      {showItineary &&  <Collapse bordered={false}  defaultActiveKey={['2']}>
+      {<Collapse bordered={false}  defaultActiveKey={['2']} >
       
         <Card className='date_cancel-card' title={`${flightDetails.airprot_from} - ${airlinesData[0]['flight_details']?.slice(-1)[0]?.arrival}`}>
          
@@ -790,25 +784,6 @@ function ticketData(){
  
         {/* Booking page phase no.  */}
 
-       {/* <Row>
-        <Col span={16} style={{borderBottom:"1px solid #D09B9B",paddingBottom:"10px"}}>
-          {contactText()}
-        </Col>
-       </Row>
-
-       <Row>
-        <Col span={16} style={{borderBottom:"1px solid #D09B9B",paddingBottom:"10px"}}>
-          {travellerText()}
-        </Col>
-       </Row>
-
-       <Row>
-        <Col span={16} style={{borderBottom:"1px solid #D09B9B",paddingBottom:"10px"}}>
-          {addOnText()}
-        </Col>
-       </Row>  */}
-
-     
        <Row style={{marginTop: !showItineary ? '-33rem' : ''}}>
         <Col span={16}>
           
@@ -901,6 +876,24 @@ function ticketData(){
         
        {/* {ticketPayment()} */}
        
+
+       <Row>
+        <Col span={16} style={{borderBottom:"1px solid #D09B9B",paddingBottom:"10px"}}>
+          {contactText()}
+        </Col>
+       </Row>
+
+       <Row>
+        <Col span={16} style={{borderBottom:"1px solid #D09B9B",paddingBottom:"10px"}}>
+          {travellerText()}
+        </Col>
+       </Row>
+
+       <Row>
+        <Col span={16} style={{borderBottom:"1px solid #D09B9B",paddingBottom:"10px"}}>
+          {addOnText()}
+        </Col>
+       </Row>
     </Space>
      </>
   )

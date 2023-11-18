@@ -13,6 +13,9 @@
        .ant-select-selection-item{
           font-weight: 700;
        }
+       .ant-picker-input > input::placeholder {
+        color: white; /* Set your desired placeholder color */
+      }
    }
 
    .search-header{
