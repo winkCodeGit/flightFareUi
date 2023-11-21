@@ -67,6 +67,15 @@ const BookingConfirms = () => {
   const [completedPanels, setCompletedPanels] = useState([]);
 
   const handlePanelChange = (key) => {
+    setCompletedPanels((prevVal) => {
+        const indexToRemove = prevVal.indexOf(key[0]);
+        if (indexToRemove !== -1) {
+          const updatedArray = [...prevVal.slice(0, indexToRemove), ...prevVal.slice(indexToRemove + 1)];
+          return updatedArray;
+        } else {
+          return prevVal;
+        }
+      }); 
     setActiveKey(key);
   };
 
@@ -112,6 +121,10 @@ console.log("New time:", resultTime);
   fareRules(parsed.fareRuleKey);
  
  }, [])
+
+ useEffect(()=>{
+
+ },[completedPanels])
 
  const fareRules = async(key)=>{
        
@@ -338,7 +351,7 @@ console.log("New time:", resultTime);
                 </Collapse>
                     </Space>
         </Col>
-        
+
         <Col span={8}>Payment calculation
 
         </Col>
