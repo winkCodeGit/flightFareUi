@@ -2,7 +2,7 @@ import React, {useState, useEffect } from 'react'
 import { Card, Row, Col,Collapse,Image, Button, Select, Space, Form, Input, Checkbox,Tag  } from 'antd'
 import { MailOutlined, MobileOutlined, UserOutlined, CreditCardOutlined, BankOutlined, CheckOutlined } from '@ant-design/icons';
 import qs from 'query-string';
-import './BookingConfirm.scss'
+// import './BookingConfirm.scss'
 import airAsia from '../../../assets/small/airasia.jpg'
 import indigo from '../../../assets/small/indigo.jpg'
 import vistara from '../../../assets/small/vistara.jpg'
@@ -64,13 +64,13 @@ const BookingConfirm = () => {
     mobile:"",
     email:""
   })
-  // const [mobNo, setMobNo] = useState();
-  // const [email,setEmail] = useState();
+  
+
+
   if (flightDetails.departureTime && /^\d{2}:\d{2}$/.test(flightDetails.departureTime)) {
     const newDepartureTime = flightDetails.departureTime;
     const [hours, minutes] = newDepartureTime.split(':').map(Number);
   
-
 // Subtract 4 hours
 const newHours = hours - 4;
 
