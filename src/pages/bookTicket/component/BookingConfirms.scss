@@ -3,7 +3,6 @@
 
     // .flight-details-body{
       
-       
         .ant-image .ant-image-img {
             margin-left: 24px !important;
             width: 4.5rem;
@@ -49,6 +48,8 @@
        
     // }
     .baggage-details{
+        margin-top: 2rem;
+        margin-left: 11rem;
         background-color: rgb(26, 144, 184);
         border-radius: 15px;
         display: flex;
@@ -59,7 +60,7 @@
         font-size: 20px;
         color: white;
         font-weight: 700;
-        margin-top: 8px;
+        margin-top: 4px;
     }
     
     .baggage{
@@ -72,6 +73,19 @@
         padding: 20px;
         border-radius: 32px;
       }
+
+      .date_cancelPolicy{
+        .date_cancel-card{
+            border-radius: 0px !important;
+        }
+        .ant-collapse .ant-collapse-head{
+            background-color:  #8babcf !important;
+        }
+        .ant-collapse .ant-collapse-head-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+    }
     }
     
     .header-card{
@@ -128,21 +142,7 @@
        
     }
     
-    .date_cancelPolicy{
-        .date_cancel-card{
-            border-radius: 0px !important;
-        }
-        .ant-collapse .ant-collapse-head{
-            background-color:  #8babcf !important;
-        }
-        .ant-collapse .ant-collapse-head-title {
-            font-size: 20px;
-            font-weight: 700;
-        }
-    }
-    
-    
-    
+   
     .payment-container{
     
         .pay-card{
@@ -193,8 +193,8 @@
        }
     }
     
-    
      .continue-btn{
+        margin-left: 90%;
       font-size: 26px;
       height: 46px;
       padding: 3px 23px;
@@ -202,7 +202,7 @@
       font-weight: 600;
       background-color: #f77728;
       color: #fff;
-      float: right;
+ 
      }
      .continue-btn:hover{
       background-color: #f77728 !important;

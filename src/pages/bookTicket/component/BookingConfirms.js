@@ -23,6 +23,7 @@ import moment from 'moment';
 import AddsOn from './AddsOn';
 import { getMeals_Baggage } from '../../../Api/LandingPage';
 import { getFareRules } from '../../../Api/LandingPage';
+import FareSection from './FareSection';
 const { Panel } = Collapse;
 const { Option } = Select;
 
@@ -40,23 +41,14 @@ const airlineIcon = {
 const BookingConfirms = () => {
 
   const[flightDetails, setFlightDetails] = useState({});
-  const[hidePassengerinfo, setHidePassengerinfo] = useState(false)
-  const [showItineary, setShowItineary] = useState(true);
-  const [showTicketHeader, setShowTicketHeader] = useState(false)
   const [additionalDetails, setAdditionalDetails] = useState({
     meals:[],
     baggage:[]
   })
-  const [isAddsOn, setIsAddsOn] = useState(false);
   const [earlyCancellation, setEarlyCancellation] = useState("");
   const [lateCancellation, setLateCancellation] = useState("");
   const [earlyDateChangeFee, setEarlyDateChangeFee] = useState("");
   const [secondDateChangeFee, setSecondDateChangeFee] = useState("");
-  const [showContactForm, setShowContactForm] = useState(false);
-  const [showContactClose, setShowContactClose] = useState(false);
-  const [showTravellerInfo, setShowTravellerInfo] = useState(false);
-  const [showTrvallerClose, setShowTravellerClose] = useState(false);
-  const [showAddsonInfo, setShowAddsonInfo] = useState(false);
   const [dateChange, setDateChange] = useState(null);
   const[airlinesData, setAirlinesData] = useState(JSON.parse(localStorage.getItem('airlinesData')));
   const [contactInfo, setContactInfo] = useState({
@@ -160,12 +152,13 @@ console.log("New time:", resultTime);
     const currentActiveKey = activeKey[0];
     const nextKey = (parseInt(currentActiveKey, 10) + 1).toString();
     setActiveKey([nextKey]);
-    setCompletedPanels([...completedPanels, currentActiveKey]);
+    setCompletedPanels([...completedPanels, currentActiveKey])
   };
 
   const isPanelCompleted = (key) => {
     return completedPanels.includes(key);
   };
+
 
   function ticketData(){
     return(
@@ -275,10 +268,290 @@ console.log("New time:", resultTime);
     )
   }
 
+function cancellationData(){
+    return(
+        <>
+
+            <Row className='date_cancelPolicy' style={{marginTop:"2rem"}}>
+            <Col span={24}>
+
+        {<Collapse defaultActiveKey={['2']} >
+
+        {/* <Card className='date_cancel-card' title={`${flightDetails.airprot_from} - ${airlinesData[0]['flight_details']?.slice(-1)[0]?.arrival}`}>
+        
+            </Card> */}
+            <div style={{fontSize:"25px",fontWeight:"700",marginBottom:"10px",marginTop:"5px",marginLeft:"10px"}}>
+            {flightDetails.airprot_from} - {airlinesData[0]['flight_details']?.slice(-1)[0]?.arrival}
+            </div>
+        <Panel showArrow={true} header="Date Change Policy" key="2">
+
+            {(earlyDateChangeFee || secondDateChangeFee) ?( <Row style={{marginTop:"20px",gap:"20px"}}>
+                <Col span={5}>
+                    <div>Change between</div>
+                    <div style={{marginTop:"10px"}}>Date change charges</div>
+                </Col>
+
+                <Col span={4}>
+                    <div>Now</div>
+                    <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(88, 166, 92)"}}></div>
+                    <div>₹ {earlyDateChangeFee}</div>
+                </Col>
+
+                <Col span={4}>
+                <div>{moment(flightDetails.departureDate).subtract(dateChange,'days').format('Do MMMM')}, {flightDetails.departureTime}</div>
+                <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(242, 191, 66)"}}></div>
+                <div>₹ {secondDateChangeFee}</div>
+                </Col>
+            
+                <Col span={4}>
+                <div>{moment(flightDetails.departureDate).format('Do MMMM')}, {resultTime}</div>
+                <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(216, 80, 64)"}}></div>
+                <div style={{color:"red"}}>Not Allowed</div>
+                </Col>
+
+            </Row>
+        ):
+        (
+            <div style={{color:"red"}}> Date Change Not Allowed</div>
+        )}
+            </Panel>
+
+            <Panel showArrow={true} style={{marginTop:"15px"}} header="Cancellation Policy" key="3">
+
+            {(earlyCancellation || lateCancellation) ? (<Row style={{marginTop:"20px",gap:"20px"}}>
+                <Col span={5}>
+                    <div>Cancel between</div>
+                    <div style={{marginTop:"10px"}}>cancellation Charges</div>
+                </Col>
+                { earlyCancellation ?( <Col span={4}>
+                    <div>Now</div>
+                    <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(88, 166, 92)"}}></div>
+                    <div>₹ {earlyCancellation}</div>
+                </Col>):
+
+                    ( <Col span={4}>
+                    <div>Now</div>
+                    <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(88, 166, 92)"}}></div>
+                    <div>₹ {lateCancellation}</div>
+                    </Col>)
+                
+                }
+
+                { earlyCancellation && <Col span={4}>
+                
+                <div>{moment(flightDetails.departureDate).subtract(dateChange,'days').format('Do MMMM')}, {flightDetails.departureTime}</div>
+                <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(242, 191, 66)"}}></div>
+                <div>₹ {lateCancellation} </div>
+                </Col>}
+            
+                <Col span={4}>
+                <div>{moment(flightDetails.departureDate).format('Do MMMM')}, {resultTime}</div>
+                <div style={{height:"6px",borderRadius:"3px",marginTop:"10px",background:"rgb(216, 80, 64)"}}></div>
+                <div style={{color:"red"}}>Full Amount</div>
+                </Col>
+            </Row>):
+                (
+                <div style={{color:"red"}}>Full Amount will be charged for cancellation</div>
+                )
+            }
+
+                </Panel>
+                
+            </Collapse>}
+
+            </Col> 
+            </Row>
+
+        </>
+    )
+}
+
+const contactInfoClose = ()=>{
+    return(
+     
+      <Row style={{paddingBottom:"10px"}}>
+        <Col span={1}>
+        <div ><IoMdCheckmarkCircle style={{ color:"green",fontSize:"40px"}}/></div>
+          </Col>
+        <Col span={20} style={{marginLeft:"17px"}}>
+         
+          <div style={{fontSize:"20px",fontWeight:"700"}}><span> {contactInfo.email} ,</span>
+           <span>{contactInfo.mobile} </span> </div>
+          <div style={{marginTop:"5px"}}>E ticket will be sent here. Booking for someone else?
+             <span style={{color:"blue",cursor:"pointer"}} >enter their phone number here</span> </div>
+        </Col>
+      </Row> 
+      // </Card>
+    )
+  }
+
+ 
+
+  const emailValidator = {
+    type: 'email',
+    message: 'Invalid email address',
+  };
+  
+  const phoneValidator = {
+    pattern: /^[0-9]*$/,
+    message: 'Invalid phone number',
+  };
+  
+  
+  const onFinish = (values) => {
+    console.log(values);
+  };
+  
+const contactInformation=()=>{
+    return(
+     <>
+       <Card>
+        <Row className='contact-info'> 
+           <Col className='contact-nfo-inner' span={24}>
+              <div style={{fontSize:"18px",fontWeight:"600",paddingBottom:"10px"}}>Your ticket and flight info will be sent here</div>
+          <Form 
+           name="travellerForm"
+           onFinish={onFinish}
+           layout="inline"
+          >
+          <Input 
+            defaultValue="+91"
+            style={{width:"8%",height:"34px",marginRight:"4px"}}
+            />
+          
+            <Form.Item
+            
+            name="mobile"
+            rules={[
+              { required: true, message: 'Please enter your mobile number!' },
+              phoneValidator,
+              { min: 10, message: 'Mobile number must be at least 10 digits.' },
+              { max: 10, message: 'Mobile number cannot exceed 10 digits.' },
+            ]}
+          >
+            <Input 
+            prefix={<MobileOutlined className="site-form-item-icon" />} placeholder="Mobile Number"
+            style={{width:"100%"}}
+            onChange={(e)=>setContactInfo({...contactInfo, mobile:e.target.value})}
+            />
+          </Form.Item>
+          
+            <Form.Item
+              name="email"
+              rules={[
+                { required: true, message: 'Please enter your email!' },
+                emailValidator,
+              ]}
+            >
+            <Input
+              style={{width:"100%"}}
+              prefix={<MailOutlined className="site-form-item-icon" />}
+              placeholder="Email Id"
+              onChange={(e)=>setContactInfo({...contactInfo, email:e.target.value})}
+          />
+           </Form.Item>
+              </Form>
+              <div>
+           <Checkbox>Update me on order status, news, and exclusive offers via sms, whatsapp and email</Checkbox>
+          </div> 
+          </Col>
+        </Row>
+    </Card>
+        </>
+    )
+}
+
+const travellerInfoClose = ()=>{
+    return(
+      
+      <Row style={{paddingBottom:"10px"}}
+       onClick={()=>{setShowTravellerInfo(true),setShowTravellerClose(false),setShowAddsonInfo(false)}}>
+        <Col span={1}>
+          <div ><IoMdCheckmarkCircle style={{ color:"green",fontSize:"40px"}}/></div> 
+          </Col>
+          
+        <Col span={20} style={{marginLeft:"17px"}}>
+          <div style={{fontSize:"20px",fontWeight:"700",color:"blue",marginTop:"5px"}}>
+                 Traveller's details saved
+           </div>
+        </Col>
+      </Row> 
+      // </Card>
+      
+    )
+  }
+
+  const travelerDetails=()=>{
+    return(
+        <>
+          <Row className='traveler-info'>
+              <Col span={24}>
+                <Row>
+                    <div>
+                    <h2>Enter traveller details <span>(Name must be entered as shown on Passport/ Id Proof)</span></h2> 
+                    </div>
+  
+                    <Col className='contact-nfo-inner' span={24}>
+                        <div>Adult 1</div>
+                        
+                            <Form colon={false} style={{width:"100%"}} name="contact_info" layout="inline" >
+                              <Row>
+                                <Col span={4}>
+                                  <Form.Item label={<label style={{ color: "black",paddingRight:"7px" }}>Title</label>}>
+                                      <Select defaultValue="Select"
+                                      style={{
+                                        width: 90,
+                                      }}
+                                    >
+                                      <Option value="Mr">Mr</Option>
+                                      <Option value="Ms">Ms</Option>
+                                      <Option value="Mrs">Mrs</Option>
+                                      <Option value="Master">Master</Option>
+                                    </Select>
+                                  </Form.Item>
+                              </Col>
+                            <Col span={10}>
+                                <Form.Item
+                                  style={{width:"80%"}}
+                                  name="firstname"
+                                  label={<label style={{ color: "black" }}>First Name</label>}
+                                  rules={[{ required: true, message: 'Please enter your first name!' }]}
+                                >
+                                  <Input prefix={<UserOutlined  className="site-form-item-icon" />} placeholder="First Name" />
+                                </Form.Item>
+  
+                              </Col>
+  
+                  
+                              <Col span={10}>
+                                <Form.Item
+                                  style={{width:"80%"}}
+                                  name="lastname"
+                                  label={<label style={{ color: "black" }}>Last Name</label>}
+                                  rules={[{ required: true, message: 'Please enter your last name!' }]}
+                                >
+                                  <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Last Name" />
+                                </Form.Item>
+  
+                              </Col>
+                        
+                        </Row>
+                        </Form>
+                    </Col> 
+              </Row>
+          </Col>
+        </Row>
+        </>
+    )
+  }
+
+  const handlePayment = ()=>{
+    console.log('payment page')
+  }
 
   return (
     <>
-    <Row>
+    <Row style={{marginTop:"30px"}}>
         <Col span={16}>
                 <Space className='bookTicket-container' style={{width:"100%",paddingLeft:"20px",minHeight:"390px",paddingBottom:"30px"}} direction="vertical">
                 <Collapse activeKey={activeKey}
@@ -287,6 +560,7 @@ console.log("New time:", resultTime);
                 expandIconPosition="right"
                 >
                 <Panel
+                    showArrow={false}
                     header={
                         isPanelCompleted('1')?
                         <span>
@@ -303,57 +577,141 @@ console.log("New time:", resultTime);
                     }
                     key="1"
                 >
-                        {ticketData()}
+
+            {ticketData()}
+              <Row >
+              <Col className='baggage-details' span={14}>
+              <div className='baggage'><span style={{marginLeft:"20px"}}> Hand Baggage: {flightDetails.cabin_baggage} </span>
+                <span style={{marginLeft:"20px"}}>Check-in: {flightDetails.checkin_baggage} </span></div>
+              
+             </Col>
+               </Row>
+
+             {cancellationData()}
                    
-                    <Button type="primary" onClick={handleContinue}>
+                   <div style={{padding:"10px"}}>
+                    <Row>
+                        <Col span={5} offset={19}>
+                        <Button className='continue-btn' type='primary' onClick={handleContinue}>
                     Continue
                     </Button>
+                        </Col>
+                    </Row>
+                   </div>
+                    
                 </Panel>
+
                 <Panel
+                    showArrow={false}
                     header={
-                    <span>
-                        Panel 2 {isPanelCompleted('2') && <FaCheckCircle style={{ color: 'green' }} />}
-                    </span>
+                        isPanelCompleted('2')?
+                        <span>
+                     {contactInfoClose()}
+                        </span>:
+
+           ( <span>
+            <Row>
+          <Col span={20}>
+          <div style={{display:"flex"}}>
+            <div style={{marginBottom:"10px",marginRight:"10px"}}><PiNumberCircleTwoLight style={{fontSize:"42px"}}/> </div>
+            <div style={{fontSize:"25px",fontWeight:"700",marginBottom:"10px",cursor:"pointer",marginTop:"5px"}}
+            >Add Contact Details</div>
+          </div>
+         
+          </Col>
+        </Row> 
+         </span>)
                     }
                     key="2"
                 >
-                    <p>Content of panel 2</p>
-                    <Button type="primary" onClick={handleContinue}>
+                     {contactInformation()}
+
+                     <div style={{padding:"10px"}}>
+                    <Row>
+                        <Col span={5} offset={19}>
+                        <Button className='continue-btn' type='primary' onClick={handleContinue}>
                     Continue
                     </Button>
+                        </Col>
+                    </Row>
+                   </div>
+
                 </Panel>
+
+
                 <Panel
+                    showArrow={false}
                     header={
+                        isPanelCompleted('3')?
                     <span>
-                        Panel 3 {isPanelCompleted('3') && <FaCheckCircle style={{ color: 'green' }} />}
-                    </span>
+                       {travellerInfoClose()} 
+                    </span>:
+                    
+                    (<span>
+
+           <div style={{display:"flex"}}>
+            <div style={{marginBottom:"10px",marginRight:"10px"}}><PiNumberCircleThreeLight style={{fontSize:"42px"}}/> </div>
+            <div style={{fontSize:"25px",fontWeight:"700",marginBottom:"10px",cursor:"pointer",marginTop:"5px"}}
+            >Add Traveller Details</div>
+          </div>
+                        </span>)
+
                     }
+                   
                     key="3"
                 >
-                    <p>Content of panel 3</p>
-                    <Button type="primary" onClick={handleContinue}>
+                     {[1,2].map((i)=>{
+
+                        return travelerDetails()
+                        })}
+
+                    <div style={{padding:"10px"}}>
+                    <Row>
+                        <Col span={5} offset={19}>
+                        <Button className='continue-btn' type='primary' onClick={handleContinue}>
                     Continue
                     </Button>
+                        </Col>
+                    </Row>
+                   </div>
+
                 </Panel>
+
                 <Panel
+                    showArrow={false}
                     header={
                     <span>
-                        Panel 4 {isPanelCompleted('4') && <FaCheckCircle style={{ color: 'green' }} />}
+            <div style={{display:"flex"}}>
+            <div style={{marginBottom:"10px",marginRight:"10px"}}><PiNumberCircleFourLight style={{fontSize:"42px"}}/> </div>
+            <div style={{fontSize:"25px",fontWeight:"700",marginBottom:"10px",cursor:"pointer",marginTop:"5px"}}
+            >Choose add-ons</div>
+          </div>
                     </span>
                     }
                     key="4"
                 >
-                    <p>Content of panel 4</p>
-                    <Button type="primary" onClick={handleContinue}>
-                    Continue
+                     <Row className='adds-on'>
+                        <Col span={24}>
+                        <AddsOn data={additionalDetails} />
+                        </Col>
+                        </Row>
+                        <div style={{padding:"10px"}}>
+                    <Row>
+                        <Col span={5} offset={19}>
+                        <Button className='continue-btn' type='primary' onClick={handlePayment}>
+                    Continue to Payment
                     </Button>
+                        </Col>
+                    </Row>
+                   </div>
+
                 </Panel>
                 </Collapse>
                     </Space>
         </Col>
 
-        <Col span={8}>Payment calculation
-
+        <Col span={8}>
+             <FareSection data={airlinesData}/>
         </Col>
     </Row>
     

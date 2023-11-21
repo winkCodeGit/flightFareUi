@@ -421,6 +421,7 @@ const addOnText = ()=>{
             <div style={{fontSize:"25px",fontWeight:"400",color:"#999",marginTop:"5px"}}>
               Choose add-ons</div>
          </div>
+
          </>
      )
    } 
@@ -544,10 +545,7 @@ function ticketData(){
 
   const contactInfoClose = ()=>{
     return(
-      // <Card className='header-card' style={{borderTop:"1px solid #cfcfcf",marginTop:"10px",cursor:"pointer"}}
-      //  onClick={()=>{setShowContactForm(true),setShowContactClose(false),
-      //  setShowTravellerInfo(false),setShowAddsonInfo(false)}}>
-
+     
       <Row style={{cursor:"pointer",borderBottom:"1px solid #D09B9B",paddingBottom:"10px"}} 
       onClick={()=>{setShowContactForm(true),setShowContactClose(false),
         setShowTravellerInfo(false),setShowAddsonInfo(false)}}>
@@ -589,27 +587,7 @@ function ticketData(){
     )
   }
 
-  // const addsOnInfoClose = ()=>{
-  //   return(
-      
-  //     <Card className='header-card' style={{borderTop:"1px solid #cfcfcf",cursor:"pointer"}}
-  //      onClick={()=>{}}>
-  //     <Row>
-  //       <Col span={2}>
-  //         <div style={{marginTop:"10px"}}><CheckOutlined style={{ color:"green",fontSize:"30px"}}/></div> 
-  //         </Col>
-  //       <Col span={20}>
-  //         <div style={{fontSize:"18px",fontWeight:"700",color:"blue"}}>
-  //                meals,check-in baggages selected
-  //          </div>
-  //       </Col>
-  //     </Row> 
-  //     </Card>
-      
-  //   )
-  // }
-
-
+ 
   return (
      <>
      
@@ -665,6 +643,7 @@ function ticketData(){
           </Card> 
        
     </Col>
+    
     </Row>
 
      <Row className='date_cancelPolicy' style={{marginTop:"2rem"}}>
@@ -861,6 +840,7 @@ function ticketData(){
       <AddsOn data={additionalDetails} />
       </Col>
     </Row>
+
     }
 
    {showTrvallerClose && <Row style={{marginBottom:"20px "}}>
